@@ -1,0 +1,31 @@
+<!-- Page Wrapper -->
+<%- include('../layout/header.ejs') %>
+
+<!-- Sidebar -->
+<%- include('../layout/sidebar.ejs') %>
+<div id="content-wrapper" class="d-flex flex-column">
+  <div id="content">
+    <%- include('../layout/navbar.ejs') %>
+    <form action="/admin/transport/update" method="POST" class="edit-transport container">
+      <input type="hidden" name="id" value="<%= transport.id %>">
+      <h3 class="text-center">Sửa Phí Vận Chuyển</h3>
+      <div class="row">
+        <div class="col-12 mb-3">
+          <label for="xx">Tên Tỉnh Thành</label>
+          <input type="text" name="province_name" id="xx" value="<%= province_name %>" readonly class="form-control">
+        </div>
+        <div class="col-12 mb-3">
+          <label for="yy">Phí Vận Chuyển</label>
+          <input type="number" name="price" id="yy" value="<%= transport.price  %>" class="form-control" placeholder="Nhập phí vận chuyển">
+        </div>
+      </div>
+
+      <div>
+        <button type="submit" class="btn btn-warning">Sửa</button>
+        <button type="reset" class="btn btn-primary">Nhập Lại</button>
+      </div>
+
+    </form>
+  </div>
+</div>
+<%- include('../layout/footer.ejs') %>

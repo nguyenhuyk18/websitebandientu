@@ -1,0 +1,81 @@
+<!-- Page Wrapper -->
+<%- include('../layout/header.ejs') %>
+
+<!-- Sidebar -->
+<%- include('../layout/sidebar.ejs') %>
+<!-- End of Sidebar -->
+
+<div id="content-wrapper" class="d-flex flex-column">
+
+  <!-- Main Content -->
+  <div id="content">
+
+    <!-- Topbar -->
+    <%- include('../layout/navbar.ejs') %>
+    <!-- End of Topbar -->
+
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+
+      <!-- Page Heading -->
+      <h1 class="h3 mb-2 text-gray-800">Danh Sách Thương Hiệu</h1>
+
+      <!-- DataTales Example -->
+      <div class="card shadow mb-4">
+        <!-- <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+        </div> -->
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+                <tr>
+                  <th>STT</th>
+                  <th>Tên Thương Hiệu</th>
+                  <th></th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tfoot>
+                <tr>
+                  <th>STT</th>
+                  <th>Tên Thương Hiệu</th>
+                  <th></th>
+                  <th></th>
+                </tr>
+              </tfoot>
+              <tbody>
+                <% let stt = 0; for(const brand of listBrand) { stt++; %>
+                <tr>
+                  <td><%= stt %></td>
+                  <td><a href="/admin/brand-category.html/<%= brand.id %>"><%= brand.name_brand %> </a> </td>
+                  <td><a href="/admin/brand/edit/<%= brand.id %>" class="btn btn-warning btn-sm">Sửa</a></td>
+                  <td><a href="javascript:void(0)" data_href="/admin/brand/delete/<%= brand.id %>" data-toggle="modal" data-target="#areyousure" class="btn btn-danger btn-sm delete">Xóa</a></td>
+                </tr>
+                <% } %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <!-- /.container-fluid -->
+
+  </div>
+  <!-- End of Main Content -->
+
+  <!-- Footer -->
+  <footer class="sticky-footer bg-white">
+    <div class="container my-auto">
+      <div class="copyright text-center my-auto">
+        <span>Copyright &copy; Nguyễn Đức Huy ADMIN 2020</span>
+      </div>
+    </div>
+  </footer>
+  <!-- End of Footer -->
+
+</div>
+
+
+<%- include('../layout/footer.ejs') %>

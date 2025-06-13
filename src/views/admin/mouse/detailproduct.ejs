@@ -1,0 +1,94 @@
+<!-- Page Wrapper -->
+<%- include('../layout/header.ejs') %>
+
+<!-- Sidebar -->
+<%- include('../layout/sidebar.ejs') %>
+<!-- End of Sidebar -->
+
+<div id="content-wrapper" class="d-flex flex-column">
+
+  <!-- Main Content -->
+  <div id="content">
+
+    <!-- Topbar -->
+    <%- include('../layout/navbar.ejs') %>
+    <!-- End of Topbar -->
+
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+
+      <!-- Page Heading -->
+      <h1 class="h3 mb-2 text-gray-800">Chi Tiết Thông Tin Chuột</h1>
+      <!-- <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.
+        For more information about DataTables, please visit the <a target="_blank" href="https://datatables.net">official DataTables documentation</a>.</p> -->
+      <div class="dieuhuong mb-3">
+        <a href="/admin/mouse.html" class="btn btn-primary">Quay Lại Danh Sách Chuột</a>
+        <a href="/admin/mouse/edit/<%= mouse.id %>" class="btn btn-success">Sửa Thông Tin Chuột</a>
+        <a href="/admin/mouse/delete/<%= mouse.id %>" class="btn btn-danger">Xóa Chuột</a>
+      </div>
+      <div class="row detail-product">
+        <div class="col-md-5">
+          <img src="/upload/product/<%= mouse.image %>" class="w-100" alt="">
+        </div>
+        <!-- id = null,
+        product_name = null,
+        price = 0,
+        id_category = null,
+        stock_quantity = 0,
+        description = null,
+        connection_type = null,
+        led = null,
+        warranty = null,
+        id_brand = null,
+        color = null,
+        weight = null,
+        DPI = null,
+        image = null,
+        discount = 0,
+        discount_from_date = null,
+        discount_to_date = null,
+        name_brand = null,
+        name_category = null,
+        sale_price = 0 -->
+        <div class="col-md-7">
+          <h4><%= mouse.product_name %></h4>
+          <p><strong>Giá Bán:</strong> <%= mouse.sale_price %></p>
+          <p><strong>Giá Gốc:</strong> <%= mouse.price %></p>
+          <p><strong>Danh Mục:</strong> <%= mouse.name_category %></p>
+          <p><strong>Thương Hiệu:</strong> <%= mouse.name_brand %></p>
+          <p><strong>Số Lượng Tồn Kho:</strong> <%= mouse.stock_quantity %></p>
+
+          <p><strong>Loại Kết Nối:</strong> <%= mouse.connection_type %></p>
+          <p><strong>LED:</strong> <%= mouse.led %></p>
+          <p><strong>Bảo Hành:</strong> <%= mouse.warranty %> tháng</p>
+          <p><strong>Màu Sắc:</strong> <%= mouse.color %></p>
+          <p><strong>Cân Nặng:</strong> <%= mouse.weight %> gram</p>
+          <p><strong>DPI:</strong> <%= mouse.DPI %></p>
+          <p><strong>Giảm Giá:</strong> <%= mouse.discount ? mouse.discount + '%' : 'Không có' %></p>
+          <p><strong>Ngày Bắt Đầu Giảm Giá:</strong> <%= mouse.discount_from_date ? mouse.discount_from_date : 'Không có' %></p>
+          <p><strong>Ngày Kết Thúc Giảm Giá:</strong> <%= mouse.discount_to_date ? mouse.discount_to_date : 'Không có' %></p>
+          <p><strong>Mô Tả:</strong> <%- mouse.description %></p>
+
+        </div>
+      </div>
+
+    </div>
+    <!-- /.container-fluid -->
+
+  </div>
+  <!-- End of Main Content -->
+
+  <!-- Footer -->
+  <footer class="sticky-footer bg-white">
+    <div class="container my-auto">
+      <div class="copyright text-center my-auto">
+        <span>Copyright &copy; Nguyễn Đức Huy ADMIN 2020</span>
+      </div>
+    </div>
+  </footer>
+  <!-- End of Footer -->
+
+</div>
+
+
+<%- include('../layout/footer.ejs') %>

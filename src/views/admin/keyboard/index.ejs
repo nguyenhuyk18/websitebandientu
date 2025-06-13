@@ -1,0 +1,99 @@
+<!-- Page Wrapper -->
+<%- include('../layout/header.ejs') %>
+
+<!-- Sidebar -->
+<%- include('../layout/sidebar.ejs') %>
+<!-- End of Sidebar -->
+
+<div id="content-wrapper" class="d-flex flex-column">
+
+  <!-- Main Content -->
+  <div id="content">
+
+    <!-- Topbar -->
+    <%- include('../layout/navbar.ejs') %>
+    <!-- End of Topbar -->
+
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+
+      <!-- Page Heading -->
+      <h1 class="h3 mb-2 text-gray-800">Danh Sách Bàn Phím</h1>
+      <!-- <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.
+        For more information about DataTables, please visit the <a target="_blank" href="https://datatables.net">official DataTables documentation</a>.</p> -->
+
+      <!-- DataTales Example -->
+      <div class="card shadow mb-4">
+        <!-- <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+        </div> -->
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+                <tr>
+                  <th>STT</th>
+                  <th style="width: 15%;">Tên sản phẩm</th>
+                  <th>Hình ảnh</th>
+                  <th>Giá Gốc</th>
+                  <th>Giá Bán</th>
+                  <th>Danh mục</th>
+                  <th></th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tfoot>
+                <tr>
+                  <th>STT</th>
+                  <th style="width: 15%;">Tên sản phẩm</th>
+                  <th>Hình ảnh</th>
+                  <th>Giá Gốc</th>
+                  <th>Giá Bán</th>
+                  <th>Danh mục</th>
+                  <th></th>
+                  <th></th>
+                </tr>
+              </tfoot>
+              <tbody>
+                <% let stt = 0; for( const keyboard of listKeyboard )   { stt++; %>
+                <tr>
+                  <td><%= stt %></td>
+                  <td> <a href="/admin/keyboard/detail-<%= keyboard.id %>.html"><%= keyboard.product_name %></a> </td>
+                  <td><img src="/upload/product/<%= keyboard.image %>" alt="Hình ảnh sản phẩm" style="width: 100px; height: auto;"></td>
+                  <td><%= keyboard.price %> đ</td>
+                  <td><%= keyboard.sale_price == keyboard.price ? keyboard.price + 'đ' : keyboard.sale_price + ' đ' %></td>
+                  <td><%= keyboard.name_category %></td>
+                  <td>
+                    <a href="/admin/keyboard/edit/<%= keyboard.id %>" class="btn btn-warning">Sửa</a>
+                  </td>
+                  <td>
+                    <a href="javascript:void(0)" data_href="/admin/keyboard/delete/<%= keyboard.id %>" data-toggle="modal" data-target="#areyousure" class="btn btn-danger delete">Xóa</a>
+                  </td>
+                </tr>
+                <% } %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <!-- /.container-fluid -->
+
+  </div>
+  <!-- End of Main Content -->
+
+  <!-- Footer -->
+  <footer class="sticky-footer bg-white">
+    <div class="container my-auto">
+      <div class="copyright text-center my-auto">
+        <span>Copyright &copy; Nguyễn Đức Huy ADMIN 2020</span>
+      </div>
+    </div>
+  </footer>
+  <!-- End of Footer -->
+
+</div>
+
+
+<%- include('../layout/footer.ejs') %>

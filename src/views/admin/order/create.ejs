@@ -1,0 +1,95 @@
+<!-- Page Wrapper -->
+<%- include('../layout/header.ejs') %>
+
+<!-- Sidebar -->
+<%- include('../layout/sidebar.ejs') %>
+<div id="content-wrapper" class="d-flex flex-column">
+  <div id="content">
+    <%- include('../layout/navbar.ejs') %>
+    <form action="/admin/order/create" method="POST" class="container create-order">
+      <h3 class="text-center">Thêm Đơn Hàng</h3>
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <input type="text" name="shipping_fullname" class="form-control" placeholder="Họ và tên người nhận">
+        </div>
+        <div class="col-md-4 mb-3">
+          <input type="text" name="shipping_mobile" class="form-control" placeholder="Số điện thoại người nhận">
+        </div>
+        <div class="col-md-4 mb-3">
+          <select name="payment_method" class="form-control">
+            <option value="">-- Vui Lòng Chọn Phương Thức Thanh Toán --</option>
+            <option value="1">COD</option>
+            <option value="2">BANK</option>
+          </select>
+        </div>
+        <div class="col-md-4 mb-3">
+          <select name="province_id" class="choose_province form-control" id="">
+            <option value="">-- Vui Lòng Chọn Tỉnh Thành --</option>
+            <% for( const province of listProvince ) { %>
+            <option value="<%= province.id %>"><%= province.name %></option>
+            <% } %>
+          </select>
+        </div>
+        <div class="col-md-4 mb-3">
+          <select name="district_id" class="choose_district form-control" id="">
+            <option value="">-- Vui Lòng Chọn Quận --</option>
+          </select>
+        </div>
+        <div class="col-md-4 mb-3">
+          <select name="shipping_ward_id" class="choose_ward form-control" id="">
+            <option value="">-- Vui Lòng Chọn Phường --</option>
+          </select>
+        </div>
+        <div class="col-md-4 mb-3">
+          <input type="text" name="shipping_housenumber_street" class="form-control" placeholder="Số nhà, tên đường">
+        </div>
+        <div class="col-md-4 mb-3">
+          <select name="staff_id" id="" class="form-control">
+            <option value="">-- Chọn Người Giao Đơn Hàng --</option>
+          </select>
+        </div>
+        <div class="col-md-4 mb-3">
+          <input type="hidden" class="form-control" name="customer_id" value="<%= cus.id %>" placeholder="<%= cus.name %>" readonly>
+          <select name="order_status_id" id="" class="form-control">
+            <!-- <option value=""></option> -->
+            <% for( const status of listStatus ) { %>
+            <option value="<%= status.id %>"><%= status.description %></option>
+            <% } %>
+          </select>
+        </div>
+        <div class="col-md-12 text-center mb-3">
+          <input type="number" class="form-control mb-3 product_id" name="product_id" placeholder="Nhập mã sản phẩm">
+          <button type="button" class="btn btn-success addorderitem">Thêm</button>
+        </div>
+
+        <div class="col-12 mb-3">
+          <table class="table table-item-order">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th style="width: 200px;">Tên</th>
+                <th style="width: 100px;">Hình</th>
+                <th>Giá</th>
+                <th style="width: 150px;">Số Lượng</th>
+                <th>Thành Tiền</th>
+                <th></th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+      <div>
+        <button type="submit" class="btn btn-warning">Lưu</button>
+        <button type="reset" class="btn btn-primary">Nhập Lại</button>
+        <a href="/admin/order.html" class="btn btn-danger">Quay Lại Danh Sách Đơn Hàng</a>
+      </div>
+
+    </form>
+  </div>
+</div>
+<%- include('../layout/footer.ejs') %>

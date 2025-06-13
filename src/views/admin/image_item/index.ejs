@@ -1,0 +1,81 @@
+<!-- Page Wrapper -->
+<%- include('../layout/header.ejs') %>
+
+<!-- Sidebar -->
+<%- include('../layout/sidebar.ejs') %>
+<!-- End of Sidebar -->
+
+<div id="content-wrapper" class="d-flex flex-column">
+
+  <!-- Main Content -->
+  <div id="content">
+
+    <!-- Topbar -->
+    <%- include('../layout/navbar.ejs') %>
+    <!-- End of Topbar -->
+
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+
+      <!-- Page Heading -->
+      <h1 class="h3 mb-2 text-gray-800">Danh Sách Sản Phẩm</h1>
+
+      <!-- DataTales Example -->
+      <div class="card shadow mb-4">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary">Ấn Vào Tên Sản Phẩm Để Thêm Ảnh Bổ Sung</h6>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+                <tr>
+                  <th>STT</th>
+                  <th>ID</th>
+                  <th class="text-center">Tên Sản Phẩm</th>
+                  <th class="text-center">Hình Ảnh</th>
+                </tr>
+              </thead>
+              <tfoot>
+                <tr>
+                  <th>STT</th>
+                  <th>ID</th>
+                  <th>Tên Sản Phẩm</th>
+                  <th class="text-center">Hình Ảnh</th>
+                </tr>
+              </tfoot>
+              <tbody>
+                <% let stt = 0; for(const product of listProduct) { stt++; %>
+                <tr>
+                  <td><%= stt %></td>
+                  <td><%= product.id %></td>
+                  <td><a href="/admin/image-item/detail/<%= product.id %>"><%= product.product_name %></a></td>
+                  <td class="text-center"><img src="/upload/product/<%= product.image %>" class="w-25" alt=""></td>
+                </tr>
+                <% } %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <!-- /.container-fluid -->
+
+  </div>
+  <!-- End of Main Content -->
+
+  <!-- Footer -->
+  <footer class="sticky-footer bg-white">
+    <div class="container my-auto">
+      <div class="copyright text-center my-auto">
+        <span>Copyright &copy; Nguyễn Đức Huy ADMIN 2020</span>
+      </div>
+    </div>
+  </footer>
+  <!-- End of Footer -->
+
+</div>
+
+
+<%- include('../layout/footer.ejs') %>

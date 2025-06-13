@@ -1,0 +1,84 @@
+<!-- Page Wrapper -->
+<%- include('../layout/header.ejs') %>
+
+<!-- Sidebar -->
+<%- include('../layout/sidebar.ejs') %>
+<!-- End of Sidebar -->
+
+<div id="content-wrapper" class="d-flex flex-column">
+
+  <!-- Main Content -->
+  <div id="content">
+
+    <!-- Topbar -->
+    <%- include('../layout/navbar.ejs') %>
+    <!-- End of Topbar -->
+
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+
+      <!-- Page Heading -->
+      <h1 class="h3 mb-2 text-gray-800">Chi Tiết Thông Tin Bàn Phím</h1>
+      <!-- <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.
+        For more information about DataTables, please visit the <a target="_blank" href="https://datatables.net">official DataTables documentation</a>.</p> -->
+      <div class="dieuhuong mb-3">
+        <a href="/admin/keyboard.html" class="btn btn-primary">Quay Lại Danh Sách Bàn Phím</a>
+        <a href="/admin/keyboard/edit/<%= keyboard.id %>" class="btn btn-success">Sửa Thông Tin Bàn Phím</a>
+        <a href="/admin/keyboard/delete/<%= keyboard.id %>" class="btn btn-danger">Xóa Bàn Phím</a>
+      </div>
+      <div class="row detail-product">
+        <div class="col-md-5">
+          <img src="/upload/keyboard/<%= keyboard.image %>" class="w-100" alt="">
+        </div>
+        <!-- id = null,
+        product_name = null,
+        price = null,
+        id_category = null,
+        stock_quantity = null,
+        description = null,
+        id_brand = null,
+        key_durability = null,
+        weight = null,
+        size = null, image = null, discount = null,
+        discount_from_date = null,
+        discount_to_date = null, name_brand = null, name_category = null, sale_price = null -->
+        <div class="col-md-7">
+          <h4><%= keyboard.product_name %></h4>
+          <p><strong>Giá Gốc:</strong> <%= keyboard.price %> VNĐ</p>
+          <p><strong>Giá Bán:</strong> <%= keyboard.sale_price %> VNĐ</p>
+          <p><strong>Giảm Giá:</strong> <%= keyboard.discount %> %</p>
+          <p><strong>Giảm Giá Từ Ngày:</strong> <%= keyboard.discount_from_date ? keyboard.discount_from_date : 'Không có' %></p>
+          <p><strong>Giảm Giá Đến Ngày:</strong> <%= keyboard.discount_to_date ? keyboard.discount_to_date : 'Không có' %></p>
+          <p><strong>Số lượng trong kho:</strong> <%= keyboard.stock_quantity %></p>
+
+          <p><strong>Thương Hiệu: </strong> <%= keyboard.name_brand %></p>
+          <p><strong>Thông số kỹ thuật:</strong></p>
+          <ul>
+            <li><strong>Độ bền phím:</strong> <%= keyboard.key_durability %> (triệu lần nhấn)</li>
+            <li><strong>Trọng lượng:</strong> <%= keyboard.weight %> kg</li>
+            <li><strong>Kích thước:</strong> <%= keyboard.size %> cm</li>
+          </ul>
+          <p><strong>Mô tả:</strong> <%- keyboard.description %></p>
+        </div>
+      </div>
+
+    </div>
+    <!-- /.container-fluid -->
+
+  </div>
+  <!-- End of Main Content -->
+
+  <!-- Footer -->
+  <footer class="sticky-footer bg-white">
+    <div class="container my-auto">
+      <div class="copyright text-center my-auto">
+        <span>Copyright &copy; Nguyễn Đức Huy ADMIN 2020</span>
+      </div>
+    </div>
+  </footer>
+  <!-- End of Footer -->
+
+</div>
+
+
+<%- include('../layout/footer.ejs') %>

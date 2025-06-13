@@ -1,0 +1,172 @@
+<!-- Page Wrapper -->
+<%- include('../layout/header.ejs') %>
+
+<!-- Sidebar -->
+<%- include('../layout/sidebar.ejs') %>
+<!-- End of Sidebar -->
+
+<div id="content-wrapper" class="d-flex flex-column">
+
+  <!-- Main Content -->
+  <div id="content">
+
+    <!-- Topbar -->
+    <%- include('../layout/navbar.ejs') %>
+    <!-- End of Topbar -->
+
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+
+      <!-- order -->
+      <!-- id = null;
+    created_date = null;
+    order_status_id = null;
+    shipping_fullname = null;
+    shipping_mobile = null;
+    payment_method = null;
+    shipping_ward_id = null;
+    shipping_housenumber_street = null;
+    shipping_fee = null;
+    delivered_date = null;
+    staff_id = null;
+    customer_id = null;
+    name_customer = null;
+    name_staff = null;
+    name_order_status = null; -->
+
+      <!-- danh sách sản phẩm của đơn hàng -->
+      <!-- listProduct -->
+      <!-- id = null;
+    product_id = null;
+    order_id = null;
+    qty = null;
+    unit_price = null;
+    total_price = null; -->
+
+      <!-- thông tin khách hàng -->
+      <!-- cus -->
+      <!-- name = null;
+    phone = null;
+    email = null; -->
+
+      <!-- Page Heading -->
+      <h1 class="h3 mb-2 text-gray-800">Chi Tiết Thông Tin Đơn Hàng</h1>
+      <!-- <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.
+        For more information about DataTables, please visit the <a target="_blank" href="https://datatables.net">official DataTables documentation</a>.</p> -->
+      <div class="dieuhuong mb-3">
+        <a href="/admin/order.html" class="btn btn-primary">Quay Lại Danh Sách Đơn Hàng</a>
+        <a href="/admin/order/edit/<%= order.id %>" class="btn btn-success">Sửa Thông Tin Đơn Hàng</a>
+        <a href="/admin/order/delete/<%= order.id %>" class="btn btn-danger">Xóa Đơn Hàng</a>
+      </div>
+
+      <!-- Thông tin đơn hàng -->
+      <div class="card mb-4 shadow">
+        <div class="card-header bg-primary text-white">
+          <h5 class="mb-0">Thông Tin Đơn Hàng</h5>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item"><strong>Mã đơn hàng:</strong> <span class="float-right"><%= order.id %></span></li>
+          <li class="list-group-item"><strong>Ngày tạo:</strong> <span class="float-right"><%= order.created_date %></span></li>
+          <li class="list-group-item"><strong>Trạng thái:</strong>
+            <span class="float-right">
+              <% 
+          let statusClass = '';
+          switch(order.name_order_status) {
+            case 'Đã đặt hàng': statusClass = 'badge-secondary'; break;
+            case 'Đã xác nhận đơn hàng': statusClass = 'badge-info'; break;
+            case 'Hoàn tất đóng gói': statusClass = 'badge-primary'; break;
+            case 'Đang giao hàng': statusClass = 'badge-warning'; break;
+            case 'Đã giao hàng': statusClass = 'badge-success'; break;
+            case 'Đơn hàng bị hủy': statusClass = 'badge-danger'; break;
+            default: statusClass = 'badge-light';
+          }
+        %>
+              <span class="badge <%= statusClass %>"><%= order.name_order_status %></span>
+            </span>
+          </li>
+          <li class="list-group-item"><strong>Phương thức thanh toán:</strong> <span class="float-right"><%= order.payment_method == '1' ? 'COD' : 'BANK'%></span></li>
+          <li class="list-group-item"><strong>Phí vận chuyển:</strong> <span class="float-right"><%= order.shipping_fee %> đ</span></li>
+          <li class="list-group-item"><strong>Nhân viên giao hàng:</strong> <span class="float-right"><%= order.name_staff || 'Chưa cập nhật' %></span></li>
+          <li class="list-group-item"><strong>Ngày giao hàng:</strong> <span class="float-right"><%= order.delivered_date || 'Chưa giao' %></span></li>
+
+
+        </ul>
+      </div>
+
+      <!-- Thông tin khách hàng -->
+      <div class="card mb-4 shadow">
+        <div class="card-header bg-info text-white">
+          <h5 class="mb-0">Thông Tin Khách Hàng</h5>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item"><strong>Họ tên:</strong> <span class="float-right"><%= cus.name %></span></li>
+          <li class="list-group-item"><strong>Email:</strong> <span class="float-right"><%= cus.email %></span></li>
+          <li class="list-group-item"><strong>Số điện thoại:</strong> <span class="float-right"><%= cus.phone %></span></li>
+          <li class="list-group-item"><strong>Địa chỉ nhận hàng:</strong> <span class="float-right"><%= order.shipping_housenumber_street %></span></li>
+          <li class="list-group-item"><strong>Người nhận:</strong> <span class="float-right"><%= order.shipping_fullname %></span></li>
+          <li class="list-group-item"><strong>SĐT người nhận:</strong> <span class="float-right"><%= order.shipping_mobile %></span></li>
+        </ul>
+      </div>
+
+      <!-- Danh sách sản phẩm -->
+      <div class="card mb-4 shadow">
+        <div class="card-header bg-success text-white">
+          <h5 class="mb-0">Danh Sách Sản Phẩm</h5>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-bordered mb-0">
+            <thead class="thead-light">
+              <tr>
+                <th>#</th>
+                <th>Tên Sản Phẩm</th>
+                <th>Số lượng</th>
+                <th>Đơn giá</th>
+                <th>Thành tiền</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% let tongTien = 0; %>
+              <% listProduct.forEach((sp, idx) => { console.log(sp); %>
+              <% tongTien += sp.total_price; %>
+              <tr>
+                <td><%= idx + 1 %></td>
+                <td><%= sp.product_name %></td>
+                <td><%= sp.qty %></td>
+                <td><%= sp.price %> đ</td>
+                <td><%= sp.total_price %> đ</td>
+              </tr>
+              <% }) %>
+              <tr>
+                <td colspan="4" class="text-right font-weight-bold">Tổng tiền hàng</td>
+                <td class="font-weight-bold"><%= tongTien %> đ</td>
+              </tr>
+              <tr>
+                <td colspan="4" class="text-right font-weight-bold">Tổng thanh toán</td>
+                <td class="font-weight-bold text-danger"><%= (tongTien + (order.shipping_fee || 0)) %> đ</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+
+    </div>
+    <!-- /.container-fluid -->
+
+  </div>
+  <!-- End of Main Content -->
+
+  <!-- Footer -->
+  <footer class="sticky-footer bg-white">
+    <div class="container my-auto">
+      <div class="copyright text-center my-auto">
+        <span>Copyright &copy; Nguyễn Đức Huy ADMIN 2020</span>
+      </div>
+    </div>
+  </footer>
+  <!-- End of Footer -->
+
+</div>
+
+
+<%- include('../layout/footer.ejs') %>

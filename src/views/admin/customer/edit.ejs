@@ -1,0 +1,76 @@
+<!-- Page Wrapper -->
+<%- include('../layout/header.ejs') %>
+
+<!-- Sidebar -->
+<%- include('../layout/sidebar.ejs') %>
+<div id="content-wrapper" class="d-flex flex-column">
+  <div id="content">
+    <%- include('../layout/navbar.ejs') %>
+    <form action="/admin/customer/update" method="POST" class="container edit-customer">
+      <h3 class="text-center">Sửa Thông Tin Khách Hàng</h3>
+      <input type="hidden" name="id" value="<%= customer.id %>">
+      <div class="row">
+        <div class="col-12 mb-3">
+          <input type="text" class="form-control" placeholder="Nhập Tên Đăng Nhập" name="username" value="<%= customer.username %>">
+        </div>
+        <div class="col-12 mb-3">
+          <input type="text" class="form-control" placeholder="Nhập Tên Đầy Đủ" name="name" value="<%= customer.name %>">
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <input type="number" class="form-control" placeholder="Nhập Số Điện Thoại" name="phone" value="<%= customer.phone %>">
+        </div>
+        <div class="col-md-6 mb-3">
+          <input type="email" class="form-control" placeholder="Nhập Email" name="email" value="<%= customer.email %>">
+        </div>
+        <div class="col-md-4 mb-3">
+          <select name="province_id" class="choose_province form-control" id="">
+            <option value="">-- Vui Lòng Chọn Tỉnh Thành --</option>
+            <% listProvince.forEach(function(province) { %>
+            <option value="<%= province.id %>" <%= province.id === id_province ? 'selected' : '' %>><%= province.name %></option>
+            <% }); %>
+          </select>
+        </div>
+        <div class="col-md-4 mb-3">
+          <select name="district_id" class="choose_district form-control" id="">
+            <option value="">-- Vui Lòng Chọn Quận --</option>
+            <% listDistrict.forEach(function(district) {  %>
+            <option value="<%= district.id %>" <%= district.id === id_district ? 'selected' : '' %>><%= district.name %></option>
+            <% }); %>
+          </select>
+        </div>
+        <div class="col-md-4 mb-3">
+          <select name="ward_id" class="choose_ward form-control" id="">
+            <option value="">-- Vui Lòng Chọn Phường --</option>
+            <% listWard.forEach(function(ward) { %>
+            <option value="<%= ward.id %>" <%= ward.id === id_ward ? 'selected' : '' %>><%= ward.name %></option>
+            <% }); %>
+          </select>
+        </div>
+        <div class="col-md-4 mb-3">
+          <input type="text" class="form-control" placeholder="Nhập Địa Chỉ Số Nhà" name="housenumber_street" value="<%= customer.housenumber_street %>">
+        </div>
+        <div class="col-md-4 mb-3">
+          <input type="text" class="form-control" placeholder="Nhập Tên Đầy Đủ Người Nhận" name="shipping_name" value="<%= customer.shipping_name %>">
+        </div>
+        <div class="col-md-4 mb-3">
+          <input type="text" class="form-control" placeholder="Nhập Số Điện Thoại Người Nhận" name="shipping_mobile" value="<%= customer.shipping_mobile %>">
+        </div>
+        <div class="col-12 mb-3">
+          <select name="status" id="" class="form-control">
+            <option value="">-- Chọn Trạng Thái Tài Khoản Khách Hàng --</option>
+            <option value="0" <%= customer.status == '0' ? 'selected' : '' %>>Vô Hiệu Hóa</option>
+            <option value="1" <%= customer.status == '1' ? 'selected' : '' %>>Kích Hoạt</option>
+          </select>
+        </div>
+      </div>
+      <div>
+        <button type="submit" class="btn btn-warning">Lưu</button>
+        <button type="reset" class="btn btn-primary">Nhập Lại</button>
+        <a href="/admin/customer.html" class="btn btn-danger">Quay Lại Danh Sách Khách Hàng</a>
+      </div>
+
+    </form>
+  </div>
+</div>
+<%- include('../layout/footer.ejs') %>

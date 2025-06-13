@@ -1,0 +1,75 @@
+<!-- Page Wrapper -->
+<%- include('../layout/header.ejs') %>
+
+<!-- Sidebar -->
+<%- include('../layout/sidebar.ejs') %>
+<!-- End of Sidebar -->
+
+<div id="content-wrapper" class="d-flex flex-column">
+
+  <!-- Main Content -->
+  <div id="content">
+
+    <!-- Topbar -->
+    <%- include('../layout/navbar.ejs') %>
+    <!-- End of Topbar -->
+
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+
+      <!-- Page Heading -->
+      <h1 class="h3 mb-2 text-gray-800">Chi Tiết Thông Tin Laptop</h1>
+      <!-- <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.
+        For more information about DataTables, please visit the <a target="_blank" href="https://datatables.net">official DataTables documentation</a>.</p> -->
+      <div class="dieuhuong mb-3">
+        <a href="/admin/laptop.html" class="btn btn-primary">Quay Lại Danh Sách Laptop</a>
+        <a href="/admin/laptop/edit/<%= laptop.id %>" class="btn btn-success">Sửa Thông Tin Laptop</a>
+        <a href="/admin/laptop/delete/<%= laptop.id %>" class="btn btn-danger">Xóa Laptop</a>
+      </div>
+      <div class="row detail-product">
+        <div class="col-md-5">
+          <img src="/upload/product/<%= laptop.image %>" class="w-100" alt="">
+        </div>
+        <div class="col-md-7">
+          <h4><%= laptop.product_name %></h4>
+          <p><strong>Giá Gốc:</strong> <%= laptop.price %> VNĐ</p>
+          <p><strong>Giá Bán:</strong> <%= laptop.sale_price %> VNĐ</p>
+          <p><strong>Giảm Giá:</strong> <%= laptop.discount %> %</p>
+          <p><strong>Giảm Giá Từ Ngày:</strong> <%= laptop.discount_from_date ? laptop.discount_from_date : 'Không có' %></p>
+          <p><strong>Giảm Giá Đến Ngày:</strong> <%= laptop.discount_to_date ? laptop.discount_to_date : 'Không có' %></p>
+          <p><strong>Số lượng trong kho:</strong> <%= laptop.stock_quantity %></p>
+
+          <p><strong>Thương Hiệu: </strong> <%= laptop.name_brand %></p>
+          <p><strong>Thông số kỹ thuật:</strong></p>
+          <ul>
+            <li><strong>CPU:</strong> <%= laptop.cpu %></li>
+            <li><strong>RAM:</strong> <%= laptop.ram %></li>
+
+            <li><strong>Màn hình:</strong> <%= laptop.screen_solution %></li>
+            <li><strong>Card đồ họa:</strong> <%= laptop.graphics_card %></li>
+            <li><strong>Trọng lượng:</strong> <%= laptop.weight %> kg</li>
+          </ul>
+          <p><strong>Mô tả:</strong> <%- laptop.description %></p>
+        </div>
+      </div>
+
+    </div>
+    <!-- /.container-fluid -->
+
+  </div>
+  <!-- End of Main Content -->
+
+  <!-- Footer -->
+  <footer class="sticky-footer bg-white">
+    <div class="container my-auto">
+      <div class="copyright text-center my-auto">
+        <span>Copyright &copy; Nguyễn Đức Huy ADMIN 2020</span>
+      </div>
+    </div>
+  </footer>
+  <!-- End of Footer -->
+
+</div>
+
+
+<%- include('../layout/footer.ejs') %>

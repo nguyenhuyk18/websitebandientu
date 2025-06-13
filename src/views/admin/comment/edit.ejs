@@ -1,0 +1,36 @@
+<!-- Page Wrapper -->
+<%- include('../layout/header.ejs') %>
+
+<!-- Sidebar -->
+<%- include('../layout/sidebar.ejs') %>
+<div id="content-wrapper" class="d-flex flex-column">
+  <div id="content">
+    <%- include('../layout/navbar.ejs') %>
+    <form action="/admin/comment/update" method="POST" class="edit-comment container">
+      <h3 class="text-center">Sửa Bình Luận</h3>
+      <input type="hidden" name="id" value="<%= comment.id %>">
+      <div class="mb-3">
+        <label for="fullname">Tên Đầy Đủ</label>
+        <input type="text" class="form-control" id="fullname" value="<%= comment.fullname %>" name="fullname" placeholder="Nhập Họ Tên">
+      </div>
+      <div class="mb-3">
+        <label for="email">Email</label>
+        <input type="email" id="email" class="form-control" value="<%= comment.email %>" name="email" placeholder="Nhập Email">
+      </div>
+      <div class="mb-3">
+        <label for="star">Số Sao</label>
+        <input type="number" id="star" class="form-control" value="<%= comment.star %>" name="star" placeholder="Nhập Số sao">
+      </div>
+      <div class="mb-3">
+        <label for="description">Bình Luận</label>
+        <textarea name="description" id="description" class="form-control" rows="10"> <%= comment.description %> </textarea>
+      </div>
+      <div>
+        <button type="submit" class="btn btn-warning">Lưu</button>
+        <button type="reset" class="btn btn-primary">Nhập Lại</button>
+      </div>
+
+    </form>
+  </div>
+</div>
+<%- include('../layout/footer.ejs') %>

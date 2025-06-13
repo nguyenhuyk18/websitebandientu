@@ -1,0 +1,23 @@
+<!-- Page Wrapper -->
+<%- include('../layout/header.ejs') %>
+
+<!-- Sidebar -->
+<%- include('../layout/sidebar.ejs') %>
+<div id="content-wrapper" class="d-flex flex-column">
+  <div id="content">
+    <%- include('../layout/navbar.ejs') %>
+    <form action="/admin/role/update" method="POST" class="create-role container">
+      <h3 class="text-center">Sửa Vai Trò</h3>
+      <input type="hidden" name="id" value="<%= role.id %>">
+      <div class="mb-3">
+        <input type="text" name="name_role" class="form-control" value="<%= role.name_role %>" placeholder="Nhập tên vai trò">
+      </div>
+      <div>
+        <button type="submit" class="btn btn-warning">Lưu</button>
+        <button type="reset" class="btn btn-primary">Nhập Lại</button>
+      </div>
+
+    </form>
+  </div>
+</div>
+<%- include('../layout/footer.ejs') %>

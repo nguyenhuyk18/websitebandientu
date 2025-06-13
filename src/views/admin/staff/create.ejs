@@ -1,0 +1,49 @@
+<!-- Page Wrapper -->
+<%- include('../layout/header.ejs') %>
+
+<!-- Sidebar -->
+<%- include('../layout/sidebar.ejs') %>
+<div id="content-wrapper" class="d-flex flex-column">
+  <div id="content">
+    <%- include('../layout/navbar.ejs') %>
+    <form action="/admin/staff/create" method="POST" class="container create-staff">
+      <h3 class="text-center">Thêm Thông Tin Nhân Viên</h3>
+      <div class="row">
+        <div class="col-12 mb-3">
+          <input type="text" class="form-control" placeholder="Nhập Tên Đăng Nhập" name="username">
+        </div>
+        <div class="col-12 mb-3">
+          <input type="text" class="form-control" placeholder="Nhập Tên Đầy Đủ" name="name">
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <input type="number" class="form-control" placeholder="Nhập Số Điện Thoại" name="mobile">
+        </div>
+        <div class="col-md-6 mb-3">
+          <input type="email" class="form-control" placeholder="Nhập Email" name="email">
+        </div>
+        <div class="col-md-6 mb-3">
+          <select name="is_active" id="" class="form-control">
+            <option value="">-- Chọn Trạng Thái Tài Khoản Nhân Viên --</option>
+            <option value="0">Vô Hiệu Hóa</option>
+            <option value="1">Kích Hoạt</option>
+          </select>
+        </div>
+        <div class="col-md-6 mb-3">
+          <select name="role_id" id="" class="form-control">
+            <option value="">-- Chọn Vai Trò Nhân Viên --</option>
+            <% listRole.forEach((role) => { %>
+            <option value="<%= role.id %>"><%= role.name_role %></option>
+            <% }); %>
+          </select>
+        </div>
+      </div>
+      <div>
+        <button type="submit" class="btn btn-warning">Lưu</button>
+        <button type="reset" class="btn btn-primary">Nhập Lại</button>
+      </div>
+
+    </form>
+  </div>
+</div>
+<%- include('../layout/footer.ejs') %>

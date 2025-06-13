@@ -1,0 +1,88 @@
+<%- include('../layout/header.ejs') %>
+
+<%- include('../layout/sidebar.ejs') %>
+
+<div id="content-wrapper" class="d-flex flex-column">
+  <div id="content">
+    <%- include('../layout/navbar.ejs') %>
+
+    <form action="/admin/laptop/create" method="POST" class="create-laptop container" enctype="multipart/form-data">
+      <h3 class="text-center">Thêm Thông Tin Sản Phẩm Laptop</h3>
+      <div class="row">
+        <div class="col-12 mb-3">
+          <input type="text" class="form-control" placeholder="Tên Sản Phẩm" name="product_name">
+        </div>
+        <div class="col-md-6 mb-3">
+          <input type="text" class="form-control" placeholder="Nhập Đơn Gía" name="price">
+        </div>
+        <div class="col-md-6 mb-3">
+          <input type="text" class="form-control" placeholder="Nhập Số Lượng" name="stock_quantity">
+        </div>
+        <div class="col-12 mb-3">
+          <div class="custom-file">
+            <input type="file" name="image" class="custom-file-input" id="customFile">
+            <label class="custom-file-label" for="customFile" data-browse="Chọn tệp">Chọn ảnh sản phẩm...</label>
+          </div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <input type="text" name="discount" placeholder="Nhập % giảm giá" class="form-control">
+        </div>
+        <div class="col-md-4 mb-3">
+          <input type="date" name="discount_from_date" placeholder="Nhập ngày giảm giá bắt đầu" class="form-control">
+        </div>
+        <div class="col-md-4 mb-3">
+          <input type="date" name="discount_to_date" placeholder="Nhập ngày giảm giá kết thúc" class="form-control">
+        </div>
+        <div class="col-md-6 mb-3">
+          <select name="id_brand" class="form-control choosebrand">
+            <option value="">-- Vui Lòng Chọn Thương Hiệu --</option>
+            <% for ( const brand of listBrand) { %>
+            <option value="<%= brand.id %>"><%= brand.name_brand %></option>
+            <% } %>
+          </select>
+        </div>
+        <div class="col-md-6 mb-3">
+          <select name="id_category" class="form-control choosecategory">
+            <option value="">-- Vui Lòng Chọn Danh Mục --</option>
+          </select>
+        </div>
+        <div class="col-md-4 mb-3">
+          <input type="text" name="cpu" class="form-control" placeholder="Nhập Thông Tin CPU">
+        </div>
+        <div class="col-md-4 mb-3">
+          <input type="text" name="ram" class="form-control" placeholder="Nhập Thông Tin RAM">
+        </div>
+        <div class="col-md-4 mb-3">
+          <input type="text" name="graphics_card" class="form-control" placeholder="Nhập Thông Tin Card Đồ Họa">
+        </div>
+        <div class="col-md-4 mb-3">
+          <input type="text" name="screen_size" class="form-control" placeholder="Nhập Kích Thước Màn Hình">
+        </div>
+        <div class="col-md-4 mb-3">
+          <input type="text" name="screen_solution" class="form-control" placeholder="Nhập Độ Phân Giải Màn Hình">
+        </div>
+        <div class="col-md-4 mb-3">
+          <input type="text" name="operating_system" class="form-control" placeholder="Nhập Hệ Điều Hành">
+        </div>
+        <div class="col-md-6 mb-3">
+          <input type="text" name="weight" class="form-control" placeholder="Nhập Trọng Lượng Sản Phẩm">
+        </div>
+        <div class="col-md-6 mb-3">
+          <input type="text" name="release_year" class="form-control" placeholder="Nhập Năm Phát Hành">
+        </div>
+        <div class="col-12 mb-3">
+          <textarea name="description" id="description" rows="5" class="form-control" placeholder="Nhập Mô Tả Sản Phẩm"></textarea>
+        </div>
+      </div>
+
+      <div>
+        <button type="submit" class="btn btn-warning">Lưu</button>
+        <button type="reset" class="btn btn-primary">Nhập Lại</button>
+        <a href="/admin/laptop.html" class="btn btn-danger">Quay Lại Danh Sách Laptop</a>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+<%- include('../layout/footer.ejs') %>

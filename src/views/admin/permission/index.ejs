@@ -1,0 +1,27 @@
+<!-- Page Wrapper -->
+<%- include('../layout/header.ejs') %>
+
+<!-- Sidebar -->
+<%- include('../layout/sidebar.ejs') %>
+<div id="content-wrapper" class="d-flex flex-column">
+  <div id="content">
+    <%- include('../layout/navbar.ejs') %>
+    <form action="/admin/permission/create" method="POST" class="create-role container">
+      <h3 class="text-center">Phân Quyền</h3>
+      <input type="hidden" name="role_id" value="<%= id_role %>">
+      <div class="row">
+        <% for ( const action of listAction) { %>
+        <div class="col-md-6 mb-3">
+          <label><input type="checkbox" name="action_id" <%= id_action_of_role.includes(action.id) ? 'checked' : '' %> value="<%= action.id %>"> <%= action.name_action%> </label>
+        </div>
+        <% } %>
+      </div>
+      <div>
+        <button type="submit" class="btn btn-warning">Lưu</button>
+        <button type="reset" class="btn btn-primary">Nhập Lại</button>
+      </div>
+
+    </form>
+  </div>
+</div>
+<%- include('../layout/footer.ejs') %>
