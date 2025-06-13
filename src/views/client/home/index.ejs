@@ -1,0 +1,342 @@
+<%- include('../layout/header.ejs') %>
+
+<!-- Hero Slider -->
+<section class="hero-section w-100 position-relative" style="padding-top: 0;">
+  <div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <!-- Slide 1: Laptop -->
+      <div class="carousel-item active hero-slide" style="background-image: url('/img/kkkkkkk.gif');">
+        <div class="container h-100 d-flex flex-column justify-content-center align-items-start">
+          <div class="hero-content bg-dark bg-opacity-50 p-4 rounded-4 mt-5 mb-5" style="max-width: 500px;">
+            <h2 class="display-5 fw-bold text-white mb-3">Laptop Hiện Đại</h2>
+            <p class="lead text-white mb-4">Khám phá các dòng laptop mới nhất, hiệu năng vượt trội cho công việc và giải trí.</p>
+            <a href="#" class="btn btn-warning btn-lg shadow">Xem danh sách Laptop</a>
+          </div>
+        </div>
+      </div>
+      <!-- Slide 2: Mouse -->
+      <div class="carousel-item hero-slide" style="background-image: url('/img/mousebanner.jpg');">
+        <div class="container h-100 d-flex flex-column justify-content-center align-items-start">
+          <div class="hero-content bg-dark bg-opacity-50 p-4 rounded-4 mt-5 mb-5" style="max-width: 500px;">
+            <h2 class="display-5 fw-bold text-white mb-3">Chuột Máy Tính Đa Dạng</h2>
+            <p class="lead text-white mb-4">Đa dạng mẫu mã, độ nhạy cao, phù hợp mọi nhu cầu sử dụng.</p>
+            <a href="#" class="btn btn-warning btn-lg shadow">Xem danh sách Mouse</a>
+          </div>
+        </div>
+      </div>
+      <!-- Slide 3: Keyboard -->
+      <div class="carousel-item hero-slide" style="background-image: url('/img/msi-gk50-elite-kv-pc.jpg');">
+        <div class="container h-100 d-flex flex-column justify-content-center align-items-start">
+          <div class="hero-content bg-dark bg-opacity-50 p-4 rounded-4 mt-5 mb-5" style="max-width: 500px;">
+            <h2 class="display-5 fw-bold text-white mb-3">Bàn Phím Chuyên Nghiệp</h2>
+            <p class="lead text-white mb-4">Bàn phím cơ, led RGB, trải nghiệm gõ tuyệt vời cho game thủ và dân văn phòng.</p>
+            <a href="#" class="btn btn-warning btn-lg shadow">Xem danh sách Keyboard</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Nút chuyển slide -->
+    <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon"></span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon"></span>
+    </button>
+  </div>
+</section>
+
+<!-- Sản phẩm theo thương hiệu -->
+<section class="container my-5">
+  <h3 class="mb-4 text-center fw-bold section-title">Sản phẩm theo thương hiệu</h3>
+  <!-- Brand Tabs -->
+  <ul class="nav nav-tap justify-content-center mb-4 gap-2" id="brandTab">
+    <li class="nav-item" role="presentation">
+      <button class="btn btn-outline-primary brand-btn active" data_open="all-product" onclick="clickTapPills('all-product')">Tất cả</button>
+    </li>
+
+
+    <% for( const brand of listBrand )  { %>
+    <li class="nav-item" role="presentation">
+      <button class="btn btn-outline-primary brand-btn" data_open="<%= brand.id %>" onclick="clickTapPills('<%= brand.id %>')"><%= brand.name_brand %></button>
+    </li>
+    <% } %>
+  </ul>
+  <!-- Tab Content -->
+  <div class="tab-content" id="brandTabContent">
+    <!-- Tất cả -->
+    <div class="product-by-brand animate__animated animate__fadeIn show" id="all-product" role="tabpanel" aria-labelledby="all-tab">
+      <div class="row g-4">
+        <!-- Sản phẩm mẫu, bạn thay đổi hình và thông tin cho phù hợp -->
+        <div class="col-12 col-sm-6 col-lg-4">
+          <div class="product-card">
+            <img src="/img/laptop-1749451622486-73849052.jpg" alt="Laptop Asus VivoBook" class="product-img">
+            <div class="product-info">
+              <div class="product-name">Laptop Asus VivoBook</div>
+              <div>
+                <span class="product-price">15.990.000₫</span>
+                <span class="product-old-price">17.990.000₫</span>
+              </div>
+              <button class="btn-buy mt-3">Thêm Vào Giỏ Hàng</button>
+            </div>
+          </div>
+        </div>
+        <!-- ...Thêm 5 sản phẩm khác -->
+      </div>
+    </div>
+    <!-- Asus -->
+    <% for(const data of productByCategory) { %>
+    <div class="product-by-brand animate__animated animate__fadeIn hide" id="<%= data.brand.id %>" role="tabpanel" aria-labelledby="<%= data.brand.id %>">
+      <div class="row g-4">
+        <% for(const product of data.product) { %>
+        <div class="col-12 col-sm-6 col-lg-4">
+          <div class="product-card">
+            <img src="/upload/product/<%= product.image %>" alt="Laptop Asus VivoBook" class="product-img">
+            <div class="product-info">
+              <div class="product-name"><%= product.product_name %></div>
+              <div>
+
+                <span class="product-price"><%= helpers.formatMoney(product.sale_price) %>₫</span>
+                <% if(product.price != product.sale_price) { %>
+                <span class="product-old-price"><%= helpers.formatMoney(product.price) %>₫</span>
+                <% } %>
+              </div>
+              <button class="btn-buy mt-3" id_product='<%= product.id %>'>Thêm Vào Giỏ Hàng</button>
+            </div>
+          </div>
+        </div>
+        <% } %>
+        <!-- ...Thêm tối đa 6 sản phẩm Asus -->
+      </div>
+    </div>
+    <% } %>
+
+  </div>
+</section>
+
+<!-- sản phẩm mới nhất -->
+<section class="container my-5 ">
+  <h3 class="mb-4 text-center fw-bold section-title">Sản Phẩm Mới Nhất</h3>
+  <div class="row g-4 justify-content-center">
+    <!-- Sản phẩm 1 -->
+    <div class="col-12 col-sm-6 col-lg-3">
+      <div class="product-card product-new shadow animate__animated animate__fadeInUp">
+        <div class="badge-new">Mới</div>
+        <img src="/img/laptop-1749451622486-73849052.jpg" alt="Laptop Asus Zenbook" class="product-img">
+        <div class="product-info">
+          <div class="product-name">Laptop Asus Zenbook 2025</div>
+          <div>
+            <span class="product-price">22.990.000₫</span>
+            <span class="product-old-price">25.990.000₫</span>
+          </div>
+          <button class="btn-buy mt-3">Thêm Vào Giỏ Hàng</button>
+        </div>
+      </div>
+    </div>
+    <!-- Sản phẩm 2 -->
+    <div class="col-12 col-sm-6 col-lg-3">
+      <div class="product-card product-new shadow animate__animated animate__fadeInUp" style="animation-delay:0.1s;">
+        <div class="badge-new">Mới</div>
+        <img src="/img/mouse-1749489013129-289368947.webp" alt="Chuột Logitech Pro X" class="product-img">
+        <div class="product-info">
+          <div class="product-name">Chuột Logitech Pro X</div>
+          <div>
+            <span class="product-price">1.299.000₫</span>
+            <span class="product-old-price">1.599.000₫</span>
+          </div>
+          <button class="btn-buy mt-3">Thêm Vào Giỏ Hàng</button>
+        </div>
+      </div>
+    </div>
+    <!-- Sản phẩm 3 -->
+    <div class="col-12 col-sm-6 col-lg-3">
+      <div class="product-card product-new shadow animate__animated animate__fadeInUp" style="animation-delay:0.2s;">
+        <div class="badge-new">Mới</div>
+        <img src="/img/keyboard-1749548744607-510248296.webp" alt="Bàn phím Razer Mini" class="product-img">
+        <div class="product-info">
+          <div class="product-name">Bàn phím Razer Mini</div>
+          <div>
+            <span class="product-price">2.199.000₫</span>
+            <span class="product-old-price">2.599.000₫</span>
+          </div>
+          <button class="btn-buy mt-3">Thêm Vào Giỏ Hàng</button>
+        </div>
+      </div>
+    </div>
+    <!-- Sản phẩm 4 -->
+    <div class="col-12 col-sm-6 col-lg-3">
+      <div class="product-card product-new shadow animate__animated animate__fadeInUp" style="animation-delay:0.3s;">
+        <div class="badge-new">Mới</div>
+        <img src="/img/laptop-1749451622486-73849052.jpg" alt="Macbook Air M4" class="product-img">
+        <div class="product-info">
+          <div class="product-name">Macbook Air M4 2025</div>
+          <div>
+            <span class="product-price">28.990.000₫</span>
+            <span class="product-old-price">31.990.000₫</span>
+          </div>
+          <button class="btn-buy mt-3">Thêm Vào Giỏ Hàng</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Section Khuyến mãi / Ưu đãi HOT -->
+<section class="container my-5">
+  <div class="promo-section rounded-4 p-4 p-md-5 position-relative overflow-hidden shadow animate__animated animate__fadeIn">
+    <div class="row align-items-center">
+      <!-- Banner khuyến mãi -->
+      <div class="col-lg-5 mb-4 mb-lg-0 text-center text-lg-start">
+        <h3 class="fw-bold section-title mb-3" style="font-size:2.1rem;">🔥 Ưu Đãi Hot Tháng 6</h3>
+        <p class="lead mb-4 text-dark-emphasis">Giảm giá lên đến <span class="text-danger fw-bold fs-3">50%</span> cho các sản phẩm công nghệ nổi bật! Số lượng có hạn, nhanh tay kẻo lỡ!</p>
+        <a href="#" class="btn btn-danger btn-lg rounded-pill px-4 shadow-sm animate__animated animate__pulse animate__infinite">Xem tất cả ưu đãi</a>
+      </div>
+      <!-- Sản phẩm khuyến mãi -->
+      <div class="col-lg-7">
+        <div class="row g-3">
+          <!-- Sản phẩm 1 -->
+          <div class="col-6 col-md-4">
+            <div class="promo-card text-center bg-white rounded-4 p-3 h-100 shadow-sm animate__animated animate__zoomIn">
+              <div class="badge-promo">-35%</div>
+              <img src="/img/laptop-1749451622486-73849052.jpg" alt="Laptop Asus" class="promo-img mb-2">
+              <div class="fw-semibold mb-1">Laptop Asus VivoBook</div>
+              <div>
+                <span class="text-danger fw-bold">10.990.000₫</span>
+                <span class="text-decoration-line-through text-muted ms-1">16.990.000₫</span>
+              </div>
+              <button class="btn btn-outline-danger btn-sm mt-2 rounded-pill px-3">Mua ngay</button>
+            </div>
+          </div>
+          <!-- Sản phẩm 2 -->
+          <div class="col-6 col-md-4">
+            <div class="promo-card text-center bg-white rounded-4 p-3 h-100 shadow-sm animate__animated animate__zoomIn" style="animation-delay:0.1s;">
+              <div class="badge-promo">-40%</div>
+              <img src="/img/mouse-1749489013129-289368947.webp" alt="Chuột Logitech" class="promo-img mb-2">
+              <div class="fw-semibold mb-1">Chuột Logitech G304</div>
+              <div>
+                <span class="text-danger fw-bold">299.000₫</span>
+                <span class="text-decoration-line-through text-muted ms-1">499.000₫</span>
+              </div>
+              <button class="btn btn-outline-danger btn-sm mt-2 rounded-pill px-3">Mua ngay</button>
+            </div>
+          </div>
+          <!-- Sản phẩm 3 -->
+          <div class="col-6 col-md-4 d-none d-md-block">
+            <div class="promo-card text-center bg-white rounded-4 p-3 h-100 shadow-sm animate__animated animate__zoomIn" style="animation-delay:0.2s;">
+              <div class="badge-promo">-25%</div>
+              <img src="/img/keyboard-1749548744607-510248296.webp" alt="Bàn phím Razer" class="promo-img mb-2">
+              <div class="fw-semibold mb-1">Bàn phím Razer Mini</div>
+              <div>
+                <span class="text-danger fw-bold">1.499.000₫</span>
+                <span class="text-decoration-line-through text-muted ms-1">1.999.000₫</span>
+              </div>
+              <button class="btn btn-outline-danger btn-sm mt-2 rounded-pill px-3">Mua ngay</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Đồ họa nền -->
+    <img src="https://png.pngtree.com/png-clipart/20230830/original/pngtree-hot-sale-banner-png-image_9196972.png" alt="Hot Sale" class="promo-bg d-none d-lg-block">
+  </div>
+</section>
+
+
+
+<%- include('../layout/footer.ejs') %>
+
+<!-- Dell -->
+<!-- <div class="tab-pane fade animate__animated animate__fadeIn" id="dell" role="tabpanel" aria-labelledby="dell-tab">
+      <div class="row g-4">
+        <div class="col-12 col-sm-6 col-lg-4">
+          <div class="product-card">
+            <img src="/img/laptop-1749451622486-73849052.jpg" alt="Laptop Dell Inspiron" class="product-img">
+            <div class="product-info">
+              <div class="product-name">Laptop Dell Inspiron</div>
+              <div>
+                <span class="product-price">18.990.000₫</span>
+                <span class="product-old-price">20.990.000₫</span>
+              </div>
+              <button class="btn-buy mt-3">Thêm Vào Giỏ Hàng</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> -->
+<!-- Logitech -->
+<!-- <div class="tab-pane fade animate__animated animate__fadeIn" id="logitech" role="tabpanel" aria-labelledby="logitech-tab">
+      <div class="row g-4">
+        <div class="col-12 col-sm-6 col-lg-4">
+          <div class="product-card">
+            <img src="/img/mouse-1749489013129-289368947.webp" alt="Chuột Logitech G102" class="product-img">
+            <div class="product-info">
+              <div class="product-name">Chuột Logitech G102</div>
+              <div>
+                <span class="product-price">399.000₫</span>
+                <span class="product-old-price">499.000₫</span>
+              </div>
+              <button class="btn-buy mt-3">Thêm Vào Giỏ Hàng</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> -->
+<!-- Razer -->
+<!-- <div class="tab-pane fade animate__animated animate__fadeIn" id="razer" role="tabpanel" aria-labelledby="razer-tab">
+      <div class="row g-4">
+        <div class="col-12 col-sm-6 col-lg-4">
+          <div class="product-card">
+            <img src="/img/keyboard-1749548744607-510248296.webp" alt="Chuột Razer DeathAdder" class="product-img">
+            <div class="product-info">
+              <div class="product-name">Chuột Razer DeathAdder</div>
+              <div>
+                <span class="product-price">899.000₫</span>
+                <span class="product-old-price">1.099.000₫</span>
+
+              </div>
+              <button class="btn-buy mt-3">Thêm Vào Giỏ Hàng</button>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </div> -->
+<!-- Apple -->
+<!-- <div class="tab-pane fade animate__animated animate__fadeIn" id="apple" role="tabpanel" aria-labelledby="apple-tab">
+      <div class="row g-4">
+        <div class="col-12 col-sm-6 col-lg-4">
+          <div class="product-card">
+            <img src="/img/laptop-1749451622486-73849052.jpg" alt="Bàn phím Apple Magic Keyboard" class="product-img">
+            <div class="product-info">
+              <div class="product-name">Bàn phím Apple Magic Keyboard</div>
+              <div>
+                <span class="product-price">2.999.000₫</span>
+                <span class="product-old-price">3.499.000₫</span>
+              </div>
+              <div class="justify-content-center d-flex">
+                <button class="btn-buy mt-3">Thêm Vào Giỏ Hàng</button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div> -->
+
+
+<!-- <li class="nav-item" role="presentation">
+      <button class="btn btn-outline-primary brand-btn" id="asus-tab" data-bs-toggle="pill" data-bs-target="#asus" type="button" role="tab" aria-controls="asus" aria-selected="false">Asus</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="btn btn-outline-primary brand-btn" id="dell-tab" data-bs-toggle="pill" data-bs-target="#dell" type="button" role="tab" aria-controls="dell" aria-selected="false">Dell</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="btn btn-outline-primary brand-btn" id="logitech-tab" data-bs-toggle="pill" data-bs-target="#logitech" type="button" role="tab" aria-controls="logitech" aria-selected="false">Logitech</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="btn btn-outline-primary brand-btn" id="razer-tab" data-bs-toggle="pill" data-bs-target="#razer" type="button" role="tab" aria-controls="razer" aria-selected="false">Razer</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="btn btn-outline-primary brand-btn" id="apple-tab" data-bs-toggle="pill" data-bs-target="#apple" type="button" role="tab" aria-controls="apple" aria-selected="false">Apple</button>
+    </li> -->

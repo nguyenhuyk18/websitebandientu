@@ -1,0 +1,286 @@
+<!-- Footer -->
+<footer class="footer-main-new mt-5 pt-5 pb-3">
+  <div class="container">
+    <div class="row gy-4 align-items-start">
+      <!-- Logo & Slogan -->
+      <div class="col-12 col-md-4 mb-3 mb-md-0 text-center text-md-start">
+        <a href="#" class="footer-logo d-inline-flex align-items-center mb-2">
+          <span class="footer-logo-icon me-2">
+            <i class="fa-solid fa-laptop-code"></i>
+          </span>
+          <span class="fw-bold fs-4 text-gradient">TechStore</span>
+        </a>
+        <div class="footer-slogan text-muted mb-2">Công nghệ cho mọi nhà - Giá tốt mỗi ngày!</div>
+        <div class="footer-socials mt-3 justify-content-center justify-content-md-start">
+          <a href="#" class="footer-social"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="footer-social"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="footer-social"><i class="fab fa-tiktok"></i></a>
+        </div>
+      </div>
+      <!-- Chính sách -->
+      <div class="col-6 col-md-4">
+        <h6 class="footer-title mb-3"><i class="fa fa-shield-alt me-2 text-primary"></i>Chính Sách</h6>
+        <ul class="footer-list list-unstyled mb-0">
+          <li><a href="#" class="footer-link"><i class="fa fa-angle-right me-2 text-primary"></i>Chính sách đổi trả</a></li>
+          <li><a href="#" class="footer-link"><i class="fa fa-angle-right me-2 text-primary"></i>Chính sách mua hàng</a></li>
+          <li><a href="#" class="footer-link"><i class="fa fa-angle-right me-2 text-primary"></i>Chính sách vận chuyển</a></li>
+          <li><a href="#" class="footer-link"><i class="fa fa-angle-right me-2 text-primary"></i>Chính sách bảo mật</a></li>
+          <li><a href="#" class="footer-link"><i class="fa fa-angle-right me-2 text-primary"></i>Hướng dẫn thanh toán</a></li>
+        </ul>
+      </div>
+      <!-- Liên hệ -->
+      <div class="col-6 col-md-4">
+        <h6 class="footer-title mb-3"><i class="fa fa-headset me-2 text-success"></i>Liên Hệ</h6>
+        <ul class="footer-list list-unstyled mb-2">
+          <li>
+            <a href="https://www.facebook.com/nguyen.huy.970992/" target="_blank" class="footer-link d-inline-flex align-items-center">
+              <i class="fab fa-facebook-square me-2 text-primary fa-lg"></i> Facebook: <span class="ms-1">Nguyễn Huy</span>
+            </a>
+          </li>
+          <li>
+            <a href="tel:0385548843" class="footer-link d-inline-flex align-items-center">
+              <i class="fa fa-phone-alt me-2 text-success"></i> 0385548843
+            </a>
+          </li>
+          <li>
+            <a href="mailto:kewwihuy@gmail.com" class="footer-link d-inline-flex align-items-center">
+              <i class="fa fa-envelope me-2 text-danger"></i> kewwihuy@gmail.com
+            </a>
+          </li>
+          <li>
+            <span class="footer-link d-inline-flex align-items-center">
+              <i class="fa fa-map-marker-alt me-2 text-warning"></i> 123 Đường Công Nghệ, Q.1, TP.HCM
+            </span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <hr class="my-4">
+    <div class="text-center text-muted small">
+      &copy; 2025 TechStore. Bản Quyền Thuộc Về Chúng Tôi.
+    </div>
+  </div>
+</footer>
+
+
+
+
+<script src="/vendor/bootstrap-5.2.3-dist/js/bootstrap.min.js"></script>
+<script src="/js/script.js"></script>
+</body>
+
+</html>
+
+<!-- Modal Body -->
+<!-- if you want to close by clicking outside the modal, delete the last endpoint:data-bs-backdrop and data-bs-keyboard -->
+<div class="modal fade" id="dangnhap" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content rounded-4 shadow-lg border-0">
+      <div class="modal-header border-0 pb-0">
+        <h5 class="modal-title fw-bold w-100 text-center" id="modalTitleId">
+          Đăng Nhập Tài Khoản
+        </h5>
+        <button type="button" class="btn-close position-absolute end-0 top-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body pt-0">
+        <form>
+          <div class="mb-3">
+            <label for="loginEmail" class="form-label fw-semibold">Tên Đăng Nhập</label>
+            <input type="text" class="form-control rounded-pill" name="username" id="loginEmail" placeholder="Nhập tên đăng nhập" required>
+          </div>
+          <div class="mb-3">
+            <label for="loginPassword" class="form-label fw-semibold">Mật khẩu</label>
+            <input type="password" class="form-control rounded-pill" name="password" id="loginPassword" placeholder="Nhập mật khẩu" required>
+          </div>
+          <div class="mb-3 d-flex justify-content-between align-items-center">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="rememberMe">
+              <label class="form-check-label small" for="rememberMe">Ghi nhớ đăng nhập</label>
+            </div>
+            <a href="#" class="small text-decoration-none text-primary">Quên mật khẩu?</a>
+          </div>
+          <button type="submit" class="btn btn-primary w-100 rounded-pill fw-bold py-2 mb-2">Đăng Nhập</button>
+          <div class="text-center small">
+            Chưa có tài khoản? <a href="#" class="text-primary fw-semibold text-decoration-none" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#dangky">Đăng ký ngay</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal Body -->
+<!-- if you want to close by clicking outside the modal, delete the last endpoint:data-bs-backdrop and data-bs-keyboard -->
+<div class="modal fade" id="dangky" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content rounded-4 shadow-lg border-0">
+      <div class="modal-header border-0 pb-0">
+        <h5 class="modal-title fw-bold w-100 text-center" id="modalTitleId">
+          Đăng Ký Tài Khoản
+        </h5>
+        <button type="button" class="btn-close position-absolute end-0 top-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body pt-0">
+        <form>
+          <div class="mb-3">
+            <label for="registerFullName" class="form-label fw-semibold">Họ và tên</label>
+            <input type="text" class="form-control rounded-pill" id="registerFullName" placeholder="Họ và tên" required>
+          </div>
+          <div class="mb-3">
+            <label for="registerUsername" class="form-label fw-semibold">Tên đăng nhập</label>
+            <input type="text" class="form-control rounded-pill" id="registerUsername" placeholder="Tên đăng nhập" required>
+          </div>
+          <div class="mb-3">
+            <label for="registerPhone" class="form-label fw-semibold">Số điện thoại</label>
+            <input type="text" class="form-control rounded-pill" id="registerPhone" placeholder="Số điện thoại" required>
+          </div>
+          <div class="mb-3">
+            <label for="registerEmail" class="form-label fw-semibold">Email</label>
+            <input type="email" class="form-control rounded-pill" id="registerEmail" placeholder="Email" required>
+          </div>
+          <div class="mb-3">
+            <label for="registerPassword" class="form-label fw-semibold">Mật khẩu</label>
+            <input type="password" class="form-control rounded-pill" id="registerPassword" placeholder="Mật khẩu" required>
+          </div>
+          <div class="mb-3">
+            <label for="registerRePassword" class="form-label fw-semibold">Nhập lại mật khẩu</label>
+            <input type="password" class="form-control rounded-pill" id="registerRePassword" placeholder="Nhập lại mật khẩu" required>
+          </div>
+          <button type="submit" class="btn btn-info w-100 rounded-pill fw-bold py-2 mb-2">Đăng Ký</button>
+          <div class="text-center small">
+            Đã có tài khoản? <a href="#" class="text-primary fw-semibold text-decoration-none" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#dangnhap">Đăng nhập ngay</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Modal trigger button
+<button type="button" class="btn btn-primary btn-lg" >
+  Launch
+</button> -->
+
+<!-- Modal Body -->
+<!-- if you want to close by clicking outside the modal, delete the last endpoint:data-bs-backdrop and data-bs-keyboard -->
+<div class="modal fade" id="cartonmenu" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="modalTitleId" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+    <div class="modal-content rounded-4 shadow-lg border-0">
+      <div class="modal-header border-0 pb-0">
+        <h4 class="modal-title w-100 text-center fw-bold text-danger" id="modalTitleId">
+          Giỏ hàng
+        </h4>
+        <button type="button" class="btn-close position-absolute end-0 top-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body pt-0">
+        <div class="table-responsive">
+          <table class="table align-middle mb-0">
+            <thead class="align-middle">
+              <tr>
+                <th style="min-width:220px;">Sản phẩm</th>
+                <th class="text-center" style="width:120px;">Đơn giá</th>
+                <th class="text-center" style="width:120px;">Số lượng</th>
+                <th class="text-center" style="width:140px;">Thành tiền</th>
+                <th style="width:48px;"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Sản phẩm 1 -->
+              <tr>
+                <td>
+                  <div class="d-flex align-items-center gap-3">
+                    <img src="./public/img/kem1.jpg" alt="Kem làm trắng da 5 trong 1 Beaumoer Secret Whitening Cream" style="width:56px;height:56px;object-fit:contain;" class="rounded-3 border">
+                    <span class="fw-semibold">Kem làm trắng da 5 trong 1 Beaumoer Secret Whitening Cream</span>
+                  </div>
+                </td>
+                <td class="text-center text-nowrap">190.000₫</td>
+                <td class="text-center">
+                  <input type="number" min="1" value="6" class="form-control text-center rounded-pill" style="width:90px;">
+                </td>
+                <td class="text-center text-nowrap fw-semibold">1.140.000₫</td>
+                <td class="text-center">
+                  <button class="btn btn-link text-danger p-0" title="Xóa">
+                    <i class="fa fa-trash-alt fa-lg"></i>
+                  </button>
+                </td>
+              </tr>
+              <!-- Sản phẩm 2 -->
+              <tr>
+                <td>
+                  <div class="d-flex align-items-center gap-3">
+                    <img src="./public/img/srm.jpg" alt="Sữa rửa mặt nghệ Beaumoer Mới- 100g" style="width:56px;height:56px;object-fit:contain;" class="rounded-3 border">
+                    <span class="fw-semibold">Sữa rửa mặt nghệ Beaumoer Mới- 100g</span>
+                  </div>
+                </td>
+                <td class="text-center text-nowrap">250.000₫</td>
+                <td class="text-center">
+                  <input type="number" min="1" value="3" class="form-control text-center rounded-pill" style="width:90px;">
+                </td>
+                <td class="text-center text-nowrap fw-semibold">750.000₫</td>
+                <td class="text-center">
+                  <button class="btn btn-link text-danger p-0" title="Xóa">
+                    <i class="fa fa-trash-alt fa-lg"></i>
+                  </button>
+                </td>
+              </tr>
+              <!-- Sản phẩm 3 -->
+              <tr>
+                <td>
+                  <div class="d-flex align-items-center gap-3">
+                    <img src="./public/img/kem2.jpg" alt="Kem lụa làm đẹp da Beaumoer- 30ml" style="width:56px;height:56px;object-fit:contain;" class="rounded-3 border">
+                    <span class="fw-semibold">Kem lụa làm đẹp da Beaumoer- 30ml</span>
+                  </div>
+                </td>
+                <td class="text-center text-nowrap">1.500.000₫</td>
+                <td class="text-center">
+                  <input type="number" min="1" value="3" class="form-control text-center rounded-pill" style="width:90px;">
+                </td>
+                <td class="text-center text-nowrap fw-semibold">4.500.000₫</td>
+                <td class="text-center">
+                  <button class="btn btn-link text-danger p-0" title="Xóa">
+                    <i class="fa fa-trash-alt fa-lg"></i>
+                  </button>
+                </td>
+              </tr>
+              <!-- Sản phẩm 4 -->
+              <tr>
+                <td>
+                  <div class="d-flex align-items-center gap-3">
+                    <img src="./public/img/kem3.jpg" alt="Kem dưỡng da vùng mắt Beaumoer Contour Eye Cream- 10g" style="width:56px;height:56px;object-fit:contain;" class="rounded-3 border">
+                    <span class="fw-semibold">Kem dưỡng da vùng mắt Beaumoer Contour Eye Cream- 10g</span>
+                  </div>
+                </td>
+                <td class="text-center text-nowrap">300.000₫</td>
+                <td class="text-center">
+                  <input type="number" min="1" value="7" class="form-control text-center rounded-pill" style="width:90px;">
+                </td>
+                <td class="text-center text-nowrap fw-semibold">2.100.000₫</td>
+                <td class="text-center">
+                  <button class="btn btn-link text-danger p-0" title="Xóa">
+                    <i class="fa fa-trash-alt fa-lg"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer justify-content-between border-0 pt-0">
+        <div class="fw-bold fs-5">
+          Tổng tiền <span class="text-danger ms-2 fs-5">8.490.000₫</span>
+        </div>
+        <div>
+          <button type="button" class="btn btn-outline-secondary rounded-pill px-4 me-2" data-bs-dismiss="modal">
+            Tiếp tục mua sắm
+          </button>
+          <button type="button" class="btn btn-danger rounded-pill px-4 fw-bold">
+            Đặt hàng
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

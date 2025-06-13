@@ -38,6 +38,10 @@ app.use(session({
 }));
 
 
+const helpers = require('./util/helpers');
+// rules: những thuộc tính trong app.locals sẽ trở thành tên biến bên view
+// vd: thuộc tính helpers bên trái sẽ trở thành biến helpers trong view
+app.locals.helpers = helpers;
 
 
 
@@ -46,7 +50,9 @@ const adminRouters = require('./routers/adminRouters');
 app.use('/admin', adminRouters);
 
 
-
+// require router client
+const clientRouters = require('./routers/clientRouters');
+app.use('/', clientRouters);
 
 
 
