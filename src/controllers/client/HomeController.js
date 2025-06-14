@@ -17,7 +17,7 @@ class HomeController {
 
         const productByCategory = [];
 
-        const allProduct = await mProduct.getBy(cond, sort , 6, 1);
+        const allProduct = await mProduct.getBy(cond, sort, 6, 1);
 
         for (const brand of listBrand) {
             let products = [];
@@ -43,7 +43,7 @@ class HomeController {
 
         const listLatestProduct = await mProduct.getBy(cond, sort, 4, 1)
         // console.log(productByCategory);
-        // console.log(listProduct)
+        console.log(listLatestProduct.length);
 
 
         return res.render('client/home/index', { listLatestProduct: listLatestProduct, listBrand: listBrand, productByCategory: productByCategory });

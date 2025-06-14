@@ -1056,3 +1056,7 @@ input[type="number"].form-control {
 .hide {
   display: none;
 }
+
+.product-price , .product-old-price {
+  font-size: 18px;
+}

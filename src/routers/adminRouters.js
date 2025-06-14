@@ -24,6 +24,7 @@ const TransportController = require('../controllers/admin/TransportController');
 const RoleController = require('../controllers/admin/RoleController');
 const AuthController = require('../controllers/admin/AuthController');
 const StaffController = require('../controllers/admin/StaffController');
+const PromotionController = require('../controllers/admin/PromotionController');
 // // login
 router.get('/login.html', AuthController.index);
 router.post('/login', AuthController.login);
@@ -154,6 +155,12 @@ router.get('/transport.html', checkPermisson('view_shipping_fee'), TransportCont
 router.get('/transport/edit/:id', checkPermisson('edit_shipping_fee'), TransportController.edit);
 router.post('/transport/update', checkPermisson('edit_shipping_fee'), TransportController.update);
 
+// promotion
+router.get('/promotion.html', PromotionController.index);
+router.get('/promotion/create.html', PromotionController.create);
+router.get('/promotion/choose-product-:id.html', PromotionController.listProductByCategory);
+router.post('/promotion/create', PromotionController.store);
+router.get('/promotion/delete/:id', PromotionController.delete);
 
 // staff
 // router.get('/staff.html', StaffController.index);

@@ -105,6 +105,7 @@ class ProductAllServices {
         if (sortArr.length) {
             sortigation = sortArr.join(' , ')
         }
+        // console.log(sortigation);
 
 
         let pageIndex = null;

@@ -7,7 +7,7 @@ class ProductService {
         let sql = `SELECT * FROM view_product`;
 
         if (cond) {
-            sql += cond;
+            sql += ` WHERE ${cond}`;
         }
 
         try {
@@ -85,6 +85,24 @@ class ProductService {
         } catch (err) {
             console.error(err);
             return null;
+        }
+    }
+
+
+    updateDiscount = async (discount, from_date, to_date, id) => {
+        // console.log('hello');
+        const sql = `UPDATE \`product\` 
+                     SET discount = ?, 
+                         discount_from_date = ?, 
+                         discount_to_date = ? 
+                     WHERE id = ?`;
+        try {
+            const [result, fields] = await pool.execute(sql, [discount, from_date, to_date, id]);
+            console.log(result, ' ', id);
+            return true;
+        } catch (err) {
+            console.log('Lỗi SQL:', err.sqlMessage || err.message);;
+            return false;
         }
     }
 }

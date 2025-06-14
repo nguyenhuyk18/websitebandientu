@@ -218,7 +218,6 @@ class OrderController {
             return;
         }
 
-        // Nếu khách hàng chỉ đặt 1 sản phẩm
         if (typeof data.id != 'string') {
             for (const tmp in data.qty) {
                 const searchProduct = await mProduct.findByID(data.id[tmp]);
@@ -241,6 +240,7 @@ class OrderController {
                     return;
                 }
             }
+            // Nếu khách hàng chỉ đặt 1 sản phẩm
         } else {
             const searchProduct = await mProduct.findByID(data.id);
             // console.log(typeof data.id)

@@ -1,0 +1,84 @@
+<!-- Page Wrapper -->
+<%- include('../layout/header.ejs') %>
+
+<!-- Sidebar -->
+<%- include('../layout/sidebar.ejs') %>
+<div id="content-wrapper" class="d-flex flex-column">
+  <div id="content">
+    <%- include('../layout/navbar.ejs') %>
+    <form action="/admin/promotion/create" method="POST" class="create-discount container">
+      <h3 class="text-center mb-4">Thêm Chương Trình Giảm Giá Theo Danh Mục</h3>
+      <div class="mb-3">
+        <label for="title">Tiêu đề</label>
+        <input type="text" name="title" id="title" class="form-control" placeholder="Nhập tiêu đề" required>
+      </div>
+      <div class="mb-3">
+        <label for="content">Nội dung</label>
+        <textarea name="content" id="content" class="form-control" rows="3" placeholder="Nhập nội dung" required></textarea>
+      </div>
+      <div class="mb-3">
+        <label for="discount">Giảm giá (%)</label>
+        <input type="number" name="discount" id="discount" class="form-control" placeholder="Nhập phần trăm giảm giá" min="1" max="100" required>
+      </div>
+      <div class="mb-3">
+        <label for="from_date">Từ ngày</label>
+        <input type="date" name="from_date" id="from_date" class="form-control" required>
+      </div>
+      <div class="mb-3">
+        <label for="to_date">Đến ngày</label>
+        <input type="date" name="to_date" id="to_date" class="form-control" required>
+      </div>
+      <div class="mb-3">
+        <label for="fg">Chọn Danh Mục</label>
+        <select name="id_category" class="form-control category_change" id="fg">
+          <option value="">-- VUI LÒNG CHỌN DANH MỤC --</option>
+          <% for(category of listCategory ) { %>
+          <option value="<%= category.id %>"><%= category.name_category %></option>
+          <% } %>
+        </select>
+      </div>
+
+      <div class="card shadow mb-4">
+        <!-- <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+        </div> -->
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered tablepromot" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>ID</th>
+                  <th>Tên Sản Phẩm</th>
+                  <th>Hình Ảnh</th>
+                  <th>Gía</th>
+                  <!-- <th></th> -->
+                </tr>
+              </thead>
+              <tfoot>
+                <tr>
+                  <th></th>
+                  <th>ID</th>
+                  <th>Tên Sản Phẩm</th>
+                  <th>Hình Ảnh</th>
+                  <th>Gía</th>
+                  <!-- <th></th> -->
+                </tr>
+              </tfoot>
+              <tbody>
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+
+      <div>
+        <button type="submit" class="btn btn-warning">Lưu</button>
+        <button type="reset" class="btn btn-primary">Nhập Lại</button>
+      </div>
+    </form>
+  </div>
+</div>
+<%- include('../layout/footer.ejs') %>
