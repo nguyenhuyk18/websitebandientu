@@ -52,6 +52,9 @@
         <div class="col-md-6 mb-3">
           <select name="id_category" class="form-control choosecategory">
             <option value="">-- Vui Lòng Chọn Danh Mục --</option>
+            <% for( const category of listCategory  )  { %>
+            <option value="<%= category.id %>"><%= category.name_category %></option>
+            <% } %>
           </select>
         </div>
 

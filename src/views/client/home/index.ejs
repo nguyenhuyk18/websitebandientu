@@ -66,20 +66,25 @@
     <!-- Tất cả -->
     <div class="product-by-brand animate__animated animate__fadeIn show" id="all-product" role="tabpanel" aria-labelledby="all-tab">
       <div class="row g-4">
+        <% for(const product of allProduct) { %>
         <!-- Sản phẩm mẫu, bạn thay đổi hình và thông tin cho phù hợp -->
         <div class="col-12 col-sm-6 col-lg-4">
           <div class="product-card">
-            <img src="/img/laptop-1749451622486-73849052.jpg" alt="Laptop Asus VivoBook" class="product-img">
+            <img src="/upload/product/<%= product.image %>" alt="Laptop Asus VivoBook" class="product-img">
             <div class="product-info">
-              <div class="product-name">Laptop Asus VivoBook</div>
+              <div class="product-name"><%= product.product_name %></div>
               <div>
-                <span class="product-price">15.990.000₫</span>
-                <span class="product-old-price">17.990.000₫</span>
+
+                <span class="product-price"><%= helpers.formatMoney(product.sale_price) %>₫</span>
+                <% if(product.price != product.sale_price) { %>
+                <span class="product-old-price"><%= helpers.formatMoney(product.price) %>₫</span>
+                <% } %>
               </div>
-              <button class="btn-buy mt-3">Thêm Vào Giỏ Hàng</button>
+              <button class="btn-buy mt-3" id_product='<%= product.id %>'>Thêm Vào Giỏ Hàng</button>
             </div>
           </div>
         </div>
+        <% } %>
         <!-- ...Thêm 5 sản phẩm khác -->
       </div>
     </div>

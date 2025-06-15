@@ -18,24 +18,27 @@ class HomeController {
         const productByCategory = [];
 
         const allProduct = await mProduct.getBy(cond, sort, 6, 1);
-
+        let dem = 0;
         for (const brand of listBrand) {
             let products = [];
-            let dem = 0;
+            dem = 0;
+            // console.log(dem);
             for (const product of listProduct) {
-                dem++;
-                if (dem < 6) {
-                    if (product.id_brand == brand.id) {
+                if (product.id_brand == brand.id) {
+                    if (dem < 6) {
                         products.push(product);
                     }
+                    dem++;
                 }
+
             }
+
             productByCategory.push({
                 brand: brand,
                 product: products
             })
         }
-
+        // console.log(productByCategory);
 
         sort.push({
             created_date: 'DESC'
@@ -43,10 +46,10 @@ class HomeController {
 
         const listLatestProduct = await mProduct.getBy(cond, sort, 4, 1)
         // console.log(productByCategory);
-        console.log(listLatestProduct.length);
+        // console.log(listLatestProduct.length);
 
 
-        return res.render('client/home/index', { listLatestProduct: listLatestProduct, listBrand: listBrand, productByCategory: productByCategory });
+        return res.render('client/home/index', { listLatestProduct: listLatestProduct, listBrand: listBrand, productByCategory: productByCategory, allProduct: allProduct });
     }
 }
 

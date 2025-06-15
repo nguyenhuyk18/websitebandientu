@@ -1,9 +1,9 @@
 const keyboard = require('../../services/KeyboardService');
 const brand = require('../../services/BrandService');
 const dayjs = require('dayjs');
-// const category = require('../../services/CategoryService');
+const category = require('../../services/CategoryService');
 
-const brand_category = require('../../services/BrandCategoryService');
+// const brand_category = require('../../services/BrandCategoryService');
 
 const fs = require('fs');
 const path = require('path')
@@ -24,13 +24,15 @@ class KeyboardController {
     // giao diện thêm
     static create = async (req, res) => {
         const mBrand = new brand();
-        // const mCategory = new category();
+        const mCategory = new category();
 
         // Lay danh sach
         const listBrand = await mBrand.getAll();
+        const listCategory = await mCategory.getAll();
+
         // const listCategory = await mCategory.getAll();
 
-        return res.render('admin/keyboard/create', { listBrand: listBrand })
+        return res.render('admin/keyboard/create', { listBrand: listBrand, listCategory: listCategory })
 
     }
 
@@ -132,12 +134,13 @@ class KeyboardController {
 
         // khởi tạo
         const mBrand = new brand();
-        const mBrandCategory = new brand_category();
+        // const mBrandCategory = new brand_category();
         const mKeyboard = new keyboard();
+        const mCategory = new category();
 
         // lấy danh sách
         const listBrand = await mBrand.getAll();
-
+        const listCategory = await mCategory.getAll();
         // lấy dữ liệu củ
         const product = await mKeyboard.find(id);
         if (!product) {
@@ -150,10 +153,10 @@ class KeyboardController {
             })
             return;
         }
-        const cate = await mBrandCategory.categoryBelongTo(product.id_brand);
+        // const cate = await mBrandCategory.categoryBelongTo(product.id_brand);
 
         // render
-        return res.render('admin/keyboard/edit', { listBrand: listBrand, listCategory: cate, product: product });
+        return res.render('admin/keyboard/edit', { listBrand: listBrand, listCategory: listCategory, product: product });
 
     }
 

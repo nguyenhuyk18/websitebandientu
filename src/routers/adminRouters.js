@@ -8,7 +8,7 @@ const DashboardController = require('../controllers/admin/DashboardController');
 const BrandController = require('../controllers/admin/BrandController');
 const CategoryController = require('../controllers/admin/CategoryController');
 const LaptopController = require('../controllers/admin/LaptopController');
-const BrandCategoryController = require('../controllers/admin/BrandCategoryController');
+// const BrandCategoryController = require('../controllers/admin/BrandCategoryController');
 const MouseController = require('../controllers/admin/MouseController');
 const KeyboardController = require('../controllers/admin/KeyboardController');
 const CustomerController = require('../controllers/admin/CustomerController');
@@ -24,7 +24,7 @@ const TransportController = require('../controllers/admin/TransportController');
 const RoleController = require('../controllers/admin/RoleController');
 const AuthController = require('../controllers/admin/AuthController');
 const StaffController = require('../controllers/admin/StaffController');
-const PromotionController = require('../controllers/admin/PromotionController');
+// const PromotionController = require('../controllers/admin/PromotionController');
 // // login
 router.get('/login.html', AuthController.index);
 router.post('/login', AuthController.login);
@@ -49,8 +49,8 @@ router.post('/brand/create', checkPermisson('add_brand'), BrandController.store)
 router.get('/brand/delete/:id', checkPermisson('delete_brand'), BrandController.delete);
 router.get('/brand/edit/:id', checkPermisson('edit_brand'), BrandController.edit);
 router.post('/brand/update', checkPermisson('edit_brand'), BrandController.update);
-router.get('/brand-category.html/:id', checkPermisson('add_category_brand'), BrandController.provideCategory);
-router.post('/brand-category/create', checkPermisson('add_category_brand'), BrandController.saveCategoryOfBrand);
+// router.get('/brand-category.html/:id', checkPermisson('add_category_brand'), BrandController.provideCategory);
+// router.post('/brand-category/create', checkPermisson('add_category_brand'), BrandController.saveCategoryOfBrand);
 
 
 // danh mục
@@ -156,18 +156,18 @@ router.get('/transport/edit/:id', checkPermisson('edit_shipping_fee'), Transport
 router.post('/transport/update', checkPermisson('edit_shipping_fee'), TransportController.update);
 
 // promotion
-router.get('/promotion.html', PromotionController.index);
-router.get('/promotion/create.html', PromotionController.create);
-router.get('/promotion/choose-product-:id.html', PromotionController.listProductByCategory);
-router.post('/promotion/create', PromotionController.store);
-router.get('/promotion/delete/:id', PromotionController.delete);
+// router.get('/promotion.html', PromotionController.index);
+// router.get('/promotion/create.html', PromotionController.create);
+// router.get('/promotion/choose-product-:id.html', PromotionController.listProductByCategory);
+// router.post('/promotion/create', PromotionController.store);
+// router.get('/promotion/delete/:id', PromotionController.delete);
 
 // staff
 // router.get('/staff.html', StaffController.index);
 // router.get('/staff/create.html', StaffController.create);
 
 // BrandCategory
-router.get('/brand-category/:id', BrandCategoryController.getCategory);
+// router.get('/brand-category/:id', BrandCategoryController.getCategory);
 
 
 // district 

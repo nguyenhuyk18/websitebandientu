@@ -55,7 +55,7 @@
           <select name="id_category" class="form-control choosecategory">
             <option value="">-- Vui Lòng Chọn Danh Mục --</option>
             <% for ( const category of listCategory) { %>
-            <option value="<%= category.id_category %>" <%= category.id_category == mouse.id_category ? 'selected' : '' %>><%= category.name_category %></option>
+            <option value="<%= category.id %>" <%= category.id == mouse.id_category ? 'selected' : '' %>><%= category.name_category %></option>
             <% } %>
           </select>
         </div>

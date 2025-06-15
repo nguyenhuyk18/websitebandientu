@@ -1,7 +1,7 @@
 const laptop = require('../../services/LaptopService');
 const brand = require('../../services/BrandService');
 const category = require('../../services/CategoryService');
-const brand_category = require('../../services/BrandCategoryService');
+// const brand_category = require('../../services/BrandCategoryService');
 const dayjs = require('dayjs');
 // const path = require('path')
 // import fs from "fs";
@@ -25,14 +25,14 @@ class LaptopController {
     // giao diện thêm
     static create = async (req, res) => {
         const mBrand = new brand();
-        // const mCategory = new category();
+        const mCategory = new category();
 
         // Lay danh sach
         const listBrand = await mBrand.getAll();
-        // const listCategory = await mCategory.getAll();
+        const listCategory = await mCategory.getAll();
 
         // render
-        return res.render('admin/laptop/create', { listBrand: listBrand })
+        return res.render('admin/laptop/create', { listBrand: listBrand, listCategory: listCategory })
 
     }
 
@@ -137,16 +137,17 @@ class LaptopController {
 
         // khởi tạo
         const mBrand = new brand();
-        // const mCategory = new category();
+        const mCategory = new category();
         const mLaptop = new laptop();
-        const mBrandCategory = new brand_category();
+        // const mBrandCategory = new brand_category();
 
 
 
         // lấy danh sách
 
-        // const listCategory = await mCategory.getAll();
+        const listCategory = await mCategory.getAll();
         const listBrand = await mBrand.getAll();
+
 
         // lấy dữ liệu củ
         const product = await mLaptop.find(id);
@@ -163,10 +164,10 @@ class LaptopController {
         }
 
         // lấy danh sách category thuộc brand mà người dùng chọn
-        const cate = await mBrandCategory.categoryBelongTo(product.id_brand);
+        // const cate = await mBrandCategory.categoryBelongTo(product.id_brand);
 
         // render
-        return res.render('admin/laptop/edit', { listBrand: listBrand, listCategory: cate, product: product });
+        return res.render('admin/laptop/edit', { listBrand: listBrand, product: product, listCategory: listCategory });
 
     }
 

@@ -1,7 +1,7 @@
 const mouse = require('../../services/MouseService');
 const brand = require('../../services/BrandService');
 const category = require('../../services/CategoryService');
-const brand_category = require('../../services/BrandCategoryService');
+// const brand_category = require('../../services/BrandCategoryService');
 const dayjs = require('dayjs');
 const fs = require('fs');
 const path = require('path')
@@ -48,13 +48,13 @@ class MouseController {
     // giao diện thêm
     static create = async (req, res) => {
         const mBrand = new brand();
-        // const mCategory = new category();
+        const mCategory = new category();
 
         // Lay danh sach
         const listBrand = await mBrand.getAll();
-        // const listCategory = await mCategory.getAll();
+        const listCategory = await mCategory.getAll();
 
-        return res.render('admin/mouse/create', { listBrand: listBrand })
+        return res.render('admin/mouse/create', { listBrand: listBrand, listCategory: listCategory })
 
     }
 
@@ -139,14 +139,15 @@ class MouseController {
         // khởi tạo
         const mBrand = new brand();
         const mMouse = new mouse();
-        const mBrandCategory = new brand_category();
+        const mCategory = new category();
 
         // lấy danh sách
         const listBrand = await mBrand.getAll();
+        const listCategory = await mCategory.getAll();
 
         // lấy dữ liệu củ
         const product = await mMouse.find(id);
-        const cate = await mBrandCategory.categoryBelongTo(product.id_brand);
+        // const cate = await mBrandCategory.categoryBelongTo(product.id_brand);
         // console.log(cate);
 
         if (!product) {
@@ -162,7 +163,7 @@ class MouseController {
 
 
         // render
-        return res.render('admin/mouse/edit', { listBrand: listBrand, listCategory: cate, mouse: product });
+        return res.render('admin/mouse/edit', { listBrand: listBrand, listCategory: listCategory, mouse: product });
 
     }
 

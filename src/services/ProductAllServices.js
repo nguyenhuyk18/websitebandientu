@@ -114,11 +114,11 @@ class ProductAllServices {
             pageIndex = page - 1;
         }
 
-        if (pageIndex) {
+        if (pageIndex != null) {
             const start = pageIndex * item_per_page;
             limit = `${start} , ${item_per_page}`;
         }
-
+        // console.log(limit);
 
         return this.all(condition, sortigation, limit);
     }

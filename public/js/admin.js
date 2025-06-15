@@ -1307,17 +1307,7 @@ $('.create-staff').validate({
 
 // -===============================VALIDATE===================================-//
 
-// update box selector brand thương hiệu
-updateSelectBox = (selector, data) => {
-    $(selector).find('option').not(':first').remove();
-    if (!data) return;
-    const tmp = data;
-    for (const tmp1 of tmp) {
-        const option = `<option value='${tmp1.id}'>${tmp1.name_category}</option>`;
-        $(selector).append(option);
-    }
 
-}
 
 
 // update box selector địa chỉ
@@ -1332,25 +1322,7 @@ updateSelectBox2 = (selector, data) => {
 
 }
 
-// Update thẻ select chọn thương hiệu
-$('select.choosebrand').change(function () {
-    const id_brand = $(this).val();
-    console.log(id_brand);
-    if (id_brand) {
-        $.ajax({
-            type: "GET",
-            url: `/admin/brand-category/${id_brand}`,
-            // data: "data",
-            // dataType: "dataType",
-            success: function (data) {
-                // console.log(data);
-                updateSelectBox('select.choosecategory', data);
-            }
-        });
-    } else {
-        updateSelectBox('select.choosecategory', null);
-    }
-});
+
 
 // update thẻ select chọn tỉnh thành
 $('select.choose_province').change(function () {
