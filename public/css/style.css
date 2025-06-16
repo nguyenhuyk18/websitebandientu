@@ -23,17 +23,47 @@ body {
 /* Primary Navbar */
 .primary-navbar {
   background: linear-gradient(90deg, #0d6efd 60%, #0dcaf0 100%);
+  /* overflow-x: auto !important; */
 }
 
 .primary-navbar .nav-link {
+  white-space: nowrap !important;
   color: #fff !important;
   font-weight: 500;
   transition: color 0.2s;
+  font-size: 18px;
 }
 
 .primary-navbar .nav-link.active,
 .primary-navbar .nav-link:hover {
   color: #ffd700 !important;
+}
+
+/* Đẹp dropdown menu Bootstrap */
+.dropdown-menu {
+  border-radius: 1rem;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+  border: none;
+  padding: 0.5rem 0;
+  min-width: 220px;
+  background: #fff;
+  animation: dropdownFadeIn 0.25s;
+}
+@keyframes dropdownFadeIn {
+  from { opacity: 0; transform: translateY(10px);}
+  to { opacity: 1; transform: translateY(0);}
+}
+.dropdown-item {
+  font-weight: 500;
+  color: #222;
+  padding: 0.7rem 1.5rem;
+  border-radius: 0.5rem;
+  transition: background 0.15s, color 0.15s;
+}
+.dropdown-item:hover,
+.dropdown-item:focus {
+  background: #f2f6fa;
+  color: #0d6efd;
 }
 
 /* Hero Slider */
@@ -1059,4 +1089,8 @@ input[type="number"].form-control {
 
 .product-price , .product-old-price {
   font-size: 18px;
+}
+
+.img-thumbnail {
+  cursor: pointer;
 }

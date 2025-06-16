@@ -11,7 +11,7 @@ const app = express();
 // .env
 require('dotenv').config();
 // nơi để import middleware
-const checkLoginAdminSite = require('./middlewares/checkLoginAdminSite');
+// const checkLoginAdminSite = require('./middlewares/checkLoginAdminSite');
 
 
 const port = process.env.PORT || 6969;
@@ -43,6 +43,14 @@ const helpers = require('./util/helpers');
 // vd: thuộc tính helpers bên trái sẽ trở thành biến helpers trong view
 app.locals.helpers = helpers;
 
+// middlewares
+app.use((req, res, next) => {
+    // console.log(req.path)
+    app.locals.currentRoute = helpers.getCurrentRoute(req.path);
+    // console.log(req.path);
+    // console.log(helpers.getCurrentRoute(req.path))
+    next();//phải có hàm này thì req gửi lên mới đc xử lý
+})
 
 
 // require router admin 

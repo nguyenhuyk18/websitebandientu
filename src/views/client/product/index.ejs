@@ -1,0 +1,188 @@
+<%- include('../layout/header.ejs') %>
+
+<section class="container my-5">
+  <div class="row">
+    <!-- SIDEBAR -->
+    <aside class="col-12 col-md-3 mb-4 mb-md-0">
+      <div class="bg-white rounded-4 shadow-sm p-4 mb-4">
+        <h6 class="fw-bold mb-3 text-primary"><i class="fa fa-filter me-2"></i>Bộ lọc sản phẩm</h6>
+        <!-- Thương hiệu -->
+        <div class="mb-3">
+          <div class="fw-semibold mb-2">Thương hiệu</div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="brand" id="brand1">
+            <label class="form-check-label" for="brand1">Apple</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="brand" id="brand2">
+            <label class="form-check-label" for="brand2">Samsung</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="brand" id="brand3">
+            <label class="form-check-label" for="brand3">Xiaomi</label>
+          </div>
+        </div>
+        <!-- Danh mục -->
+        <div class="mb-3">
+          <div class="fw-semibold mb-2">Danh mục</div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="cat" id="cat1">
+            <label class="form-check-label" for="cat1">Điện thoại</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="cat" id="cat2">
+            <label class="form-check-label" for="cat2">Laptop</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="cat" id="cat3">
+            <label class="form-check-label" for="cat3">Phụ kiện</label>
+          </div>
+        </div>
+        <!-- Giá -->
+        <div class="mb-3">
+          <div class="fw-semibold mb-2">Giá</div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="price" id="price1">
+            <label class="form-check-label" for="price1">Dưới 2 triệu</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="price" id="price2">
+            <label class="form-check-label" for="price2">2 - 10 triệu</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="price" id="price3">
+            <label class="form-check-label" for="price3">Trên 10 triệu</label>
+          </div>
+        </div>
+        <button class="btn btn-primary w-100 mt-3">Áp dụng</button>
+      </div>
+    </aside>
+    <!-- DANH SÁCH SẢN PHẨM -->
+    <div class="col-12 col-md-9 ">
+      <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
+        <h5 class="fw-bold mb-0">Danh sách sản phẩm</h5>
+        <!-- Sắp xếp -->
+        <div>
+          <select class="form-select" style="min-width:200px;">
+            <option selected>Sắp xếp theo</option>
+            <option value="price-asc">Giá tăng dần</option>
+            <option value="price-desc">Giá giảm dần</option>
+            <option value="name-asc">Tên A-Z</option>
+            <option value="name-desc">Tên Z-A</option>
+            <option value="date-desc">Mới nhất</option>
+            <option value="date-asc">Cũ nhất</option>
+          </select>
+        </div>
+      </div>
+      <!-- Grid sản phẩm -->
+      <div class="row row-cols-1 row-cols-md-3 g-4 animate__animated  animate__bounceInUp">
+        <!-- Sản phẩm 1 -->
+        <% for(const product of listProduct) { %>
+        <div class="col">
+          <%- include('./product.ejs' , {product : product})  %>
+        </div>
+        <% } %>
+      </div>
+      <!-- PHÂN TRANG ĐẸP -->
+      <%- include('./pagination.ejs' , {sumOfPage : sumOfPage}) %>
+    </div>
+  </div>
+</section>
+
+<%- include('../layout/footer.ejs') %>
+
+<!-- Dell -->
+<!-- <div class="tab-pane fade animate__animated animate__fadeIn" id="dell" role="tabpanel" aria-labelledby="dell-tab">
+      <div class="row g-4">
+        <div class="col-12 col-sm-6 col-lg-4">
+          <div class="product-card">
+            <img src="/img/laptop-1749451622486-73849052.jpg" alt="Laptop Dell Inspiron" class="product-img">
+            <div class="product-info">
+              <div class="product-name">Laptop Dell Inspiron</div>
+              <div>
+                <span class="product-price">18.990.000₫</span>
+                <span class="product-old-price">20.990.000₫</span>
+              </div>
+              <button class="btn-buy mt-3">Thêm Vào Giỏ Hàng</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> -->
+<!-- Logitech -->
+<!-- <div class="tab-pane fade animate__animated animate__fadeIn" id="logitech" role="tabpanel" aria-labelledby="logitech-tab">
+      <div class="row g-4">
+        <div class="col-12 col-sm-6 col-lg-4">
+          <div class="product-card">
+            <img src="/img/mouse-1749489013129-289368947.webp" alt="Chuột Logitech G102" class="product-img">
+            <div class="product-info">
+              <div class="product-name">Chuột Logitech G102</div>
+              <div>
+                <span class="product-price">399.000₫</span>
+                <span class="product-old-price">499.000₫</span>
+              </div>
+              <button class="btn-buy mt-3">Thêm Vào Giỏ Hàng</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> -->
+<!-- Razer -->
+<!-- <div class="tab-pane fade animate__animated animate__fadeIn" id="razer" role="tabpanel" aria-labelledby="razer-tab">
+      <div class="row g-4">
+        <div class="col-12 col-sm-6 col-lg-4">
+          <div class="product-card">
+            <img src="/img/keyboard-1749548744607-510248296.webp" alt="Chuột Razer DeathAdder" class="product-img">
+            <div class="product-info">
+              <div class="product-name">Chuột Razer DeathAdder</div>
+              <div>
+                <span class="product-price">899.000₫</span>
+                <span class="product-old-price">1.099.000₫</span>
+
+              </div>
+              <button class="btn-buy mt-3">Thêm Vào Giỏ Hàng</button>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </div> -->
+<!-- Apple -->
+<!-- <div class="tab-pane fade animate__animated animate__fadeIn" id="apple" role="tabpanel" aria-labelledby="apple-tab">
+      <div class="row g-4">
+        <div class="col-12 col-sm-6 col-lg-4">
+          <div class="product-card">
+            <img src="/img/laptop-1749451622486-73849052.jpg" alt="Bàn phím Apple Magic Keyboard" class="product-img">
+            <div class="product-info">
+              <div class="product-name">Bàn phím Apple Magic Keyboard</div>
+              <div>
+                <span class="product-price">2.999.000₫</span>
+                <span class="product-old-price">3.499.000₫</span>
+              </div>
+              <div class="justify-content-center d-flex">
+                <button class="btn-buy mt-3">Thêm Vào Giỏ Hàng</button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div> -->
+
+
+<!-- <li class="nav-item" role="presentation">
+      <button class="btn btn-outline-primary brand-btn" id="asus-tab" data-bs-toggle="pill" data-bs-target="#asus" type="button" role="tab" aria-controls="asus" aria-selected="false">Asus</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="btn btn-outline-primary brand-btn" id="dell-tab" data-bs-toggle="pill" data-bs-target="#dell" type="button" role="tab" aria-controls="dell" aria-selected="false">Dell</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="btn btn-outline-primary brand-btn" id="logitech-tab" data-bs-toggle="pill" data-bs-target="#logitech" type="button" role="tab" aria-controls="logitech" aria-selected="false">Logitech</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="btn btn-outline-primary brand-btn" id="razer-tab" data-bs-toggle="pill" data-bs-target="#razer" type="button" role="tab" aria-controls="razer" aria-selected="false">Razer</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="btn btn-outline-primary brand-btn" id="apple-tab" data-bs-toggle="pill" data-bs-target="#apple" type="button" role="tab" aria-controls="apple" aria-selected="false">Apple</button>
+    </li> -->

@@ -86,7 +86,27 @@ clickTapPills = (data_open) => {
     })
 }
 
+// Set thumpnail image
+function thumpnailClick(src) {
+    const imagePrimary = document.querySelector('.image-primary');
+    imagePrimary.setAttribute('src', src);
 
+    imagePrimary.classList.remove('animate__animated');
+    imagePrimary.classList.remove('animate__fadeInLeft');
 
+    imagePrimary.classList.add('animate__animated');
+    imagePrimary.classList.add('animate__fadeInLeft');
+}
 
+function updateURL(key, val) {
+    const currentURL = new URL(window.location.href);
+    currentURL.searchParams.set(key, val);
+    return currentURL.toString();
+}
+
+// pagination
+function goToPage(i) {
+    const newURL = updateURL('page', i);
+    window.location.href = newURL;
+}
 

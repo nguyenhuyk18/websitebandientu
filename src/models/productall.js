@@ -1,3 +1,7 @@
+const commentModels = require('../services/CommentService');
+const imageItemModels = require('../services/ImageItemService');
+
+
 class productall {
     id = null;
     product_name = null;
@@ -103,6 +107,21 @@ class productall {
         this.operating_system = operating_system;
         this.release_year = release_year;
 
+    }
+
+    getComments = async () => {
+        const mComment = new commentModels();
+        const listComment = await mComment.findByProductID(this.id);
+        return listComment;
+    }
+
+    getImageItem = async () => {
+        // const 
+        const mImageItem = new imageItemModels();
+
+        const listImageItem = await mImageItem.findImageItemByProductID(this.id);
+
+        return listImageItem;
     }
 }
 

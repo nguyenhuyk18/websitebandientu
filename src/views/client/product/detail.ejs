@@ -1,0 +1,266 @@
+<%- include('../layout/header.ejs') %>
+<section class="container my-5">
+  <div class="row g-4">
+    <!-- Ảnh sản phẩm -->
+    <div class="col-12 col-md-5">
+      <div class="bg-white rounded-4 shadow-sm p-4 text-center">
+        <img src="/upload/product/<%= product.image %>" alt="<%= product.image %>" class="img-fluid mb-3 image-primary" style="max-height:260px;">
+        <div class="position-relative mt-2">
+          <button class="btn btn-light btn-sm position-absolute top-50 start-0 translate-middle-y shadow-sm d-none d-md-inline" style="z-index:2;" onclick="scrollThumbs(-1)">
+            <i class="fa fa-chevron-left"></i>
+          </button>
+          <div id="thumbs-scroll" class="d-flex gap-2 overflow-auto px-5" style="scroll-behavior:smooth;max-width:100%;white-space:nowrap;">
+            <img src="/upload/product/<%= product.image %>" onclick="thumpnailClick('/upload/product/<%= product.image %>')" alt="<%= product.image %>" class="img-thumbnail" style="width:56px;height:56px;object-fit:contain;">
+
+            <% for(const tmp of listImageItem) { %>
+            <img src="/upload/image-item/<%= tmp.name_image %>" id="thump-<%= tmp.id %>" alt="thumb2" class="img-thumbnail" onclick="thumpnailClick('/upload/image-item/<%= tmp.name_image %>')" style="width:56px;height:56px;object-fit:contain;">
+            <% } %>
+            <!-- Thêm bao nhiêu ảnh cũng được -->
+          </div>
+          <button class="btn btn-light btn-sm position-absolute top-50 end-0 translate-middle-y shadow-sm d-none d-md-inline" style="z-index:2;" onclick="scrollThumbs(1)">
+            <i class="fa fa-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- Thông tin sản phẩm -->
+    <div class="col-12 col-md-7">
+      <div class="bg-white rounded-4 shadow-sm p-4 h-100">
+        <h4 class="fw-bold mb-2"><%= product.product_name %></h4>
+        <div class="mb-2"><span class="text-muted">Nhãn hàng:</span> <span class="fw-semibold"><%= product.name_brand %></span></div>
+        <div class="mb-2">
+          <span class="text-muted">Trạng thái:</span>
+          <% if(product.stock_quantity) { %>
+          <span class="badge bg-success">Còn hàng</span>
+          <% } %>
+          <% if(!product.stock_quantity) { %>
+          <span class="badge bg-danger">Hết hàng</span>
+          <% } %>
+        </div>
+        <div class="mb-3">
+          <span class="text-muted">Giá:</span>
+          <span class="fw-bold text-danger fs-5 me-4"><%= helpers.formatMoney(product.sale_price) %>₫</span>
+          <% if(product.price != product.sale_price) { %>
+          <span class="text-secondary text-decoration-line-through fs-5"><%= helpers.formatMoney(product.price) %> ₫</span>
+          <% } %>
+        </div>
+        <div class="d-flex align-items-center gap-2 mb-3">
+          <input type="number" min="1" value="1" class="form-control rounded-pill" style="width:80px;">
+          <button class="btn btn-danger rounded-pill px-4 fw-bold">
+            <i class="fa fa-cart-plus me-2"></i>Thêm vào giỏ hàng
+          </button>
+        </div>
+        <!-- Table chi tiết kỹ thuật -->
+        <div class="table-responsive mt-4">
+          <table class="table table-bordered align-middle mb-0">
+            <thead class="table-light">
+              <tr>
+                <th colspan="2" class="text-center">Chi tiết kỹ thuật</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Thương hiệu</td>
+                <td>REDWIN</td>
+              </tr>
+              <tr>
+                <td>Xuất xứ</td>
+                <td>Úc</td>
+              </tr>
+              <tr>
+                <td>Dung tích</td>
+                <td>30ml</td>
+              </tr>
+              <tr>
+                <td>Loại da</td>
+                <td>Mọi loại da</td>
+              </tr>
+              <tr>
+                <td>Hạn sử dụng</td>
+                <td>36 tháng</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Tab mô tả & đánh giá -->
+  <div class="bg-white rounded-4 shadow-sm p-4 mt-4">
+    <ul class="nav nav-tabs mb-3" id="productTab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="desc-tab" data-bs-toggle="tab" data-bs-target="#desc" type="button" role="tab">Mô tả</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="review-tab" data-bs-toggle="tab" data-bs-target="#review" type="button" role="tab">Đánh giá</button>
+      </li>
+    </ul>
+    <div class="tab-content" id="productTabContent">
+      <div class="tab-pane fade show active" id="desc" role="tabpanel">
+        <%- product.description %>
+      </div>
+      <div class="tab-pane fade" id="review" role="tabpanel">
+        <!-- Danh sách đánh giá -->
+        <div class="border-top pt-4 mb-4">
+          <!-- Form đánh giá -->
+          <div class="review-form">
+            <div class="fw-semibold mb-2">Đánh giá của bạn</div>
+            <div class="mb-2">
+              <!-- Sao đánh giá có thể chọn -->
+              <span class="text-warning fs-5" id="star-rating">
+                <i class="fa fa-star star-select" data-value="1"></i>
+                <i class="fa fa-star star-select" data-value="2"></i>
+                <i class="fa fa-star star-select" data-value="3"></i>
+                <i class="fa fa-star star-select" data-value="4"></i>
+                <i class="fa fa-star star-select" data-value="5"></i>
+              </span>
+            </div>
+            <form>
+              <input type="hidden" name="rating" id="rating-value" value="4">
+              <div class="mb-2">
+                <input type="text" class="form-control" placeholder="Tên *" required>
+              </div>
+              <div class="mb-2">
+                <input type="email" class="form-control" placeholder="Email *" required>
+              </div>
+              <div class="mb-3">
+                <textarea class="form-control" rows="3" placeholder="Nội dung *" required></textarea>
+              </div>
+              <button type="submit" class="btn btn-danger px-4">Gửi</button>
+            </form>
+          </div>
+          <div class="list-comment">
+            <div class="review-item mb-4 pb-3 border-bottom">
+              <hr>
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <div>
+                  <!-- Sao đánh giá -->
+                  <span class="text-warning fs-5">
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star text-secondary"></i>
+                  </span>
+                </div>
+                <div class="text-muted small">2021-07-15 21:14:12</div>
+              </div>
+              <div class="fw-semibold text-secondary mb-1">Loc Nguyen</div>
+              <div>test2</div>
+            </div>
+            <!-- Thêm các đánh giá khác nếu có -->
+          </div>
+        </div>
+        <!-- Đánh giá 1 -->
+
+
+      </div>
+    </div>
+  </div>
+  <!-- Sản phẩm liên quan -->
+  <div class="bg-white rounded-4 shadow-sm p-4 mt-4">
+    <h5 class="fw-bold mb-3 text-center">Sản phẩm liên quan</h5>
+    <div class="position-relative">
+      <button class="btn btn-light btn-sm position-absolute top-50 start-0 translate-middle-y shadow-sm d-none d-md-inline" style="z-index:2;" onclick="scrollRelated(-1)">
+        <i class="fa fa-chevron-left"></i>
+      </button>
+      <div id="related-scroll" class="d-flex gap-3 overflow-auto px-5" style="scroll-behavior:smooth;max-width:100%;white-space:nowrap;">
+        <div class="related-product-slider text-center flex-shrink-0">
+          <img src="/public/img/laptop-1749451622486-73849052.jpg" class="img-fluid mb-2" style="height:80px;object-fit:contain;">
+          <div class="related-title mb-1">Kem làm sáng vùng da bikini Beaumoer- 50ml</div>
+          <div class="fw-bold text-danger related-price">849.000₫</div>
+        </div>
+        <div class="related-product-slider text-center flex-shrink-0">
+          <img src="/public/img/keyboard-1749548744607-510248296.webp" class="img-fluid mb-2" style="height:80px;object-fit:contain;">
+          <div class="related-title mb-1">Kem làm đẹp tức thì Instant Beaumoer</div>
+          <div class="fw-bold text-danger related-price">762.000₫</div>
+        </div>
+        <div class="related-product-slider text-center flex-shrink-0">
+          <img src="/public/img/mouse-1749489013129-289368947.webp" class="img-fluid mb-2" style="height:80px;object-fit:contain;">
+          <div class="related-title mb-1">Sữa tắm Sandras Shower Gel</div>
+          <div class="fw-bold text-danger related-price">180.000₫</div>
+        </div>
+        <div class="related-product-slider text-center flex-shrink-0">
+          <img src="/public/img/keyboard-1749548744607-510248296.webp" class="img-fluid mb-2" style="height:80px;object-fit:contain;">
+          <div class="related-title mb-1">Sữa dưỡng thể Sandras chai 88ml</div>
+          <div class="fw-bold text-danger related-price">180.000₫</div>
+        </div>
+        <div class="related-product-slider text-center flex-shrink-0">
+          <img src="/public/img/laptop-1749451622486-73849052.jpg" class="img-fluid mb-2" style="height:80px;object-fit:contain;">
+          <div class="related-title mb-1">Kem Dưỡng Trắng Da Ngày và Đêm</div>
+          <div class="fw-bold text-danger related-price">265.000₫</div>
+        </div>
+        <div class="related-product-slider text-center flex-shrink-0">
+          <img src="/public/img/laptop-1749451622486-73849052.jpg" class="img-fluid mb-2" style="height:80px;object-fit:contain;">
+          <div class="related-title mb-1">Kem Dưỡng Trắng Da Ngày và Đêm</div>
+          <div class="fw-bold text-danger related-price">265.000₫</div>
+        </div>
+        <div class="related-product-slider text-center flex-shrink-0">
+          <img src="/public/img/laptop-1749451622486-73849052.jpg" class="img-fluid mb-2" style="height:80px;object-fit:contain;">
+          <div class="related-title mb-1">Kem Dưỡng Trắng Da Ngày và Đêm</div>
+          <div class="fw-bold text-danger related-price">265.000₫</div>
+        </div>
+        <div class="related-product-slider text-center flex-shrink-0">
+          <img src="/public/img/laptop-1749451622486-73849052.jpg" class="img-fluid mb-2" style="height:80px;object-fit:contain;">
+          <div class="related-title mb-1">Kem Dưỡng Trắng Da Ngày và Đêm</div>
+          <div class="fw-bold text-danger related-price">265.000₫</div>
+        </div>
+        <div class="related-product-slider text-center flex-shrink-0">
+          <img src="/public/img/laptop-1749451622486-73849052.jpg" class="img-fluid mb-2" style="height:80px;object-fit:contain;">
+          <div class="related-title mb-1">Kem Dưỡng Trắng Da Ngày và Đêm</div>
+          <div class="fw-bold text-danger related-price">265.000₫</div>
+        </div>
+        <div class="related-product-slider text-center flex-shrink-0">
+          <img src="/public/img/laptop-1749451622486-73849052.jpg" class="img-fluid mb-2" style="height:80px;object-fit:contain;">
+          <div class="related-title mb-1">Kem Dưỡng Trắng Da Ngày và Đêm</div>
+          <div class="fw-bold text-danger related-price">265.000₫</div>
+        </div>
+        <div class="related-product-slider text-center flex-shrink-0">
+          <img src="/public/img/laptop-1749451622486-73849052.jpg" class="img-fluid mb-2" style="height:80px;object-fit:contain;">
+          <div class="related-title mb-1">Kem Dưỡng Trắng Da Ngày và Đêm</div>
+          <div class="fw-bold text-danger related-price">265.000₫</div>
+        </div>
+        <div class="related-product-slider text-center flex-shrink-0">
+          <img src="/public/img/laptop-1749451622486-73849052.jpg" class="img-fluid mb-2" style="height:80px;object-fit:contain;">
+          <div class="related-title mb-1">Kem Dưỡng Trắng Da Ngày và Đêm</div>
+          <div class="fw-bold text-danger related-price">265.000₫</div>
+        </div>
+        <div class="related-product-slider text-center flex-shrink-0">
+          <img src="/public/img/laptop-1749451622486-73849052.jpg" class="img-fluid mb-2" style="height:80px;object-fit:contain;">
+          <div class="related-title mb-1">Kem Dưỡng Trắng Da Ngày và Đêm</div>
+          <div class="fw-bold text-danger related-price">265.000₫</div>
+        </div>
+        <div class="related-product-slider text-center flex-shrink-0">
+          <img src="/public/img/laptop-1749451622486-73849052.jpg" class="img-fluid mb-2" style="height:80px;object-fit:contain;">
+          <div class="related-title mb-1">Kem Dưỡng Trắng Da Ngày và Đêm</div>
+          <div class="fw-bold text-danger related-price">265.000₫</div>
+        </div>
+        <div class="related-product-slider text-center flex-shrink-0">
+          <img src="/public/img/laptop-1749451622486-73849052.jpg" class="img-fluid mb-2" style="height:80px;object-fit:contain;">
+          <div class="related-title mb-1">Kem Dưỡng Trắng Da Ngày và Đêm</div>
+          <div class="fw-bold text-danger related-price">265.000₫</div>
+        </div>
+        <div class="related-product-slider text-center flex-shrink-0">
+          <img src="/public/img/laptop-1749451622486-73849052.jpg" class="img-fluid mb-2" style="height:80px;object-fit:contain;">
+          <div class="related-title mb-1">Kem Dưỡng Trắng Da Ngày và Đêm</div>
+          <div class="fw-bold text-danger related-price">265.000₫</div>
+        </div>
+        <div class="related-product-slider text-center flex-shrink-0">
+          <img src="/public/img/laptop-1749451622486-73849052.jpg" class="img-fluid mb-2" style="height:80px;object-fit:contain;">
+          <div class="related-title mb-1">Kem Dưỡng Trắng Da Ngày và Đêm</div>
+          <div class="fw-bold text-danger related-price">265.000₫</div>
+        </div>
+        <div class="related-product-slider text-center flex-shrink-0">
+          <img src="/public/img/laptop-1749451622486-73849052.jpg" class="img-fluid mb-2" style="height:80px;object-fit:contain;">
+          <div class="related-title mb-1">Kem Dưỡng Trắng Da Ngày và Đêm</div>
+          <div class="fw-bold text-danger related-price">265.000₫</div>
+        </div>
+        <!-- Thêm bao nhiêu sản phẩm cũng được -->
+      </div>
+      <button class="btn btn-light btn-sm position-absolute top-50 end-0 translate-middle-y shadow-sm d-none d-md-inline" style="z-index:2;" onclick="scrollRelated(1)">
+        <i class="fa fa-chevron-right"></i>
+      </button>
+    </div>
+  </div>
+</section>
+<%- include('../layout/footer.ejs') %>

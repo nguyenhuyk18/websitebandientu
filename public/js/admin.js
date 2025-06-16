@@ -1510,46 +1510,48 @@ function formatVND(amount) {
 
 
 
-$('.category_change').change(function () {
-    const id = $(this).val();
-    if (id) {
-        $.ajax({
-            type: "GET",
-            url: `/admin/promotion/choose-product-${id}.html`,
-            success: function (response) {
-                // console.log(response);
-                if (response != false) {
-                    updateTablePromotionProduct(response);
-                }
-                else {
-                    $('table.tablepromot tbody tr').remove();
-                    $('table.tablepromot tbody').append(`<tr class="odd"><td valign="top" colspan="6" class="dataTables_empty">Không có dữ liệu</td></tr>`);
-                }
-            }
-        });
-    }
-    else {
-        $('table.tablepromot tbody tr').remove();
-        $('table.tablepromot tbody').append(`<tr class="odd"><td valign="top" colspan="6" class="dataTables_empty">Không có dữ liệu</td></tr>`);
-    }
+// $('.category_change').change(function () {
+//     const id = $(this).val();
+//     if (id) {
+//         $.ajax({
+//             type: "GET",
+//             url: `/admin/promotion/choose-product-${id}.html`,
+//             success: function (response) {
+//                 // console.log(response);
+//                 if (response != false) {
+//                     updateTablePromotionProduct(response);
+//                 }
+//                 else {
+//                     $('table.tablepromot tbody tr').remove();
+//                     $('table.tablepromot tbody').append(`<tr class="odd"><td valign="top" colspan="6" class="dataTables_empty">Không có dữ liệu</td></tr>`);
+//                 }
+//             }
+//         });
+//     }
+//     else {
+//         $('table.tablepromot tbody tr').remove();
+//         $('table.tablepromot tbody').append(`<tr class="odd"><td valign="top" colspan="6" class="dataTables_empty">Không có dữ liệu</td></tr>`);
+//     }
 
-})
+// })
 
-function updateTablePromotionProduct(response) {
-    $('table.tablepromot tbody tr').remove();
-    for (product of response) {
-        const row = `
-                <tr>
-                  <td><input type="checkbox" value="${product.id}" name="id_product"></td>
-                  <td>${product.id}</td>
-                  <td>${product.product_name}</td>
-                  <td><img class="w-100" src="/upload/product/${product.image}" alt=""></td>
-                  <td>${product.price}</td>
-                </tr>
-            `;
-        $('table.tablepromot tbody').append(row);
-    }
-}
+// function updateTablePromotionProduct(response) {
+//     $('table.tablepromot tbody tr').remove();
+//     for (product of response) {
+//         const row = `
+//                 <tr>
+//                   <td><input type="checkbox" value="${product.id}" name="id_product"></td>
+//                   <td>${product.id}</td>
+//                   <td>${product.product_name}</td>
+//                   <td><img class="w-100" src="/upload/product/${product.image}" alt=""></td>
+//                   <td>${product.price}</td>
+//                 </tr>
+//             `;
+//         $('table.tablepromot tbody').append(row);
+//     }
+// }
+
+
 
 // function deleterowtablepromot(id_product) {
 //     const allproduct = document.querySelectorAll('table.tablepromot tbody tr td:first-child input');

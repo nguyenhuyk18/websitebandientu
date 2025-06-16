@@ -1,0 +1,19 @@
+      <nav class="mt-5 d-flex justify-content-center">
+        <ul class="pagination pagination-modern mb-0">
+          <li class="page-item <%= currentPage > 1 ? '' : 'disabled' %>">
+            <a class="page-link" onclick="goToPage('<%= Number(currentPage) - 1 %>')" href="javascript:void(0)" tabindex="-1" aria-disabled="true">
+              <i class="fa fa-angle-left"></i>
+            </a>
+          </li>
+          <% for(let i = 1 ; i <= sumOfPage ; i++) { %>
+          <li class="page-item <%= currentPage == i ? 'active' : '' %>">
+            <a class="page-link " onclick="goToPage('<%= i %>')" href="javascript:void(0)"><%= i %></a>
+          </li>
+          <% } %>
+          <li class="page-item  <%= currentPage < sumOfPage ? '' : 'disabled' %>">
+            <a class="page-link" onclick="goToPage('<%= Number(currentPage) + 1 %>')" href="javascript:void(0)">
+              <i class="fa fa-angle-right"></i>
+            </a>
+          </li>
+        </ul>
+      </nav>

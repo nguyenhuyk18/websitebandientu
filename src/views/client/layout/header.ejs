@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Shop Home</title>
+  <link rel="shortcut icon" href="/img/Screenshot 2025-06-16 165926.ico" type="image/x-icon">
   <link rel="stylesheet" href="/vendor/bootstrap-5.2.3-dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="/css/animate.min.css">
   <link rel="stylesheet" href="/css/style.css">
@@ -69,20 +70,29 @@
     </div>
   </div>
 
-  <!-- Primary Navbar -->
-  <nav class="primary-navbar navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
+  <nav class="primary-navbar navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container">
       <!-- <a class="navbar-brand d-lg-none" href="#">Menu</a> -->
       <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMenu" aria-controls="offcanvasMenu">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse d-none d-lg-block">
+      <div class="collapse navbar-collapse d-none d-xl-block">
         <ul class="navbar-nav ms-auto mx-auto mb-2 mb-lg-0">
-          <li class="nav-item"><a class="nav-link active" href="#">Trang chủ</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">Danh mục</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">Chính sách đổi trả</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">Chính sách mua hàng</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">Chính sách vận chuyển</a></li>
+          <li class="nav-item"><a class="nav-link <%= currentRoute == 'home' ? 'active' : ''  %>" href="/">Trang Chủ</a></li>
+          <li class="nav-item"><a class="nav-link <%= currentRoute == 'product' ? 'active' : ''  %>" href="/san-pham.html">Tất Cả Sản Phẩm</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Sản Phẩm Chuột</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Sản Phẩm Bàn Phím</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Sản Phẩm Laptop</a></li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Các Chính Sách</a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">Chính sách đổi trả</a></li>
+              <li><a class="dropdown-item" href="#">Chính sách bảo hành</a></li>
+              <li><a class="dropdown-item" href="#">Chính sách vận chuyển</a></li>
+              <li><a class="dropdown-item" href="#">Chính sách thanh toán</a></li>
+              <li><a class="dropdown-item" href="#">Chính sách bảo mật</a></li>
+            </ul>
+          </li>
         </ul>
       </div>
     </div>
@@ -107,22 +117,27 @@
         </li>
         <li class="nav-item">
           <a class="nav-link d-flex align-items-center px-4 py-3" href="#">
-            <i class="fa fa-th-large me-2 text-success"></i> Danh mục
+            <i class="fa fa-th-large me-2 text-success"></i> Tất Cả Sản Phẩm
           </a>
         </li>
         <li class="nav-item">
           <a class="nav-link d-flex align-items-center px-4 py-3" href="#">
-            <i class="fa fa-undo-alt me-2 text-warning"></i> Chính sách đổi trả
+            <i class="fa fa-mouse-pointer me-2 text-warning"></i> Sản Phẩm Chuột
           </a>
         </li>
         <li class="nav-item">
           <a class="nav-link d-flex align-items-center px-4 py-3" href="#">
-            <i class="fa fa-file-alt me-2 text-info"></i> Chính sách mua hàng
+            <i class="fa fa-keyboard me-2 text-info"></i> Sản Phẩm Bàn Phím
           </a>
         </li>
         <li class="nav-item">
           <a class="nav-link d-flex align-items-center px-4 py-3" href="#">
-            <i class="fa fa-truck me-2 text-danger"></i> Chính sách vận chuyển
+            <i class="fa fa-laptop me-2 text-danger"></i> Sản Phẩm Laptop
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link d-flex align-items-center px-4 py-3" href="#">
+            <i class="fa fa-file-alt me-2 text-secondary"></i> Các Chính Sách
           </a>
         </li>
       </ul>
