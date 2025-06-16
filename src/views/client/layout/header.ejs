@@ -93,6 +93,7 @@
               <li><a class="dropdown-item" href="#">Chính sách bảo mật</a></li>
             </ul>
           </li>
+          <li class="nav-item"><a class="nav-link" href="/lien-he.html">Liên Hệ</a></li>
         </ul>
       </div>
     </div>
@@ -110,13 +111,13 @@
     </div>
     <div class="offcanvas-body px-0">
       <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link active d-flex align-items-center px-4 py-3" href="#">
+        <li class="nav-item ">
+          <a class="nav-link  d-flex align-items-center px-4 py-3 <%= currentRoute == 'home' ? 'active' : ''  %>" href="/">
             <i class="fa fa-home me-2 text-primary"></i> Trang chủ
           </a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link d-flex align-items-center px-4 py-3" href="#">
+        <li class="nav-item ">
+          <a class="nav-link d-flex align-items-center px-4 py-3 <%= currentRoute == 'product' ? 'active' : ''  %>" href="/san-pham.html">
             <i class="fa fa-th-large me-2 text-success"></i> Tất Cả Sản Phẩm
           </a>
         </li>

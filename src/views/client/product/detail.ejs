@@ -59,26 +59,12 @@
               </tr>
             </thead>
             <tbody>
+              <% for(const info of informationTech) { %>
               <tr>
-                <td>Thương hiệu</td>
-                <td>REDWIN</td>
+                <th style="width: 40%; font-size: 17px;"><%= Object.keys(info) %></th>
+                <td style="font-size: 15px;"><%= Object.values(info)[0] %></td>
               </tr>
-              <tr>
-                <td>Xuất xứ</td>
-                <td>Úc</td>
-              </tr>
-              <tr>
-                <td>Dung tích</td>
-                <td>30ml</td>
-              </tr>
-              <tr>
-                <td>Loại da</td>
-                <td>Mọi loại da</td>
-              </tr>
-              <tr>
-                <td>Hạn sử dụng</td>
-                <td>36 tháng</td>
-              </tr>
+              <% } %>
             </tbody>
           </table>
         </div>
@@ -115,38 +101,26 @@
                 <i class="fa fa-star star-select" data-value="5"></i>
               </span>
             </div>
-            <form>
-              <input type="hidden" name="rating" id="rating-value" value="4">
+            <form class="create-comment" action="" method="POST" role="form">
+              <input type="hidden" name="product_id" value="<%= product.id %>">
+              <input type="hidden" name="star" id="rating-value" value="4">
               <div class="mb-2">
-                <input type="text" class="form-control" placeholder="Tên *" required>
+                <input type="text" name="fullname" class="form-control" placeholder="Tên *" required>
               </div>
               <div class="mb-2">
-                <input type="email" class="form-control" placeholder="Email *" required>
+                <input type="email" name="email" class="form-control" placeholder="Email *" required>
               </div>
               <div class="mb-3">
-                <textarea class="form-control" rows="3" placeholder="Nội dung *" required></textarea>
+                <textarea class="form-control" name="description" rows="3" placeholder="Nội dung *" required></textarea>
+              </div>
+              <div class="message alert alert-success" role="alert">
               </div>
               <button type="submit" class="btn btn-danger px-4">Gửi</button>
             </form>
           </div>
           <div class="list-comment">
             <div class="review-item mb-4 pb-3 border-bottom">
-              <hr>
-              <div class="d-flex justify-content-between align-items-center mb-2">
-                <div>
-                  <!-- Sao đánh giá -->
-                  <span class="text-warning fs-5">
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star text-secondary"></i>
-                  </span>
-                </div>
-                <div class="text-muted small">2021-07-15 21:14:12</div>
-              </div>
-              <div class="fw-semibold text-secondary mb-1">Loc Nguyen</div>
-              <div>test2</div>
+              <%- include('./comment.ejs' , {listComment : listComment}) %>
             </div>
             <!-- Thêm các đánh giá khác nếu có -->
           </div>

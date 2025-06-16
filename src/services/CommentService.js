@@ -4,17 +4,18 @@ const comment = require("../models/comment");
 class CommentService {
     getAll = async (cond = null) => {
         let sql = `SELECT
-                    \`comment\`.id,
-                    \`comment\`.email,
-                    \`comment\`.fullname,
-                    \`comment\`.product_id,
-                    \`comment\`.star,
-                    \`comment\`.created_date,
-                    \`comment\`.description,
-                    product.product_name
-                    FROM
-                    \`comment\`
-                    INNER JOIN product ON \`comment\`.product_id = product.id
+    \`comment\`.id,
+    \`comment\`.email,
+    \`comment\`.fullname,
+    \`comment\`.product_id,
+    \`comment\`.star,
+    \`comment\`.created_date,
+    \`comment\`.description,
+    product.product_name
+FROM
+    \`comment\`
+INNER JOIN product ON \`comment\`.product_id = product.id
+
                     `;
         if (cond) {
             sql += ` WHERE ${cond}`;
@@ -78,10 +79,10 @@ class CommentService {
 
 
     findByProductID = async (product_id) => {
-        const cond = ` product_id = ${product_id}`;
+        const cond = ` product_id = ${product_id} ORDER BY \`comment\`.created_date DESC`;
         const tmp = await this.getAll(cond);
         if (tmp.length == 0) {
-            return false;
+            return [];
         }
         return tmp;
     }

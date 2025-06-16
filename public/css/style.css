@@ -1067,6 +1067,17 @@ input[type="number"].form-control {
   background: #f8d7da;
   border-radius: 50%;
 }
+
+
+@media (max-width: 763px) {
+  footer .policy, footer .contact {
+    text-align: center;
+  }
+
+
+}
+
+
 @media (max-width: 991.98px) {
   .modal-dialog.modal-xl {
     max-width: 98vw;
@@ -1093,4 +1104,23 @@ input[type="number"].form-control {
 
 .img-thumbnail {
   cursor: pointer;
+}
+
+label.error {
+  color: red;
+}
+
+/* contact */
+.btn-gradient-primary {
+  background: linear-gradient(90deg, #0d6efd 0%, #00c6ff 100%);
+  color: #fff;
+  border: none;
+}
+.btn-gradient-primary:hover, .btn-gradient-primary:focus {
+  background: linear-gradient(90deg, #00c6ff 0%, #0d6efd 100%);
+  color: #fff;
+}
+.form-control:focus, textarea:focus {
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 0.15rem rgba(13,110,253,.08);
 }

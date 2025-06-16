@@ -1,0 +1,21 @@
+              <% for(const comment of listComment ) { %>
+              <hr>
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <div>
+                  <!-- Sao đánh giá -->
+                  <span class="text-warning fs-5">
+                    <% for(let i = 1 ; i <= 5 ; i++) { %>
+                    <% if(i <= comment.star) { %>
+                    <i class="fa fa-star"></i>
+                    <% } %>
+                    <% if(i > comment.star) { %>
+                    <i class="fa fa-star text-secondary"></i>
+                    <% } %>
+                    <% } %>
+                  </span>
+                </div>
+                <div class="text-muted small"><%= comment.created_date %></div>
+              </div>
+              <div class="fw-semibold text-secondary mb-1"><%= comment.fullname %></div>
+              <div><%= comment.description %></div>
+              <% } %>
