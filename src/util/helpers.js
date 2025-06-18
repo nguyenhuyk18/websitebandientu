@@ -22,17 +22,22 @@ exports.getCurrentRoute = (requestPath) => {
 
     // console.log(path);
 
-    if (path === 'san-pham.html' || path.match(/^san-pham/)) {
+    if (path === 'san-pham.html' || path.match(/^san-pham/) || path.match(/^thuong-hieu/)) {
         return 'product';
     }
 
-    if (path)
+    if (path === 'lien-he.html') {
+        return 'contact'
+    }
 
 
 
-        if (path.match(/^san-pham/)) {
-            return 'productDetail';
-        }
+
+
+
+    if (path.match(/^san-pham/)) {
+        return 'productDetail';
+    }
 }
 
 

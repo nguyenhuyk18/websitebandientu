@@ -10,21 +10,25 @@
         <div class="mb-3">
           <div class="fw-semibold mb-2">Thương hiệu</div>
           <div class="form-check">
-            <input class="form-check-input" type="radio" name="brand" id="brand1">
-            <label class="form-check-label" for="brand1">Apple</label>
+            <label class="form-check-label " for="brand1">
+              <a href="/san-pham.html" class="filter-brand <%= typeof brand_id == 'undefined' || brand_id == '' ? 'active' : '' %>">Tất Cả Thương Hiệu</a>
+            </label>
           </div>
+          <% for(const brand of listBrand) { %>
           <div class="form-check">
-            <input class="form-check-input" type="radio" name="brand" id="brand2">
-            <label class="form-check-label" for="brand2">Samsung</label>
+            <label class="form-check-label" for="brand-<%= brand.id %>">
+              <a href="/thuong-hieu/<%= helpers.getSlugName(brand.name_brand) %>-<%= brand.id %>.html" class="filter-brand <%= brand.id == brand_id ? 'active' : '' %>"><%= brand.name_brand %></a>
+            </label>
           </div>
-          <div class="form-check">
-            <input class="form-check-input" type="radio" name="brand" id="brand3">
-            <label class="form-check-label" for="brand3">Xiaomi</label>
-          </div>
+          <% } %>
         </div>
         <!-- Danh mục -->
-        <div class="mb-3">
+        <!-- <div class="mb-3">
           <div class="fw-semibold mb-2">Danh mục</div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="brand" id="brand1">
+            <label class="form-check-label" for="brand1">Tất Cả Danh Mục</label>
+          </div>
           <div class="form-check">
             <input class="form-check-input" type="radio" name="cat" id="cat1">
             <label class="form-check-label" for="cat1">Điện thoại</label>
@@ -37,24 +41,55 @@
             <input class="form-check-input" type="radio" name="cat" id="cat3">
             <label class="form-check-label" for="cat3">Phụ kiện</label>
           </div>
-        </div>
+        </div> -->
         <!-- Giá -->
-        <div class="mb-3">
-          <div class="fw-semibold mb-2">Giá</div>
-          <div class="form-check">
-            <input class="form-check-input" type="radio" name="price" id="price1">
-            <label class="form-check-label" for="price1">Dưới 2 triệu</label>
+        <div class="mb-3 price">
+          <div class="fw-semibold mb-2">Khoảng Gía</div>
+          <div class="form-check limit-price">
+
+            <label class="form-check-label d-flex align-items-center">
+              <input class="form-check-input price-range" type="radio" name="price-range" value="" id="price1">
+              <span class="ms-3">Tất cả giá</span>
+            </label>
           </div>
-          <div class="form-check">
-            <input class="form-check-input" type="radio" name="price" id="price2">
-            <label class="form-check-label" for="price2">2 - 10 triệu</label>
+          <div class="form-check limit-price">
+
+            <label class="form-check-label d-flex align-items-center">
+              <input class="form-check-input price-range" <%= price_range === '0-2000000' ? 'checked' : '' %> type="radio" name="price-range" value="0-2000000" id="price1">
+              <span class="ms-3">Dưới 2.000.000</span>
+            </label>
           </div>
-          <div class="form-check">
-            <input class="form-check-input" type="radio" name="price" id="price3">
-            <label class="form-check-label" for="price3">Trên 10 triệu</label>
+          <div class="form-check limit-price">
+
+            <label class="form-check-label d-flex align-items-center">
+              <input class="form-check-input price-range" <%= price_range === '2000000-5000000' ? 'checked' : '' %> type="radio" name="price-range" value="2000000-5000000" id="price1">
+              <span class="ms-3">2.000.000 – 5.000.000 Triệu</span>
+            </label>
+          </div>
+          <div class="form-check limit-price">
+
+            <label class="form-check-label d-flex align-items-center" for="price2">
+              <input class="form-check-input price-range" <%= price_range === '5000000-10000000' ? 'checked' : '' %> type="radio" name="price-range" value="5000000-10000000" id="price2"> <span class="ms-3">5.000.000 – 10.000.000 Triệu</span>
+            </label>
+          </div>
+          <div class="form-check limit-price">
+
+            <label class="form-check-label d-flex align-items-center" for="price3">
+              <input class="form-check-input price-range" <%= price_range === '10000000-20000000' ? 'checked' : '' %> type="radio" name="price-range" value="10000000-20000000" id="price3"> <span class="ms-3">10.000.000 – 20.000.000 Triệu</span>
+            </label>
+          </div>
+          <div class="form-check limit-price">
+            <label class="form-check-label d-flex align-items-center" for="price4">
+              <input class="form-check-input price-range" <%= price_range === '20000000-50000000' ? 'checked' : '' %> type="radio" name="price-range" value="20000000-50000000" id="price4"> <span class="ms-3">20.000.000 – 50.000.000 Triệu</span>
+            </label>
+          </div>
+          <div class="form-check limit-price">
+            <label class="form-check-label d-flex align-items-center" for="price5">
+              <input class="form-check-input price-range" <%= price_range === '50000000-greater' ? 'checked' : '' %> type="radio" name="price-range" value="50000000-greater" id="price5"> <span class="ms-3">Trên 50.000.000 Triệu</span>
+            </label>
           </div>
         </div>
-        <button class="btn btn-primary w-100 mt-3">Áp dụng</button>
+        <!-- <button class="btn btn-primary w-100 mt-3">Áp dụng</button> -->
       </div>
     </aside>
     <!-- DANH SÁCH SẢN PHẨM -->
@@ -63,14 +98,14 @@
         <h5 class="fw-bold mb-0">Danh sách sản phẩm</h5>
         <!-- Sắp xếp -->
         <div>
-          <select class="form-select" style="min-width:200px;">
-            <option selected>Sắp xếp theo</option>
-            <option value="price-asc">Giá tăng dần</option>
-            <option value="price-desc">Giá giảm dần</option>
-            <option value="name-asc">Tên A-Z</option>
-            <option value="name-desc">Tên Z-A</option>
-            <option value="date-desc">Mới nhất</option>
-            <option value="date-asc">Cũ nhất</option>
+          <select class="form-select sortigation" style="min-width:200px;">
+            <option value="" <%= typeof sortigation == 'undefined' || sortigation == '' ? 'selected' : ''  %>>Sắp xếp theo</option>
+            <option value="price-asc" <%= sortigation === 'price-asc' ? 'selected' : '' %>>Giá tăng dần</option>
+            <option value="price-desc" <%= sortigation === 'price-desc' ? 'selected' : '' %>>Giá giảm dần</option>
+            <option value="name-asc" <%= sortigation === 'name-asc' ? 'selected' : '' %>>Tên A-Z</option>
+            <option value="name-desc" <%= sortigation === 'name-desc' ? 'selected' : '' %>>Tên Z-A</option>
+            <option value="date-desc" <%= sortigation === 'date-desc' ? 'selected' : '' %>>Mới nhất</option>
+            <option value="date-asc" <%= sortigation === 'date-asc' ? 'selected' : '' %>>Cũ nhất</option>
           </select>
         </div>
       </div>

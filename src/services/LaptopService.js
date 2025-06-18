@@ -104,7 +104,7 @@ class LaptopService {
     }
 
     destroy = async (id) => {
-        console.log(id)
+        // console.log(id)
         try {
             const [result] = await pool.execute('UPDATE `product` SET `is_delete` = 0 WHERE id = ?', [id]);
             // const [result1] = await pool.execute('DELETE FROM `laptop` WHERE id = ?', [id]);

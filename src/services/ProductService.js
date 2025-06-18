@@ -98,7 +98,7 @@ class ProductService {
                      WHERE id = ?`;
         try {
             const [result, fields] = await pool.execute(sql, [discount, from_date, to_date, id]);
-            console.log(result, ' ', id);
+            // console.log(result, ' ', id);
             return true;
         } catch (err) {
             console.log('Lỗi SQL:', err.sqlMessage || err.message);;

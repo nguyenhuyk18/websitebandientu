@@ -1,0 +1,15 @@
+      <div class="product-card product-new shadow animate__animated animate__fadeInUp">
+        <div class="badge-new">Mới</div>
+        <img src="/upload/product/<%= product.image %>" alt="Laptop Asus Zenbook" class="product-img">
+        <div class="product-info">
+          <div class="product-name"><a href="/san-pham/<%= helpers.getSlugName(product.product_name) %>-<%= product.id %>.html" style="text-decoration: none; color: #000"><%= product.product_name %></a></div>
+          <div>
+
+            <span class="product-price"><%= helpers.formatMoney(product.sale_price)  %>₫</span>
+            <% if(product.price != product.sale_price) { %>
+            <span class="product-old-price"><%=helpers.formatMoney(product.price) %>₫</span>
+            <% } %>
+          </div>
+          <button class="btn-buy mt-3 addcartindisplay" id_product='<%= product.id %>' onclick="addcartindisplay('<%= product.id %>' )">Thêm Vào Giỏ Hàng</button>
+        </div>
+      </div>

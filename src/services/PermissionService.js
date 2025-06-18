@@ -32,7 +32,7 @@ class PermissionService {
 
     save = async (data) => {
         // console.log(data)
-        console.log(data);
+        // console.log(data);
         try {
             const [result, fields] = await pool.execute('INSERT INTO `action_role` (role_id, action_id) VALUES (?, ?)', [data.role_id, data.action_id]);
             return true;

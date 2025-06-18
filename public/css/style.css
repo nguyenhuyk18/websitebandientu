@@ -1124,3 +1124,129 @@ label.error {
   border-color: #0d6efd;
   box-shadow: 0 0 0 0.15rem rgba(13,110,253,.08);
 }
+.price input {
+  font-size: 15px;
+}
+.price span {
+  font-size: 15px;
+}
+
+.filter-brand {
+  display: inline-block;
+  padding: 4px 14px;
+  margin: 4px 6px 4px 0;
+  border-radius: 14px;
+  background: #f5f6fa;
+  color: #444;
+  font-size: 15px;
+  font-weight: 400;
+  text-decoration: none;
+  border: 1px solid #e3e6ed;
+  transition: all 0.18s;
+  box-shadow: none;
+}
+.filter-brand:hover,
+.filter-brand.active {
+  background: #1976d2;
+  color: #fff;
+  border-color: #1976d2;
+  text-decoration: none;
+}
+.form-check-label {
+  cursor: pointer;
+}
+
+
+.filter-brand {
+  display: inline-block;
+  padding: 4px 16px;
+  margin: 4px 6px 4px 0;
+  border-radius: 16px;
+  background: linear-gradient(90deg, #f8fafc 60%, #e3eafc 100%);
+  color: #444;
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  border: 1px solid #e3e6ed;
+  box-shadow: 0 1px 4px rgba(33,150,243,0.04);
+  transition: 
+    background 0.18s,
+    color 0.18s,
+    border-color 0.18s,
+    box-shadow 0.18s;
+  position: relative;
+  overflow: hidden;
+}
+.filter-brand:hover,
+.filter-brand.active {
+  background: linear-gradient(90deg, #1976d2 60%, #42a5f5 100%);
+  color: #fff;
+  border-color: #1976d2;
+  box-shadow: 0 2px 8px rgba(33,150,243,0.10);
+  text-decoration: none;
+}
+.filter-brand.active::after {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 8px; top: 50%;
+  transform: translateY(-50%);
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 4px #fff;
+}
+.form-check-label {
+  cursor: pointer;
+}
+
+
+
+
+.limit-price {
+  margin-bottom: 8px;
+}
+
+.limit-price .form-check-label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 6px 14px;
+  border-radius: 14px;
+  background: linear-gradient(90deg, #f8fafc 60%, #e3eafc 100%);
+  border: 1px solid #e3e6ed;
+  font-size: 12.5px;
+  font-weight: 400;
+  transition: background 0.18s, box-shadow 0.18s, color 0.18s;
+  white-space: nowrap;
+  box-shadow: 0 1px 4px rgba(33,150,243,0.04);
+}
+
+.limit-price .form-check-input[type="radio"] {
+  width: 17px;
+  height: 17px;
+  accent-color: #1976d2;
+  margin-right: 10px;
+  box-shadow: 0 0 0 1.5px #e3eafc;
+  transition: box-shadow 0.18s;
+}
+
+.limit-price .form-check-input[type="radio"]:checked {
+  box-shadow: 0 0 0 2px #1976d2;
+}
+
+.limit-price .form-check-label:hover,
+.limit-price .form-check-input[type="radio"]:focus + span {
+  background: linear-gradient(90deg, #1976d2 60%, #42a5f5 100%);
+  color: #fff;
+  border-color: #1976d2;
+  box-shadow: 0 2px 8px rgba(33,150,243,0.10);
+}
+
+.limit-price .form-check-label span {
+  margin-left: 6px;
+  transition: color 0.18s;
+  font-size: 12.5px;
+  font-weight: 400;
+  white-space: nowrap;
+}

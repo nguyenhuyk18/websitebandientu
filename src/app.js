@@ -10,9 +10,12 @@ const FileStore = require('session-file-store')(session);
 const app = express();
 // .env
 require('dotenv').config();
+// cookie
+const cookieParser = require('cookie-parser');
+
 // nơi để import middleware
 // const checkLoginAdminSite = require('./middlewares/checkLoginAdminSite');
-
+app.use(cookieParser());
 
 const port = process.env.PORT || 6969;
 

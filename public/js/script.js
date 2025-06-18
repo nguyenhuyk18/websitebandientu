@@ -103,8 +103,9 @@ function updateURL(key, val) {
     currentURL.searchParams.set(key, val);
     return currentURL.toString();
 }
-$('.message').hide();
 
+// Lưu trữ comment
+$('.message').hide();
 $(".create-comment").validate({
     rules: {
         fullname: {
@@ -160,9 +161,7 @@ $(".create-comment").validate({
 
 });
 
-
-
-
+// liên lạc
 $('.messagecontact').hide();
 $(".contact-form").validate({
     rules: {
@@ -236,9 +235,165 @@ $.validator.addMethod(
     "Please check your input."
 );
 
-// pagination
+
+
+
+// pagination phân trang
 function goToPage(i) {
     const newURL = updateURL('page', i);
     window.location.href = newURL;
 }
 
+
+
+// phân loại theo giá
+const pricerange = document.querySelectorAll('.price-range');
+for (const tmp of pricerange) {
+    tmp.onclick = () => {
+        // const currentPriceRange = tmp.;
+        const value = tmp.value;
+        // console.log(value);
+        window.location.href = updateURL('price-range', value);
+    }
+}
+
+
+// sắp xếp sản phẩm theo các tiêu chí 
+const sortigation = document.querySelector('.sortigation');
+if (sortigation) {
+    sortigation.onchange = () => {
+        // alert(sortigation.value);
+        window.location.href = updateURL('sort', sortigation.value);
+    }
+}
+
+
+// =================== CART =========================================//
+
+
+
+updateCartModal = () => {
+    const data = getCookie('cart');
+    if (typeof data == 'undefined' || !data) return;
+    const dataJson = JSON.parse(data);
+    const products = dataJson.product;
+    let html = ``;
+    for (const product of products) {
+        // console.log(product)
+        const tmp1 = Object.keys(product);
+        const tmp = Object.values(product);
+        const value = tmp[0];
+        const key = tmp1[0];
+        html += `<tr>
+                <td>
+                  <div class="d-flex align-items-center gap-3">
+                    <img src="/upload/product/${value.image}" alt="${value.image}" style="width:56px;height:56px;object-fit:contain;" class="rounded-3 border">
+                    <span class="fw-semibold">${value.name}</span>
+                  </div>
+                </td>
+                <td class="text-center text-nowrap">${formatVND(value.price)}</td>
+                <td class="text-center">
+                  <input type="number" min="1" onchange="updateQtyInCart(this)" product_id="${key}" value="${value.qty}" class="form-control text-center qtyinput rounded-pill" style="width:90px;">
+                </td>
+                <td class="text-center text-nowrap fw-semibold">${formatVND(value.total)}</td>
+                <td class="text-center">
+                  <button  onclick="deleteProductFromCart('${key}')" class="btn btn-link text-danger p-0" title="Xóa" >
+                    <i class="fa fa-trash-alt fa-lg"></i>
+                  </button>
+                </td>
+              </tr>`;
+
+    }
+    const cartcount = document.querySelector('.cart-box .cart-count');
+    cartcount.innerHTML = dataJson.total_product;
+
+    const totalcart = document.querySelector('#cartonmenu .total_cart')
+    totalcart.innerHTML = formatVND(dataJson.total_price);
+
+    const tbodyCart = document.querySelector('.table-cart tbody');
+    tbodyCart.innerHTML = html;
+}
+
+updateCartModal();
+
+deleteProductFromCart = (id) => {
+    $.ajax({
+        type: "GET",
+        url: `/xoa-san-pham-tu-gio-hang-${id}.html`,
+        // data: "data",
+        // dataType: "dataType",
+        success: function () {
+            updateCartModal();
+        }
+    });
+}
+
+
+updateQtyInCart = (input) => {
+    // const tmp = document.querySelector(this);
+
+    console.log(input.value);
+    const value = input.value;
+    const id = input.getAttribute('product_id');
+
+    $.ajax({
+        type: "GET",
+        url: `/cap-nhat-so-luong-trong-gio-hang.html?id=${id}&qty=${value}`,
+        // data: "data",
+        // dataType: "dataType",
+        success: function () {
+            updateCartModal();
+        }
+    });
+
+}
+
+// $.ajax({
+//     type: "GET",
+//     url: `/cap-nhat-so-luong-trong-gio-hang.html?id=${id}&qty=${value}`,
+//     // data: "data",
+//     // dataType: "dataType",
+//     success: function () {
+//         updateCartModal();
+//     }
+// });
+
+
+// deleteProductFromCart();
+
+// khi nguoi dung ms vao web neu coookie con ton tai thi lay du lieu ve
+// updateCartModal();
+// get cookie
+function getCookie(cname) {
+    let name = cname + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(';');
+    for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+// cookie 
+function addcartindisplay(id) {
+    $.ajax({
+        type: "GET",
+        url: `/them-gio-hang.html?id=${id}&quantity=${1}`,
+        // data: "data",
+        // dataType: "dataType",
+        success: function () {
+            // alert(response);
+            updateCartModal();
+        }
+    });
+}
+
+function formatVND(amount) {
+    amount = parseInt(amount); // Đảm bảo là số nguyên
+    return amount.toLocaleString('vi-VN') + ' ₫';
+}

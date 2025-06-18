@@ -63,17 +63,6 @@
 </footer>
 
 
-
-
-<!-- <script src="/vendor/bootstrap-5.2.3-dist/js/bootstrap.min.js"></script> -->
-<script src="/vendor/jquery/jquery.min.js"></script>
-<script src="/vendor/jquery-validation-1.19.3/dist/jquery.validate.min.js"></script>
-<script src="/vendor/bootstrap-5.2.3-dist/js/bootstrap.bundle.min.js"></script>
-<script src="/js/script.js"></script>
-</body>
-
-</html>
-
 <!-- Modal Body -->
 <!-- if you want to close by clicking outside the modal, delete the last endpoint:data-bs-backdrop and data-bs-keyboard -->
 <div class="modal fade" id="dangnhap" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
@@ -180,7 +169,7 @@
       </div>
       <div class="modal-body pt-0">
         <div class="table-responsive">
-          <table class="table align-middle mb-0">
+          <table class="table align-middle mb-0 table-cart">
             <thead class="align-middle">
               <tr>
                 <th style="min-width:220px;">Sản phẩm</th>
@@ -191,89 +180,13 @@
               </tr>
             </thead>
             <tbody>
-              <!-- Sản phẩm 1 -->
-              <tr>
-                <td>
-                  <div class="d-flex align-items-center gap-3">
-                    <img src="" alt="Kem làm trắng da 5 trong 1 Beaumoer Secret Whitening Cream" style="width:56px;height:56px;object-fit:contain;" class="rounded-3 border">
-                    <span class="fw-semibold">Kem làm trắng da 5 trong 1 Beaumoer Secret Whitening Cream</span>
-                  </div>
-                </td>
-                <td class="text-center text-nowrap">190.000₫</td>
-                <td class="text-center">
-                  <input type="number" min="1" value="6" class="form-control text-center rounded-pill" style="width:90px;">
-                </td>
-                <td class="text-center text-nowrap fw-semibold">1.140.000₫</td>
-                <td class="text-center">
-                  <button class="btn btn-link text-danger p-0" title="Xóa">
-                    <i class="fa fa-trash-alt fa-lg"></i>
-                  </button>
-                </td>
-              </tr>
-              <!-- Sản phẩm 2 -->
-              <tr>
-                <td>
-                  <div class="d-flex align-items-center gap-3">
-                    <img src="" alt="Sữa rửa mặt nghệ Beaumoer Mới- 100g" style="width:56px;height:56px;object-fit:contain;" class="rounded-3 border">
-                    <span class="fw-semibold">Sữa rửa mặt nghệ Beaumoer Mới- 100g</span>
-                  </div>
-                </td>
-                <td class="text-center text-nowrap">250.000₫</td>
-                <td class="text-center">
-                  <input type="number" min="1" value="3" class="form-control text-center rounded-pill" style="width:90px;">
-                </td>
-                <td class="text-center text-nowrap fw-semibold">750.000₫</td>
-                <td class="text-center">
-                  <button class="btn btn-link text-danger p-0" title="Xóa">
-                    <i class="fa fa-trash-alt fa-lg"></i>
-                  </button>
-                </td>
-              </tr>
-              <!-- Sản phẩm 3 -->
-              <tr>
-                <td>
-                  <div class="d-flex align-items-center gap-3">
-                    <img src="" alt="Kem lụa làm đẹp da Beaumoer- 30ml" style="width:56px;height:56px;object-fit:contain;" class="rounded-3 border">
-                    <span class="fw-semibold">Kem lụa làm đẹp da Beaumoer- 30ml</span>
-                  </div>
-                </td>
-                <td class="text-center text-nowrap">1.500.000₫</td>
-                <td class="text-center">
-                  <input type="number" min="1" value="3" class="form-control text-center rounded-pill" style="width:90px;">
-                </td>
-                <td class="text-center text-nowrap fw-semibold">4.500.000₫</td>
-                <td class="text-center">
-                  <button class="btn btn-link text-danger p-0" title="Xóa">
-                    <i class="fa fa-trash-alt fa-lg"></i>
-                  </button>
-                </td>
-              </tr>
-              <!-- Sản phẩm 4 -->
-              <tr>
-                <td>
-                  <div class="d-flex align-items-center gap-3">
-                    <img src="" alt="Kem dưỡng da vùng mắt Beaumoer Contour Eye Cream- 10g" style="width:56px;height:56px;object-fit:contain;" class="rounded-3 border">
-                    <span class="fw-semibold">Kem dưỡng da vùng mắt Beaumoer Contour Eye Cream- 10g</span>
-                  </div>
-                </td>
-                <td class="text-center text-nowrap">300.000₫</td>
-                <td class="text-center">
-                  <input type="number" min="1" value="7" class="form-control text-center rounded-pill" style="width:90px;">
-                </td>
-                <td class="text-center text-nowrap fw-semibold">2.100.000₫</td>
-                <td class="text-center">
-                  <button class="btn btn-link text-danger p-0" title="Xóa">
-                    <i class="fa fa-trash-alt fa-lg"></i>
-                  </button>
-                </td>
-              </tr>
             </tbody>
           </table>
         </div>
       </div>
       <div class="modal-footer justify-content-between border-0 pt-0">
         <div class="fw-bold fs-5">
-          Tổng tiền <span class="text-danger ms-2 fs-5">8.490.000₫</span>
+          Tổng tiền <span class="text-danger ms-2 fs-5 total_cart">8.490.000₫</span>
         </div>
         <div>
           <button type="button" class="btn btn-outline-secondary rounded-pill px-4 me-2" data-bs-dismiss="modal">
@@ -287,3 +200,14 @@
     </div>
   </div>
 </div>
+
+
+
+<!-- <script src="/vendor/bootstrap-5.2.3-dist/js/bootstrap.min.js"></script> -->
+<script src="/vendor/jquery/jquery.min.js"></script>
+<script src="/vendor/jquery-validation-1.19.3/dist/jquery.validate.min.js"></script>
+<script src="/vendor/bootstrap-5.2.3-dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/script.js"></script>
+</body>
+
+</html>

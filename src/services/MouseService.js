@@ -100,7 +100,7 @@ class MouseService {
     }
 
     update = async (data) => {
-        console.log(data);
+        // console.log(data);
         try {
             const [result] = await pool.execute('UPDATE `product` SET `product_name` = ?, `price` = ?, `id_category` = ?, `stock_quantity` = ?, `description` = ?, `image` = ?, `discount` = ?, `discount_from_date` = ?, `discount_to_date` = ?, id_brand = ? WHERE id = ?',
                 [data.product_name, data.price, data.id_category, data.stock_quantity, data.description, data.image, data.discount, data.discount_from_date, data.discount_to_date, data.id_brand, data.id]);

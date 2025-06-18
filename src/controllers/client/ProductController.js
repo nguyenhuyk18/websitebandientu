@@ -1,5 +1,7 @@
 const productModels = require('../../services/ProductAllServices');
 const commentModels = require('../../services/CommentService');
+const brandModels = require('../../services/BrandService');
+
 const dayjs = require('dayjs');
 class ProductController {
     static index = async (req, res) => {
@@ -9,7 +11,66 @@ class ProductController {
         const item_per_page = 9;
 
         const mProduct = new productModels();
+        const mBrand = new brandModels();
 
+        const brand_id = req.params.id ?? '';
+
+        // console.log(brand_id, ' ', page);
+
+        if (brand_id) {
+            const cond = {
+                id_brand: {
+                    type: '=',
+                    val: brand_id
+                }
+            }
+            conds.push(cond);
+        }
+
+
+        const price_range = req.query['price-range'] ?? '';
+        if (price_range) {
+            const arr = price_range.split('-');
+            const start = arr[0];
+            const end = arr[1];
+            if (end != 'greater') {
+                const cond = {
+                    sale_price: {
+                        type: 'BETWEEN',
+                        val: `${start} AND ${end}`
+                    }
+                }
+                conds.push(cond);
+            }
+            else {
+                const cond = {
+                    sale_price: {
+                        type: '>=',
+                        val: `${start}`
+                    }
+                }
+                conds.push(cond);
+            }
+        }
+
+        // sắp xếp
+        const sortigation = req.query['sort'] ?? '';
+
+        const mapping = {
+            price: 'sale_price',
+            name: 'product_name',
+            date: 'created_date'
+        };
+
+        if (sortigation) {
+            const arr = sortigation.split('-');
+            const column = mapping[arr[0]];
+            const type = arr[1];
+            const cond = {
+                [column]: type
+            }
+            sorts.push(cond);
+        }
 
         // phân trang pagination
         const sumOfProduct = await mProduct.getByNumber(conds, sorts);
@@ -19,9 +80,9 @@ class ProductController {
 
 
         const listProduct = await mProduct.getBy(conds, sorts, item_per_page, page);
+        const listBrand = await mBrand.getAll();
 
-
-        return res.render('client/product/index', { listProduct: listProduct, sumOfPage: sumOfPage, currentPage: page });
+        return res.render('client/product/index', { listProduct: listProduct, sumOfPage: sumOfPage, currentPage: page, listBrand: listBrand, brand_id: brand_id, price_range: price_range, sortigation: sortigation });
     }
 
     static detail = async (req, res) => {
@@ -72,7 +133,7 @@ class ProductController {
 
         // Lấy danh sách bình luận
         const listComment = await product.getComments();
-        console.log(listComment);
+        // console.log(listComment);
 
         const listImageItem = await product.getImageItem();
         return res.render('client/product/detail', { product: product, listImageItem: listImageItem, informationTech: informationTech, listComment: listComment })

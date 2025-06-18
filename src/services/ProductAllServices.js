@@ -73,14 +73,16 @@ class ProductAllServices {
                 // Tên thuộc tính
                 const column = Object.keys(tmp);
                 // các giá trị
-                const value = Object.values(tmp);
-                const type = value[0];
+                const values = Object.values(tmp);
+                // console.log(value);
+                const value = values[0];
+                const type = value.type;
                 let condistring = `${column} ${type} `;
-                const val = value[1];
+                const val = value.val;
                 if (['LIKE', 'BETWEEN'].includes(type)) {
-                    tmp += `${val}`;
+                    condistring += `${val}`;
                 } else {
-                    tmp += `'${val}'`;
+                    condistring += `'${val}'`;
                 }
                 conditionArray.push(condistring);
             }
@@ -129,18 +131,20 @@ class ProductAllServices {
         let condition = null; // quantrong
         let conditionArray = [];
         if (cond.length) {
-            for (const tmp of cond) {
+            for (let tmp of cond) {
                 // Tên thuộc tính
                 const column = Object.keys(tmp);
                 // các giá trị
-                const value = Object.values(tmp);
-                const type = value[0];
+                const values = Object.values(tmp);
+                // console.log(value);
+                const value = values[0];
+                const type = value.type;
                 let condistring = `${column} ${type} `;
-                const val = value[1];
+                const val = value.val;
                 if (['LIKE', 'BETWEEN'].includes(type)) {
-                    tmp += `${val}`;
+                    condistring += `${val}`;
                 } else {
-                    tmp += `'${val}'`;
+                    condistring += `'${val}'`;
                 }
                 conditionArray.push(condistring);
             }
@@ -154,7 +158,7 @@ class ProductAllServices {
         let sortigation = null;
         let sortArr = [];
 
-        for (const tmp of sort) {
+        for (let tmp of sort) {
             const column = Object.keys(tmp);
             const value = Object.values(tmp);
 

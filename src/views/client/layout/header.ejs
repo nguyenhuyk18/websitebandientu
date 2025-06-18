@@ -70,7 +70,7 @@
     </div>
   </div>
 
-  <nav class="primary-navbar navbar navbar-expand-lg navbar-dark bg-primary">
+  <nav class="primary-navbar navbar navbar-expand-xl navbar-dark bg-primary">
     <div class="container">
       <!-- <a class="navbar-brand d-lg-none" href="#">Menu</a> -->
       <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMenu" aria-controls="offcanvasMenu">
@@ -80,7 +80,7 @@
         <ul class="navbar-nav ms-auto mx-auto mb-2 mb-lg-0">
           <li class="nav-item"><a class="nav-link <%= currentRoute == 'home' ? 'active' : ''  %>" href="/">Trang Chủ</a></li>
           <li class="nav-item"><a class="nav-link <%= currentRoute == 'product' ? 'active' : ''  %>" href="/san-pham.html">Tất Cả Sản Phẩm</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">Sản Phẩm Chuột</a></li>
+          <li class="nav-item"><a class="nav-link " href="#">Sản Phẩm Chuột</a></li>
           <li class="nav-item"><a class="nav-link" href="#">Sản Phẩm Bàn Phím</a></li>
           <li class="nav-item"><a class="nav-link" href="#">Sản Phẩm Laptop</a></li>
           <li class="nav-item dropdown">
@@ -93,7 +93,7 @@
               <li><a class="dropdown-item" href="#">Chính sách bảo mật</a></li>
             </ul>
           </li>
-          <li class="nav-item"><a class="nav-link" href="/lien-he.html">Liên Hệ</a></li>
+          <li class="nav-item"><a class="nav-link <%= currentRoute == 'contact' ? 'active' : ''  %>" href="/lien-he.html">Liên Hệ</a></li>
         </ul>
       </div>
     </div>
