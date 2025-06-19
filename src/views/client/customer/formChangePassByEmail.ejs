@@ -1,0 +1,38 @@
+<%- include('../layout/header.ejs') %>
+<section class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-12">
+      <div class="row g-4">
+        <!-- Main Content -->
+        <div class="col-12 m-auto">
+          <div class="customer-info-form rounded-4 shadow-sm bg-white p-4 p-md-5">
+            <div class="form-title mb-4 pb-2 border-bottom border-3 border-primary fw-bold text-uppercase fs-5">
+              Thông tin tài khoản
+            </div>
+            <form class="customer-changepass-form-mail" method="post" action="/doi-mat-khau">
+              <input type="hidden" name="id" value="<%= user.id %>">
+              <div class="mb-3">
+                <label class="form-label fw-semibold" for="username">Tên Đăng Nhập</label>
+                <input type="text" id="username" value="<%= user.username %>" class="form-control rounded-pill" readonly>
+              </div>
+              <div class="mb-3">
+                <label class="form-label fw-semibold" for="new_password">Mật khẩu mới</label>
+                <input type="password" id="new_password" name="new_password" class="form-control rounded-pill" placeholder="Nhập mật khẩu mới">
+              </div>
+              <div class="mb-4">
+                <label class="form-label fw-semibold" for="confirm_password">Nhập lại mật khẩu mới</label>
+                <input type="password" id="confirm_password" name="confirm_password" class="form-control rounded-pill" placeholder="Nhập lại mật khẩu mới">
+              </div>
+              <div class="text-end">
+                <button type="submit" class="btn btn-primary rounded-pill px-4 py-2 fw-bold shadow-sm">
+                  <i class="fa fa-save me-2"></i>Lưu thay đổi
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<%- include('../layout/footer.ejs') %>

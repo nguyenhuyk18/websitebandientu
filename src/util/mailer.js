@@ -27,4 +27,23 @@ const sendmall = async (subject, text) => {
     }
 };
 
-module.exports = sendmall
+const sendMailVerify = async (to, subject, html) => {
+    const mailOptions = {
+        from: process.env.GMAIL_FROM,
+        to: to,
+        subject: subject,
+        html: html
+    };
+
+
+    try {
+        const info = await transporter.sendMail(mailOptions);
+        console.log('Email sent:', info.response);
+        return true;
+    } catch (error) {
+        console.error('Error sending email:', error);
+        return false;
+    }
+}
+
+module.exports = { sendmall, sendMailVerify }

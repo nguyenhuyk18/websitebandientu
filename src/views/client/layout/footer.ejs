@@ -75,7 +75,7 @@
         <button type="button" class="btn-close position-absolute end-0 top-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body pt-0">
-        <form>
+        <form class="login-form" action="/dang-nhap" method="POST">
           <div class="mb-3">
             <label for="loginEmail" class="form-label fw-semibold">Tên Đăng Nhập</label>
             <input type="text" class="form-control rounded-pill" name="username" id="loginEmail" placeholder="Nhập tên đăng nhập" required>
@@ -89,7 +89,7 @@
               <input class="form-check-input" type="checkbox" id="rememberMe">
               <label class="form-check-label small" for="rememberMe">Ghi nhớ đăng nhập</label>
             </div>
-            <a href="#" class="small text-decoration-none text-primary">Quên mật khẩu?</a>
+            <a href="javascript:void(0)" class="small text-decoration-none text-primary" data-bs-toggle="modal" data-bs-target="#forgetpassword">Quên mật khẩu?</a>
           </div>
           <button type="submit" class="btn btn-primary w-100 rounded-pill fw-bold py-2 mb-2">Đăng Nhập</button>
           <div class="text-center small">
@@ -114,30 +114,30 @@
         <button type="button" class="btn-close position-absolute end-0 top-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body pt-0">
-        <form>
+        <form method="post" action="/dang-ky" class="form-register">
           <div class="mb-3">
             <label for="registerFullName" class="form-label fw-semibold">Họ và tên</label>
-            <input type="text" class="form-control rounded-pill" id="registerFullName" placeholder="Họ và tên" required>
+            <input type="text" class="form-control rounded-pill" id="registerFullName" name="name" placeholder="Họ và tên" required>
           </div>
           <div class="mb-3">
             <label for="registerUsername" class="form-label fw-semibold">Tên đăng nhập</label>
-            <input type="text" class="form-control rounded-pill" id="registerUsername" placeholder="Tên đăng nhập" required>
+            <input type="text" class="form-control rounded-pill" id="registerUsername" name="username" placeholder="Tên đăng nhập" required>
           </div>
           <div class="mb-3">
             <label for="registerPhone" class="form-label fw-semibold">Số điện thoại</label>
-            <input type="text" class="form-control rounded-pill" id="registerPhone" placeholder="Số điện thoại" required>
+            <input type="text" class="form-control rounded-pill" id="registerPhone" name="phone" placeholder="Số điện thoại" required>
           </div>
           <div class="mb-3">
             <label for="registerEmail" class="form-label fw-semibold">Email</label>
-            <input type="email" class="form-control rounded-pill" id="registerEmail" placeholder="Email" required>
+            <input type="email" class="form-control rounded-pill" id="registerEmail" name="email" placeholder="Email" required>
           </div>
           <div class="mb-3">
             <label for="registerPassword" class="form-label fw-semibold">Mật khẩu</label>
-            <input type="password" class="form-control rounded-pill" id="registerPassword" placeholder="Mật khẩu" required>
+            <input type="password" class="form-control rounded-pill" id="registerPassword" name="password" placeholder="Mật khẩu" required>
           </div>
           <div class="mb-3">
             <label for="registerRePassword" class="form-label fw-semibold">Nhập lại mật khẩu</label>
-            <input type="password" class="form-control rounded-pill" id="registerRePassword" placeholder="Nhập lại mật khẩu" required>
+            <input type="password" class="form-control rounded-pill" id="registerRePassword" name="repassword" placeholder="Nhập lại mật khẩu" required>
           </div>
           <button type="submit" class="btn btn-info w-100 rounded-pill fw-bold py-2 mb-2">Đăng Ký</button>
           <div class="text-center small">
@@ -200,6 +200,39 @@
     </div>
   </div>
 </div>
+
+
+
+<!-- Modal Body -->
+<!-- if you want to close by clicking outside the modal, delete the last endpoint:data-bs-backdrop and data-bs-keyboard -->
+<div class="modal fade" id="forgetpassword" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+    <div class="modal-content rounded-4">
+      <div class="modal-header border-0 pb-0">
+        <h3 class="modal-title w-100 text-center fw-bold" style="color:#ff3b3b;" id="modalTitleId">
+          Quên Mật Khẩu
+        </h3>
+        <button type="button" class="btn-close position-absolute end-0 top-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form class="px-4 pb-4 pt-2 quenmk-form" action="/quen-mat-khau" method="POST">
+        <div class="mb-3 mt-3">
+          <label for="forgotEmail" class="form-label fw-semibold" style="color:#1a237e;">Email đăng ký</label>
+          <input type="email" class="form-control rounded-pill px-4 py-2" id="forgotEmail" name="email" placeholder="Nhập email của bạn" required style="background:#f5faff;">
+        </div>
+        <div class="d-grid mt-4">
+          <button type="submit" class="btn btn-primary rounded-pill fw-bold py-2" style="background: linear-gradient(90deg,#007bff 60%,#00c6ff 100%); border:none;">
+            Gửi yêu cầu lấy lại mật khẩu
+          </button>
+        </div>
+        <div class="text-center mt-3">
+          <a href="#" data-bs-dismiss="modal" style="color:#1976d2; text-decoration:underline;">Quay lại đăng nhập</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
 
 
 

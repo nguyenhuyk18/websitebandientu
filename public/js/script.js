@@ -1,3 +1,31 @@
+const toastsuccess = document.getElementsByClassName('toast-success');
+const toasterror = document.getElementsByClassName('toast-danger');
+
+if (toastsuccess.length) {
+    // Bật hiệu ứng hiện
+    const tmp = toastsuccess[0]
+    setTimeout(() => tmp.classList.add('show'), 100);
+
+    // Tự động ẩn sau 5s
+    setTimeout(() => {
+        tmp.classList.remove('show');
+        tmp.classList.add('hide');
+    }, 5000);
+}
+
+
+if (toasterror.length) {
+    // Bật hiệu ứng hiện
+    const tmp = toasterror[0]
+    setTimeout(() => tmp.classList.add('show'), 100);
+
+    // Tự động ẩn sau 5s
+    setTimeout(() => {
+        tmp.classList.remove('show');
+        tmp.classList.add('hide');
+    }, 5000);
+}
+
 // Chi tiết sản phẩm thumpnelimage
 function scrollThumbs(direction) {
     const el = document.getElementById('thumbs-scroll');
@@ -293,7 +321,7 @@ updateCartModal = () => {
                 </td>
                 <td class="text-center text-nowrap">${formatVND(value.price)}</td>
                 <td class="text-center">
-                  <input type="number" min="1" onchange="updateQtyInCart(this)" product_id="${key}" value="${value.qty}" class="form-control text-center qtyinput rounded-pill" style="width:90px;">
+                  <input type="number" min="1" onchange="updateQtyInCart(this)" product_id="${key}" value="${value.qty}" class="form-control text-center qtyinput rounded-pill" style="width:90px;" onkeydown="return false;">
                 </td>
                 <td class="text-center text-nowrap fw-semibold">${formatVND(value.total)}</td>
                 <td class="text-center">
@@ -393,7 +421,191 @@ function addcartindisplay(id) {
     });
 }
 
+function addcartindetail(id) {
+    const inputqty = document.querySelector('.qtyindetail');
+    const qty = inputqty.value;
+
+    $.ajax({
+        type: "GET",
+        url: `/them-gio-hang.html?id=${id}&quantity=${qty}`,
+        // data: "data",
+        // dataType: "dataType",
+        success: function () {
+            // alert(response);
+            updateCartModal();
+        }
+    });
+
+}
+
 function formatVND(amount) {
     amount = parseInt(amount); // Đảm bảo là số nguyên
     return amount.toLocaleString('vi-VN') + ' ₫';
 }
+
+// validate form đăng ký
+$(".form-register").validate({
+    rules: {
+        name: {
+            required: true,
+            maxlength: 50,
+        },
+        username: {
+            required: true,
+            maxlength: 50,
+            regex: /^[a-zA-Z0-9_]+$/i
+        },
+        phone: {
+            required: true,
+            regex: /^0([0-9]{9,9})$/
+        },
+        password: {
+            regex: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
+            required: true,
+        },
+        email: {
+            required: true,
+            email: true
+        },
+        repassword: {
+            required: true,
+            equalTo: '#registerPassword'
+        }
+    },
+
+    messages: {
+        name: {
+            required: 'Vui lòng nhập họ tên',
+            maxlength: 'Vui lòng nhập họ tên không quá 50 ký tự',
+            regex: 'Vui lòng không nhập số hoặc ký tự đặc biệt'
+        },
+        username: {
+            required: 'Vui lòng nhập username',
+            maxlength: 'Vui lòng nhập username không quá 50 ký tự',
+            regex: 'Vui lòng không nhập ký tự đặc biệt'
+        },
+        password: {
+            required: 'Vui lòng nhập mật khẩu',
+            regex: 'Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường và số'
+        },
+        email: {
+            required: 'Vui lòng nhập email',
+            email: 'vui lòng nhập đúng định dạng email. vd: avx@gmail.com'
+        },
+        repassword: {
+            required: 'Vui lòng nhập lại mật khẩu',
+            equalTo: 'Nhập lại mật khẩu không chính xác'
+        },
+        phone: {
+            required: 'Vui lòng nhập số điện thoại',
+            regex: 'Vui lòng nhập đúng định dạng số điện thoại. vd: 0385548843'
+        }
+    },
+});
+
+// validate form đăng nhập
+$(".login-form").validate({
+    rules: {
+
+
+        username: {
+            required: true,
+            maxlength: 50,
+            regex: /^[a-zA-Z0-9_]+$/i
+        },
+
+        password: {
+            required: true,
+        },
+
+    },
+
+    messages: {
+        username: {
+            required: 'Vui lòng nhập username',
+            maxlength: 'Vui lòng nhập username không quá 50 ký tự',
+            regex: 'Vui lòng không nhập ký tự đặc biệt'
+        },
+
+        password: {
+            required: 'Vui lòng nhập mật khẩu',
+        },
+    },
+});
+
+
+// validate change password
+$(".customer-changepass-form").validate({
+    rules: {
+        name: {
+            required: true,
+            maxlength: 50,
+        },
+
+        new_password: {
+            // required: true,
+            regex: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/
+        },
+
+        confirm_password: {
+            equalTo: "#new_password"
+        }
+
+    },
+
+    messages: {
+        name: {
+            required: 'Vui lòng nhập họ tên',
+            maxlength: 'Vui lòng nhập họ tên không quá 50 ký tự',
+        },
+
+        new_password: {
+            regex: 'Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường và số'
+        },
+
+        confirm_password: {
+            equalTo: 'Nhập lại mật khẩu không chính xác'
+        }
+    },
+});
+
+
+// validate modal change password
+$(".quenmk-form").validate({
+    rules: {
+        email: {
+            required: true,
+            email: true
+        }
+    },
+
+    messages: {
+        email: {
+            required: 'Vui lòng nhập email',
+            email: 'Vui lòng nhập đúng định dạng email. vd: avx@gmail.com'
+        }
+    }
+});
+
+// validate form đổi mật khẩu
+$('.customer-changepass-form-mail').validate({
+    rules: {
+        new_password: {
+            required: true,
+            regex: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/
+        },
+        confirm_password: {
+            equalTo: "#new_password"
+        }
+    },
+
+    messages: {
+        new_password: {
+            required: 'Vui lòng nhập mật khẩu mới',
+            regex: 'Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường và số'
+        },
+        confirm_password: {
+            equalTo: 'Nhập lại mật khẩu không chính xác'
+        }
+    }
+});

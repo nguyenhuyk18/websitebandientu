@@ -72,17 +72,17 @@ class CustomerService {
         // console.log(customerData);
         // const query = ;
         const values = [
-            customerData.name,
-            customerData.phone,
-            customerData.email,
+            customerData.name,//
+            customerData.phone,//
+            customerData.email,//
             customerData.ward_id,
-            customerData.created_date,
-            customerData.status,
+            customerData.created_date,//
+            customerData.status,//
             customerData.housenumber_street,
             customerData.shipping_name,
             customerData.shipping_mobile,
-            customerData.password,
-            customerData.username
+            customerData.password,//
+            customerData.username//
         ];
         // console.log(values)
         try {
@@ -103,6 +103,21 @@ class CustomerService {
             return false;
         }
     }
+
+    // kích hoạt tài khoản
+    setActiveStatus = async (email) => {
+        const query = `UPDATE customer SET status = 1 WHERE email = ?`;
+        try {
+            const [result] = await pool.execute(query, [email]);
+            return result.affectedRows > 0;
+        } catch (err) {
+            console.error(err);
+            return false;
+        }
+    }
+
+
+
 
     // cập nhật thông tin khách hàng
     update = async (customerData) => {

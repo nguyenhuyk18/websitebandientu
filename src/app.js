@@ -56,6 +56,15 @@ app.use((req, res, next) => {
 })
 
 
+app.use((req, res, next) => {
+
+    // console.log(req.session.user);
+    app.locals.user = helpers.getUserSession(req.session.user);
+
+    next();
+});
+
+
 // require router admin 
 const adminRouters = require('./routers/adminRouters');
 app.use('/admin', adminRouters);

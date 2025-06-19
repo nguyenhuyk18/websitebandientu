@@ -5,7 +5,7 @@ class CartController {
         // Lấy ID và Số lượng
         const id = req.query['id'];
         const qty = req.query['quantity'];
-        console.log(id, ' ', qty)
+        // console.log(id, ' ', qty)
         let arrResult = null;
         // Khởi tạo cart
         let cart = null;
@@ -33,7 +33,7 @@ class CartController {
 
 
         const datasend = JSON.stringify(tmp);
-        console.log(JSON.parse(datasend));
+        // console.log(JSON.parse(datasend));
         res.cookie('cart', datasend, {
             maxAge: 7 * 24 * 60 * 60 * 1000,
             httpOnly: false,

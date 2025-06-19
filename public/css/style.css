@@ -1,3 +1,55 @@
+.toast-success {
+    position: fixed;
+    bottom: 5%;
+    right: 5%;
+    background-color: rgba(0, 255, 0, 1);
+    color: #005317;
+    padding: 12px 20px;
+    border-radius: 6px;
+    opacity: 0;
+    transform: translateX(100%);
+    transition: all 0.5s ease;
+    z-index: 999;
+}
+
+
+.toast-danger {
+    position: fixed;
+    bottom: 5%;
+    right: 5%;
+    background: rgba(255, 0, 0, 1);
+    color: #350000;
+    padding: 12px 20px;
+    border-radius: 6px;
+    opacity: 0;
+    transform: translateX(100%);
+    transition: all 0.5s ease;
+    z-index: 999;
+}
+
+
+
+.toast-success.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.toast-success.hide {
+    opacity: 0;
+    transform: translateX(-100%);
+}
+
+
+.toast-danger.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.toast-danger.hide {
+    opacity: 0;
+    transform: translateX(-100%);
+}
+
 /* Màu sắc nhẹ nhàng, hiện đại */
 body {
   background: #f8fafc;

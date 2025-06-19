@@ -48,3 +48,7 @@ exports.getSlugName = (name) => {
     });
     return newName;
 }
+
+exports.getUserSession = (user) => {
+    return user ?? null;
+}

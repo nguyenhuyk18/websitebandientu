@@ -7,6 +7,9 @@ class HomeController {
         const sort = [];
         const cond = [];
 
+        const message = req.session.message;
+        delete req.session.message;
+
         const mBrand = new brandModels();
         const mProduct = new productModels();
 
@@ -49,7 +52,7 @@ class HomeController {
         // console.log(listLatestProduct.length);
 
 
-        return res.render('client/home/index', { listLatestProduct: listLatestProduct, listBrand: listBrand, productByCategory: productByCategory, allProduct: allProduct });
+        return res.render('client/home/index', { listLatestProduct: listLatestProduct, listBrand: listBrand, productByCategory: productByCategory, allProduct: allProduct, message: message });
     }
 }
 

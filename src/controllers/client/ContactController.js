@@ -1,17 +1,17 @@
-const sendEmail = require('../../util/mailer');
+const { sendmall } = require('../../util/mailer');
 require('dotenv').config();
 
 class ContactController {
-    static index = async (req, res) => {
-        return res.render('client/contact/index');
-    }
+  static index = async (req, res) => {
+    return res.render('client/contact/index');
+  }
 
-    static sendInformation = async (req, res) => {
-        const data = req.body;
+  static sendInformation = async (req, res) => {
+    const data = req.body;
 
-        const { fullname, email, phone, message } = data;
+    const { fullname, email, phone, message } = data;
 
-        const html = `<div style="font-family: Arial, sans-serif; padding:32px; background:#f7f9fa; color:#222; max-width:500px; margin:40px auto; border-radius:12px; box-shadow:0 4px 24px rgba(0,0,0,0.07);">
+    const html = `<div style="font-family: Arial, sans-serif; padding:32px; background:#f7f9fa; color:#222; max-width:500px; margin:40px auto; border-radius:12px; box-shadow:0 4px 24px rgba(0,0,0,0.07);">
   <h2 style="color:#2196F3; margin-bottom:8px;">📬 Bạn nhận được liên hệ mới từ khách hàng</h2>
   <p style="font-size:16px; margin-bottom:24px;">Một khách hàng vừa gửi thông tin liên hệ qua website. Dưới đây là chi tiết:</p>
   
@@ -30,12 +30,12 @@ class ContactController {
   </p>
 </div>`;
 
-        if (await sendEmail('LIÊN HỆ WEBSITE BÁN ĐIỆN TỬ', html)) {
-            return res.json('Thông tin liên hệ của bạn đã được gửi thành công');
-        }
-        return res.json('Có lỗi xảy ra');
-
+    if (await sendmall('LIÊN HỆ WEBSITE BÁN ĐIỆN TỬ', html)) {
+      return res.json('Thông tin liên hệ của bạn đã được gửi thành công');
     }
+    return res.json('Có lỗi xảy ra');
+
+  }
 }
 
 module.exports = ContactController;
