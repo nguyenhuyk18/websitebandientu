@@ -6,6 +6,8 @@ const ContactController = require('../controllers/client/ContactController');
 const CartController = require('../controllers/client/CartController');
 const AuthController = require('../controllers/client/AuthController');
 const CustomerController = require('../controllers/client/CustomerController');
+const DistrictController = require('../controllers/client/DistrictController');
+const WardController = require('../controllers/client/WardController');
 
 router.get('/', HomeController.index);
 
@@ -62,6 +64,23 @@ router.get('/lien-he.html', ContactController.index);
 // gửi thông tin liên hệ
 router.post('/lien-he/gui-email', ContactController.sendInformation);
 
+// Địa chỉ giao hàng mặc định
+router.get('/dia-chi-giao-hang-mac-dinh.html', CustomerController.shippingDefault);
+
+
+// xem district theo id province
+router.get('/district.html/:id_province', DistrictController.getAll);
+
+
+// Lưu trữ shipping default
+router.post('/dia-chi-giao-hang-mac-dinh', CustomerController.changeShippingDefault);
+
+
+
+
+// ward 
+// xem ward theo id district
+router.get('/ward.html/:id_district', WardController.getAll);
 
 
 module.exports = router;

@@ -1,0 +1,116 @@
+<%- include('../layout/header.ejs') %>
+<section class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-12 col-lg-10">
+      <div class="row g-4">
+        <!-- <div class="col-12 col-md-4">
+            <div class="customer-sidebar rounded-4 shadow-sm p-0 bg-white">
+              <div class="sidebar-title px-4 py-3 border-bottom fw-bold text-uppercase text-primary">
+                <i class="fa fa-user-circle me-2"></i> Tài khoản của bạn
+              </div>
+              <ul class="list-unstyled mb-0">
+                <li>
+                  <a href="thong-tin-khach-hang.html" class="sidebar-link active">
+                    <i class="fa fa-user me-2"></i> Thông tin tài khoản
+                  </a>
+                </li>
+                <li>
+                  <a href="dia-chi-giao-hang-mac-dinh.html" class="sidebar-link">
+                    <i class="fa fa-map-marker-alt me-2"></i> Địa chỉ giao hàng
+                  </a>
+                </li>
+                <li>
+                  <a href="don-hang-cua-toi.html" class="sidebar-link">
+                    <i class="fa fa-box-open me-2"></i> Đơn hàng của tôi
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div> -->
+        <!-- Sidebar -->
+        <div class="col-12 col-md-4">
+          <div class="customer-sidebar rounded-4 shadow-sm p-0 bg-white">
+            <div class="sidebar-title px-4 py-3 border-bottom fw-bold text-uppercase text-primary">
+              <i class="fa fa-user-circle me-2"></i> Tài khoản của bạn
+            </div>
+            <ul class="list-unstyled mb-0">
+              <li>
+                <a href="thong-tin-khach-hang.html" class="sidebar-link ">
+                  <i class="fa fa-user me-2"></i> Thông tin tài khoản
+                </a>
+              </li>
+              <li>
+                <a href="dia-chi-giao-hang-mac-dinh.html" class="sidebar-link active">
+                  <i class="fa fa-map-marker-alt me-2"></i> Địa chỉ giao hàng
+                </a>
+              </li>
+              <li>
+                <a href="don-hang-cua-toi.html" class="sidebar-link">
+                  <i class="fa fa-box-open me-2"></i> Đơn hàng của tôi
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <!-- Main Content -->
+        <div class="col-12 col-md-8">
+          <div class="customer-info-form rounded-4 shadow-sm bg-white p-4 p-md-5">
+            <div class="form-title mb-4 pb-2 border-bottom border-3 border-primary fw-bold text-uppercase fs-5">
+              <i class="fa fa-map-marker-alt me-2 text-primary"></i> Địa chỉ giao hàng mặc định
+            </div>
+            <form class="shipping-default-form" method="POST" action="/dia-chi-giao-hang-mac-dinh">
+              <input type="hidden" name="id" value="<%= customer.id %>">
+              <div class="row g-3">
+                <div class="col-12 col-md-6">
+                  <label class="form-label fw-semibold">Họ và tên người nhận</label>
+                  <input type="text" name="shipping_name" class="form-control rounded-pill" value="<%= customer.shipping_name %>">
+                </div>
+                <div class="col-12 col-md-6">
+                  <label class="form-label fw-semibold">Số điện thoại người nhận</label>
+                  <input type="text" name="shipping_mobile" class="form-control rounded-pill" value="<%= customer.shipping_mobile %>">
+                </div>
+                <div class="col-12 col-md-4">
+                  <label class="form-label fw-semibold">Tỉnh/Thành phố</label>
+                  <select class="form-select rounded-pill choose_province">
+                    <option value="">-- Vui Lòng Chọn Tỉnh Thành --</option>
+                    <% for( const province1 of provinces ) { %>
+                    <option value="<%= province1.id %>" <%= province != null && province1.id == province.id ? 'selected' : '' %>><%= province1.name %></option>
+                    <% } %>
+                  </select>
+                </div>
+                <div class="col-12 col-md-4">
+                  <label class="form-label fw-semibold">Quận/Huyện</label>
+                  <select class="form-select rounded-pill choose_district">
+                    <option value="">-- Vui Lòng Chọn Quận Huyện --</option>
+                    <% for( const district1 of districts ) {  %>
+                    <option value="<%= district1.id %>" <%= district != null && district1.id == district.id ? 'selected' : '' %>><%= district1.name %></option>
+                    <% } %>
+                  </select>
+                </div>
+                <div class="col-12 col-md-4">
+                  <label class="form-label fw-semibold">Phường/Xã</label>
+                  <select class="form-select rounded-pill choose_ward" name="ward_id">
+                    <option value="">-- Vui Lòng Chọn Phường Xã --</option>
+                    <% for( const ward1 of wards ) { %>
+                    <option value="<%= ward1.id %>" <%= ward != null && ward1.id == ward.id ? 'selected' : '' %>><%= ward1.name %></option>
+                    <% } %>
+                  </select>
+                </div>
+                <div class="col-12">
+                  <label class="form-label fw-semibold">Địa chỉ chi tiết</label>
+                  <input type="text" name="housenumber_street" class="form-control rounded-pill" value="<%= customer.housenumber_street %>">
+                </div>
+              </div>
+              <div class="text-end mt-4">
+                <button type="submit" class="btn btn-danger rounded-pill px-4 py-2 fw-bold shadow-sm">
+                  Cập nhật
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<%- include('../layout/footer.ejs') %>

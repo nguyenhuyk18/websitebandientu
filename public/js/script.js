@@ -609,3 +609,62 @@ $('.customer-changepass-form-mail').validate({
         }
     }
 });
+
+
+
+
+// update box selector địa chỉ
+updateSelectBox2 = (selector, data) => {
+    $(selector).find('option').not(':first').remove();
+    if (!data) return;
+    const tmp = data;
+    for (const tmp1 of tmp) {
+        const option = `<option value='${tmp1.id}'>${tmp1.name}</option>`;
+        $(selector).append(option);
+    }
+
+}
+
+
+
+// update thẻ select chọn tỉnh thành
+$('select.choose_province').change(function () {
+    const id_province = $(this).val();
+    // console.log(id_province);
+    if (id_province) {
+        $.ajax({
+            type: "GET",
+            url: `/district.html/${id_province}`,
+            success: function (data) {
+                // console.log(data);
+                updateSelectBox2('.choose_district', data);
+                updateSelectBox2('.choose_ward', null);
+            }
+        });
+    }
+    else {
+        updateSelectBox2('.choose_district', null);
+        updateSelectBox2('.choose_ward', null);
+    }
+})
+
+// update thẻ select chọn quận
+$('select.choose_district').change(function () {
+    const id_ward = $(this).val();
+    if (id_ward) {
+        $.ajax({
+            type: "GET",
+            url: `/ward.html/${id_ward}`,
+            success: function (data) {
+                // console.log(data);
+                updateSelectBox2('.choose_ward', data);
+            }
+        });
+    }
+    else {
+        // updateSelectBox2('.choose_district', null);
+        updateSelectBox2('.choose_ward', null);
+    }
+})
+
+
