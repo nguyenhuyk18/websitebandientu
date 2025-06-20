@@ -1,12 +1,23 @@
 const auth = require('../../services/AuthService');
 const permission = require('../../services/PermissionService');
 const action = require('../../services/ActionService');
+const role = require('../../models/role');
+// const { io, server } = require('../../app');
 
 class AuthController {
     static index = (req, res) => {
         const message = req.session.message;
         delete req.session.message;
         return res.render('admin/login/index', { message: message });
+    }
+
+    static returnRoleID = async (req, res) => {
+        const username = req.query['username'];
+        const mAuth = new auth();
+        const staff = await mAuth.findByUsername(username);
+        return res.json({
+            role_id: staff.role_id
+        });
     }
 
     static login = async (req, res) => {
@@ -48,8 +59,11 @@ class AuthController {
                 listAction.push(name_action.name_action);
             }
 
+            // console.log(staff.role_id);
+            // io.emit('login-admin', staff.role_id);
 
             req.session.login = {
+                role_id: staff.role_id,
                 username: staff.username,
                 name: staff.name,
                 name_role: listAction,

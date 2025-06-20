@@ -52,3 +52,8 @@ exports.getSlugName = (name) => {
 exports.getUserSession = (user) => {
     return user ?? null;
 }
+
+
+exports.getIdRole = (id_role) => {
+    return id_role ?? null;
+}

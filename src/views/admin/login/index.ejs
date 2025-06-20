@@ -80,7 +80,14 @@
       <button type="submit" class="btn btn-primary btn-block">Đăng nhập</button>
     </form>
   </div>
+  <script src="/socket.io/socket.io.js"></script>
   <script src="/js/admin.js"></script>
+  <script>
+    const socket = io(); // Kết nối tới server socket
+    socket.on('connect', () => {
+      console.log('✅ Kết nối thành công:', socket.id);
+    });
+  </script>
 </body>
 
 </html>

@@ -13,6 +13,20 @@ require('dotenv').config();
 // cookie
 const cookieParser = require('cookie-parser');
 
+
+// Set up session
+app.use(session({
+    store: new FileStore({}),
+    secret: 'phattrienungdunghihi',
+    resave: false,
+    saveUninitialized: true,
+}));
+
+
+
+
+
+
 // nơi để import middleware
 // const checkLoginAdminSite = require('./middlewares/checkLoginAdminSite');
 app.use(cookieParser());
@@ -32,13 +46,7 @@ app.use(bodyParser.json());
 // các file tỉnh cố định
 app.use(express.static('public'));
 
-// Set up session
-app.use(session({
-    store: new FileStore({}),
-    secret: 'phattrienungdunghihi',
-    resave: false,
-    saveUninitialized: true,
-}));
+
 
 
 const helpers = require('./util/helpers');
@@ -64,6 +72,36 @@ app.use((req, res, next) => {
     next();
 });
 
+app.use((req, res, next) => {
+    // console.log(req.session.message);
+    app.locals.login = helpers.getUserSession(req.session.login);
+    next();
+});
+
+app.use((req, res, next) => {
+    // console.log(req.session.message);
+    const idrole = req.session.login?.role_id ?? null;
+    app.locals.id_role = helpers.getIdRole(idrole);
+    // console.log(app.locals.id_role);
+    // req.session.message = null; // reset message sau khi đã hiển thị
+    next();
+});
+
+
+//khởi tạo socket
+const { initSocket } = require('./util/socket');
+const { io, server } = initSocket(app, session({
+    store: new FileStore({}),
+    secret: 'phattrienungdunghihi',
+    resave: false,
+    saveUninitialized: true,
+}));
+
+app.use((req, res, next) => {
+    req.io = io; // gán io vào req để sử dụng trong các route
+    next();
+});
+
 
 // require router admin 
 const adminRouters = require('./routers/adminRouters');
@@ -76,6 +114,9 @@ app.use('/', clientRouters);
 
 
 
-app.listen(port, () => {
+
+
+
+server.listen(port, () => {
     console.log(`Example app listening on port http://127.0.0.1:${port}`)
 });

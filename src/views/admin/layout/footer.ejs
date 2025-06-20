@@ -47,6 +47,20 @@
   <script src="/js/demo/datatables-demo.js"></script>
 
   <script src="/js/admin.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io(); // Kết nối tới server socket
+    socket.on('connect', () => {
+      console.log('✅ Kết nối thành công:', socket.id);
+    });
+
+    socket.emit('login-admin');
+
+
+    socket.on('order-notification', () => {
+      alert('Bạn có đơn hàng mới !');
+    });
+  </script>
 
   <script>
     ClassicEditor

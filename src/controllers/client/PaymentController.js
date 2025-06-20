@@ -5,6 +5,7 @@ const provinceModels = require('../../services/ProvinceService');
 const transportModels = require('../../services/TransportService');
 const orderModels = require('../../services/OrderService');
 const orderItemModels = require('../../services/OrderItemService');
+const { ioInstance } = require('../../util/socket');
 
 class PaymentController {
 
@@ -174,6 +175,9 @@ class PaymentController {
                 return;
             }
         }
+        console.log('order_id', req.io);
+        req.io.to('nhanthongbaodathang').emit('order-notification');
+
         // Xóa giỏ hàng sau khi đặt hàng thành công
         res.clearCookie('cart');
         req.session.message = {

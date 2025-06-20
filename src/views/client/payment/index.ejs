@@ -62,7 +62,7 @@
                 Ghi chú chuyển khoản là tên và chụp hình gửi lại cho shop để kiểm tra ạ
               </div>
             </div>
-            <button type="submit" class="btn btn-danger rounded-pill px-4 fw-bold mt-2">Hoàn tất đơn hàng</button>
+            <button type="submit" class="btn btn-danger sb rounded-pill px-4 fw-bold mt-2">Hoàn tất đơn hàng</button>
           </form>
         </div>
         <!-- Đơn hàng -->
@@ -104,4 +104,13 @@
     </div>
   </div>
 </section>
+
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  const socket = io(); // Kết nối tới server socket
+  socket.on('connect', () => {
+    console.log('✅ Kết nối thành công:', socket.id);
+  });
+</script>
 <%- include('../layout/footer.ejs') %>

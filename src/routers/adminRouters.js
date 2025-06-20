@@ -180,6 +180,7 @@ router.get('/district.html/:id_province', DistrictController.getAll);
 router.get('/ward.html/:id_district', WardController.getAll);
 
 
+router.get('/return-role-id', AuthController.returnRoleID);
 
 // Xuất router
 module.exports = router;
