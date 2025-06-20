@@ -43,6 +43,7 @@ function scrollRelated(direction) {
 document.addEventListener('DOMContentLoaded', function () {
     const stars = document.querySelectorAll('#star-rating .star-select');
     const ratingInput = document.getElementById('rating-value');
+    if (!ratingInput) return;
     let currentRating = parseInt(ratingInput.value) || 0;
 
     function setStars(rating) {
@@ -610,8 +611,134 @@ $('.customer-changepass-form-mail').validate({
     }
 });
 
+// validate form địa chỉ giao hàng
+$('.shipping-default-form').validate({
+    rules: {
+        shipping_name: {
+            required: true,
+            maxlength: 50,
+            regex: /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s]+$/i
+        },
+        shipping_mobile: {
+            required: true,
+            regex: /^0([0-9]{9,9})$/
+        },
+        housenumber_street: {
+            required: true,
+            maxlength: 100,
+        },
+        ward_id: {
+            required: true
+        },
+        new_password: {
+            required: true,
+            regex: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/
+        },
+        confirm_password: {
+            equalTo: "#new_password"
+        }
+    },
+
+    messages: {
+        shipping_name: {
+            required: 'Vui lòng nhập họ tên',
+            maxlength: 'Vui lòng nhập họ tên không quá 50 ký tự',
+            regex: 'Vui lòng không nhập số hoặc ký tự đặc biệt'
+        },
+        shipping_mobile: {
+            required: 'Vui lòng nhập số điện thoại',
+            regex: 'Vui lòng nhập đúng định dạng số điện thoại. vd: 0385548843'
+        },
+        housenumber_street: {
+            required: 'Vui lòng nhập địa chỉ',
+            maxlength: 'Vui lòng nhập địa chỉ không quá 100 ký tự',
+        },
+        ward_id: {
+            required: 'Vui lòng chọn phường xã'
+        },
+        new_password: {
+            required: 'Vui lòng nhập mật khẩu mới',
+            regex: 'Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường và số'
+        },
+        confirm_password: {
+            equalTo: 'Nhập lại mật khẩu không chính xác'
+        }
+    }
+});
+
+// validate form checkout
+$('.checkout-form').validate({
+    rules: {
+        shipping_fullname: {
+            required: true,
+            maxlength: 50,
+            regex: /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s]+$/i
+        },
+        shipping_mobile: {
+            required: true,
+            regex: /^0([0-9]{9,9})$/
+        },
+        shipping_housenumber_street: {
+            required: true,
+            maxlength: 100,
+        },
+        shipping_ward_id: {
+            required: true
+        }
+    },
+
+    messages: {
+        shipping_fullname: {
+            required: 'Vui lòng nhập họ tên',
+            maxlength: 'Vui lòng nhập họ tên không quá 50 ký tự',
+            regex: 'Vui lòng không nhập số hoặc ký tự đặc biệt'
+        },
+        shipping_mobile: {
+            required: 'Vui lòng nhập số điện thoại',
+            regex: 'Vui lòng nhập đúng định dạng số điện thoại. vd: 0385548843'
+        },
+        shipping_housenumber_street: {
+            required: 'Vui lòng nhập địa chỉ',
+            maxlength: 'Vui lòng nhập địa chỉ không quá 100 ký tự',
+        },
+        shipping_ward_id: {
+            required: 'Vui lòng chọn phường xã'
+        }
+
+    }
+});
 
 
+const changeProvince = document.querySelector('.checkout-form .choose_province');
+console.log(changeProvince);
+if (changeProvince) {
+    changeProvince.onchange = () => {
+        const id_province = changeProvince.value;
+        const data = getCookie('cart');
+        const dataJson = JSON.parse(data);
+        if (id_province) {
+            $.ajax({
+                type: "GET",
+                url: `/getShippingFee.html/${id_province}`,
+                success: function (response) {
+                    // alert(response);
+                    // console.log(data);
+                    const shippingFee = document.querySelector('.shippingfee_tmp');
+                    // const totalPrice = document.querySelector('.total_price_cart');
+                    const rsend = document.querySelector('.price_end');
+                    shippingFee.innerHTML = formatVND(response);
+                    rsend.innerHTML = formatVND(parseInt(dataJson.total_price) + parseInt(response));
+                }
+            });
+        }
+        else {
+            const shippingFee = document.querySelector('.shippingfee_tmp');
+            const rsend = document.querySelector('.price_end');
+            shippingFee.innerHTML = '0 ₫';
+            rsend.innerHTML = formatVND(parseInt(dataJson.total_price));
+        }
+    }
+}
 
 // update box selector địa chỉ
 updateSelectBox2 = (selector, data) => {
@@ -666,5 +793,8 @@ $('select.choose_district').change(function () {
         updateSelectBox2('.choose_ward', null);
     }
 })
+
+
+
 
 

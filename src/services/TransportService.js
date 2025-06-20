@@ -47,6 +47,7 @@ class TransportService {
     }
 
     findByProvince = async (id) => {
+        // console.log(id);
         const cond = ` WHERE province_id = '${id}'`;
         const tmp = await this.getAll(cond);
         if (tmp.length == 0) {

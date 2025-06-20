@@ -8,6 +8,7 @@ const AuthController = require('../controllers/client/AuthController');
 const CustomerController = require('../controllers/client/CustomerController');
 const DistrictController = require('../controllers/client/DistrictController');
 const WardController = require('../controllers/client/WardController');
+const PaymentController = require('../controllers/client/PaymentController');
 
 router.get('/', HomeController.index);
 
@@ -76,11 +77,19 @@ router.get('/district.html/:id_province', DistrictController.getAll);
 router.post('/dia-chi-giao-hang-mac-dinh', CustomerController.changeShippingDefault);
 
 
-
+// checkout
+router.get('/checkout.html', PaymentController.index);
 
 // ward 
 // xem ward theo id district
 router.get('/ward.html/:id_district', WardController.getAll);
 
+
+
+router.get('/getShippingFee.html/:id_province', PaymentController.getShippingFee);
+
+
+// lưu sản phẩm vào db
+router.post('/payment/checkout', PaymentController.storeOrder);
 
 module.exports = router;

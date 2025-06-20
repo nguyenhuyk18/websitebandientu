@@ -1,0 +1,107 @@
+<%- include('../layout/header.ejs') %>
+<section class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-12 col-lg-11">
+      <div class="row g-0 bg-white rounded-4 shadow-sm overflow-hidden">
+        <!-- Thông tin giao hàng -->
+        <div class="col-12 col-md-6 p-4 border-end">
+          <h5 class="fw-bold mb-3 text-primary"><i class="fa fa-truck me-2"></i>Thông tin giao hàng</h5>
+          <form class="checkout-form" method="POST" action="/payment/checkout">
+            <div class="row g-2 mb-2">
+              <div class="col-12 col-md-6">
+                <input type="text" class="form-control rounded-3" name="shipping_fullname" placeholder="Họ và tên *" value="<%= customer.shipping_name %>" required>
+              </div>
+              <div class="col-12 col-md-6">
+                <input type="text" class="form-control rounded-3" name="shipping_mobile" placeholder="Số điện thoại *" value="<%= customer.shipping_mobile %>" required>
+              </div>
+            </div>
+            <div class="row g-2 mb-2">
+              <div class="col-12 col-md-4">
+                <select class="form-select rounded-3 choose_province" name="province_id">
+                  <option value="">-- Chọn tỉnh/thành phố --</option>
+                  <% for( const province1 of provinces ) { %>
+                  <option value="<%= province1.id %>" <%= province != null && province1.id == province.id ? 'selected' : '' %>><%= province1.name %></option>
+                  <% } %>
+                </select>
+              </div>
+              <div class="col-12 col-md-4">
+                <select class="form-select rounded-3 choose_district" required>
+                  <option value="">-- Chọn quận/huyện --</option>
+                  <% for( const district1 of districts ) { %>
+                  <option value="<%= district1.id %>" <%= district != null && district1.id == district.id ? 'selected' : '' %>><%= district1.name %></option>
+                  <% } %>
+                </select>
+              </div>
+              <div class="col-12 col-md-4">
+                <select name="shipping_ward_id" class="form-select rounded-3 choose_ward" required>
+                  <option value="">-- Chọn phường/xã --</option>
+                  <% for( const ward1 of wards ) { %>
+                  <option value="<%= ward1.id %>" <%= ward != null && ward1.id == ward.id ? 'selected' : '' %>><%= ward1.name %></option>
+                  <% } %>
+                </select>
+              </div>
+            </div>
+            <div class="mb-3">
+              <input type="text" name="shipping_housenumber_street" class="form-control rounded-3" placeholder="Địa chỉ chi tiết *" value="<%= customer.housenumber_street %>" required>
+            </div>
+            <h6 class="fw-bold mb-2 mt-4">Phương thức thanh toán</h6>
+            <div class="form-check mb-2">
+              <input class="form-check-input" type="radio" name="payment_method" id="cod" value="1" checked>
+              <label class="form-check-label" for="cod">
+                Thanh toán khi giao hàng (COD)
+              </label>
+            </div>
+            <div class="form-check mb-3">
+              <input class="form-check-input" type="radio" name="payment_method" id="bank" value="2">
+              <label class="form-check-label" for="bank">
+                Chuyển khoản qua ngân hàng (Đang Bảo Trì)
+              </label>
+              <div class="bank-info mt-2 ms-4 small text-muted" style="display:none;">
+                STK: <b>19071098259010</b><br>
+                Chủ TK: Nguyễn Đức Huy. Ngân hàng: Techcombank TP.HCM<br>
+                Ghi chú chuyển khoản là tên và chụp hình gửi lại cho shop để kiểm tra ạ
+              </div>
+            </div>
+            <button type="submit" class="btn btn-danger rounded-pill px-4 fw-bold mt-2">Hoàn tất đơn hàng</button>
+          </form>
+        </div>
+        <!-- Đơn hàng -->
+        <div class="col-12 col-md-6 p-4">
+          <h5 class="fw-bold mb-3 text-primary"><i class="fa fa-shopping-cart me-2"></i>Đơn hàng của bạn</h5>
+          <div class="checkout-products-list">
+            <!-- Sản phẩm 1 -->
+            <% for(const product of data.product) { const value = Object.values(product) %>
+            <div class="d-flex align-items-center justify-content-between py-3 border-bottom">
+              <div class="d-flex align-items-center gap-3">
+                <img src="/upload/product/<%= value[0].image %>" alt="Kem dưỡng da vùng mắt Beaumoer Contour Eye Cream- 10g" class="rounded-3 border" style="width:56px;height:56px;object-fit:contain;">
+                <div>
+                  <div class="fw-semibold"><%= value[0].name %></div>
+                  <div class="small text-muted"><%= value[0].qty %> x <%= helpers.formatMoney(value[0].price) %>₫</div>
+                </div>
+              </div>
+              <div class="fw-bold text-end" style="min-width:110px;"><%= helpers.formatMoney(value[0].total) %>₫</div>
+            </div>
+            <% } %>
+          </div>
+          <!-- Tổng kết -->
+          <div class="pt-3">
+            <div class="d-flex justify-content-between py-1">
+              <span class="text-muted">Tạm tính</span>
+              <span class="fw-semibold total_price_cart"><%= helpers.formatMoney(data.total_price) %>₫</span>
+            </div>
+            <div class="d-flex justify-content-between py-1">
+              <span class="text-muted">Phí vận chuyển</span>
+              <span class="fw-semibold shippingfee_tmp"><%= helpers.formatMoney(shipping_fee) %>₫</span>
+            </div>
+            <hr>
+            <div class="d-flex justify-content-between align-items-center py-1">
+              <span class="fw-bold fs-5 text-primary">Tổng cộng</span>
+              <span class="fw-bold fs-5 text-danger price_end"><%= helpers.formatMoney(data.total_price + shipping_fee) %>₫</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<%- include('../layout/footer.ejs') %>

@@ -121,8 +121,7 @@ class CustomerController {
         req.session.save(() => {
             res.redirect('/dia-chi-giao-hang-mac-dinh.html');
         });
-        return
-
+        return;
     }
 }
 

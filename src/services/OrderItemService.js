@@ -20,6 +20,8 @@ class OrderItemService {
             data.total_price
         ];
 
+        console.log('values', values);
+
         try {
             const [result, fields] = await pool.execute(sql, values);
             return result;
