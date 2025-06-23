@@ -20,6 +20,15 @@ class OrderController {
         return res.render('admin/order/index', { message: message, listOrder: listOrder });
     }
 
+    static new_order = async (req, res) => {
+        const mOrder = new order();
+        const cond = ` WHERE order_status_id = 1 ORDER BY created_date DESC`
+        const listOrder = await mOrder.getAll(cond);
+        return res.render('admin/order/new_order', { listOrder: listOrder });
+    }
+
+
+
     // tìm sản phẩm theo ID
     static findProductByID = async (req, res) => {
         const id = req.params.id;

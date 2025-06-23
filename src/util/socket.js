@@ -16,10 +16,7 @@ function initSocket(app, sessionMiddleware) {
         // console.log('A user connected');
 
         const id_role = session.login?.role_id ?? '';
-        // console.log(id_role);
 
-        // lắng nghe và phản hồi một sự kiện'
-        // console.log('A user connected with session ID:', session.login?.role_id);
         socket.on('login-admin', () => {
             if (id_role == 7) {
                 socket.join('nhanthongbaodathang');

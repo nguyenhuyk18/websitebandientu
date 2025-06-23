@@ -9,6 +9,7 @@ const CustomerController = require('../controllers/client/CustomerController');
 const DistrictController = require('../controllers/client/DistrictController');
 const WardController = require('../controllers/client/WardController');
 const PaymentController = require('../controllers/client/PaymentController');
+const OrderController = require('../controllers/client/OrderController');
 
 router.get('/', HomeController.index);
 
@@ -89,7 +90,18 @@ router.get('/ward.html/:id_district', WardController.getAll);
 router.get('/getShippingFee.html/:id_province', PaymentController.getShippingFee);
 
 
+// lịch sử đơn hàng
+router.get('/lich-su-don-hang.html', OrderController.index);
+
+// Chi tiết đơn hàng
+router.get('/chi-tiet-don-hang/:id', OrderController.orderDetail);
+
+
 // lưu sản phẩm vào db
 router.post('/payment/checkout', PaymentController.storeOrder);
+
+
+// xem đơn hàng mới
+// router.get('/')
 
 module.exports = router;

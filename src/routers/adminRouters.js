@@ -182,5 +182,9 @@ router.get('/ward.html/:id_district', WardController.getAll);
 
 router.get('/return-role-id', AuthController.returnRoleID);
 
+
+// danh sách đơn hàng mới
+router.get('/order-new.html', OrderController.new_order);
+
 // Xuất router
 module.exports = router;

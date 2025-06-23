@@ -1,0 +1,99 @@
+  <%- include('../layout/header.ejs')  %>
+  <section class="container my-5">
+    <!-- Sidebar nằm ngang -->
+    <div class="row">
+      <%- include('./sidebar.ejs') %>
+      <!-- Lịch sử đơn hàng -->
+      <div class="order-history-list col-md-8">
+        <!-- Đơn hàng 1 -->
+        <% for (const order of listOrder) {  %>
+        <div class="order-card mb-4">
+          <div class="order-card-header d-flex flex-wrap align-items-center justify-content-between">
+            <div>
+              <span class="fw-bold text-primary">#<a href="/chi-tiet-don-hang/<%= order.id %>"><%= order.id %></a> </span>
+              <span class="text-muted ms-2 small">Đặt ngày <%= order.created_date %></span>
+            </div>
+            <% 
+                let statusClass = '';
+    switch(order.name_order_status) {
+      case 'Đã đặt hàng': statusClass = 'ordered'; break;
+      case 'Đã xác nhận đơn hàng': statusClass = 'confirmed'; break;
+      case 'Hoàn tất đóng gói': statusClass = 'packaged'; break;
+      case 'Đang giao hàng': statusClass = 'shipping'; break;
+      case 'Đã giao hàng': statusClass = 'delivered'; break;
+      case 'Đơn hàng bị hủy': statusClass = 'canceled'; break;
+      default: statusClass = 'unknown';
+    }
+            
+            %>
+            <span class="badge order-status <%= statusClass %>"><%= order.name_order_status %></span>
+          </div>
+          <div class="order-card-body">
+            <!-- Sản phẩm trong đơn hàng -->
+            <div class="order-products-list">
+              <% let sum = 0; for (const item of order.listOrderItem) { const product= item.product; sum += item.total; %>
+              <div class="order-product-item d-flex align-items-center gap-3 mb-3">
+                <img src="/upload/product/<%= product.image %>" alt="Kem làm trắng" class="order-img rounded-3">
+                <div>
+                  <div class="fw-semibold"><%= product.product_name %></div>
+                  <div class="small text-muted">Số lượng: <%= item.quantity %></div>
+                </div>
+              </div>
+              <% } %>
+            </div>
+            <div class="row mt-2">
+              <div class="col-6 col-md-4">
+                <div class="small text-muted">Giao hàng</div>
+                <div class="fw-semibold"><%= order.delivered_date ?? 'Chưa giao hàng' %></div>
+              </div>
+              <div class="col-6 col-md-4">
+                <div class="small text-muted">Tổng tiền</div>
+                <div class="fw-bold text-danger"><%= helpers.formatMoney(sum + order.shipping_fee)  %>₫</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <% } %>
+        <!-- Đơn hàng 2 -->
+        <!-- <div class="order-card mb-4">
+          <div class="order-card-header d-flex flex-wrap align-items-center justify-content-between">
+            <div>
+              <span class="fw-bold text-primary">#24</span>
+              <span class="text-muted ms-2 small">Đặt ngày 2025-06-11 19:39:37</span>
+            </div>
+            <span class="badge order-status processing">Đang xử lý</span>
+          </div>
+          <div class="order-card-body">
+            <div class="order-products-list">
+              <div class="order-product-item d-flex align-items-center gap-3 mb-3">
+                <img src="./public/img/mouse-1749489013129-289368947.webp" alt="Sữa rửa mặt" class="order-img rounded-3">
+                <div>
+                  <div class="fw-semibold">Sữa rửa mặt nghệ Beaumoer Mới - 100g</div>
+                  <div class="small text-muted">Số lượng: 5</div>
+                </div>
+              </div>
+              <div class="order-product-item d-flex align-items-center gap-3 mb-3">
+                <img src="./public/img/msi-gk50-elite-kv-pc.jpg" alt="Kem lụa" class="order-img rounded-3">
+                <div>
+                  <div class="fw-semibold">Kem lụa làm đẹp da Beaumoer - 30ml</div>
+                  <div class="small text-muted">Số lượng: 4</div>
+                </div>
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="col-6 col-md-4">
+                <div class="small text-muted">Giao hàng</div>
+                <div class="fw-semibold">2025-06-14</div>
+              </div>
+              <div class="col-6 col-md-4">
+                <div class="small text-muted">Tổng tiền</div>
+                <div class="fw-bold text-danger">1.200.000₫</div>
+              </div>
+            </div>
+          </div>
+        </div> -->
+        <!-- ...Thêm các đơn hàng khác nếu cần... -->
+      </div>
+    </div>
+  </section>
+  <%- include('../layout/footer.ejs')  %>

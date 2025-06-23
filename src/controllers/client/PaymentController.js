@@ -6,6 +6,7 @@ const transportModels = require('../../services/TransportService');
 const orderModels = require('../../services/OrderService');
 const orderItemModels = require('../../services/OrderItemService');
 const { ioInstance } = require('../../util/socket');
+const order = require('../../models/order');
 
 class PaymentController {
 
@@ -104,6 +105,7 @@ class PaymentController {
         const mTransport = new transportModels();
         const mOrder = new orderModels();
         const mOrderItem = new orderItemModels();
+        const mCustomer = new customerModels();
         const cart = req.cookies.cart;
         if (!cart || cart.length === 0) {
             req.session.message = {
@@ -141,7 +143,8 @@ class PaymentController {
             staff_id: null, // Assuming the staff is the logged-in user
             customer_id: req.session.user.id // Assuming the customer is the logged-in user
         };
-        const order_id = await mOrder.save(orderData)
+        const cus = await mCustomer.find(req.session.user.id);
+        const order_id = await mOrder.save(orderData);
         if (order_id == null) {
             req.session.message = {
                 mess: `Đặt hàng không thành công, vui lòng thử lại sau !!!`,
@@ -175,8 +178,17 @@ class PaymentController {
                 return;
             }
         }
-        console.log('order_id', req.io);
-        req.io.to('nhanthongbaodathang').emit('order-notification');
+
+        const dataSocket = {
+            id_order: order_id,
+            name_customer: cus.username,
+            payment: data.payment_method,
+            name_order_status: 'Đã đặt hàng',
+            phone: cus.shipping_mobile
+        }
+        // console.log('order_id', req.io);44
+        req.io.to('nhanthongbaodathang').emit('order-notification', dataSocket);
+
 
         // Xóa giỏ hàng sau khi đặt hàng thành công
         res.clearCookie('cart');
@@ -189,6 +201,8 @@ class PaymentController {
         });
 
     }
+
+
 }
 
 module.exports = PaymentController;

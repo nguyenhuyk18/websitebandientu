@@ -32,8 +32,17 @@ exports.getCurrentRoute = (requestPath) => {
 
 
 
+    if (path === 'thong-tin-ca-nhan.html') {
+        return 'accountInfo';
+    }
 
+    if (path === 'lich-su-don-hang.html') {
+        return 'orderHistory';
+    }
 
+    if (path === 'dia-chi-giao-hang-mac-dinh.html') {
+        return 'shippingDefault';
+    }
 
     if (path.match(/^san-pham/)) {
         return 'productDetail';

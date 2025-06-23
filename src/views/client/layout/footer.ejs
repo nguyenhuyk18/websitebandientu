@@ -186,7 +186,7 @@
       </div>
       <div class="modal-footer justify-content-between border-0 pt-0">
         <div class="fw-bold fs-5">
-          Tổng tiền <span class="text-danger ms-2 fs-5 total_cart">8.490.000₫</span>
+          Tổng tiền <span class="text-danger ms-2 fs-5 total_cart">0₫</span>
         </div>
         <div>
           <button type="button" class="btn btn-outline-secondary rounded-pill px-4 me-2" data-bs-dismiss="modal">
@@ -234,7 +234,13 @@
 
 
 
-
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  const socket = io(); // Kết nối tới server socket
+  socket.on('connect', () => {
+    console.log('✅ Kết nối thành công:', socket.id);
+  });
+</script>
 
 <!-- <script src="/vendor/bootstrap-5.2.3-dist/js/bootstrap.min.js"></script> -->
 <script src="/vendor/jquery/jquery.min.js"></script>

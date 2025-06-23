@@ -106,11 +106,5 @@
 </section>
 
 
-<script src="/socket.io/socket.io.js"></script>
-<script>
-  const socket = io(); // Kết nối tới server socket
-  socket.on('connect', () => {
-    console.log('✅ Kết nối thành công:', socket.id);
-  });
-</script>
+
 <%- include('../layout/footer.ejs') %>

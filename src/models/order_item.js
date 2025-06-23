@@ -1,3 +1,5 @@
+const productAllModels = require('../services/ProductAllServices');
+
 class order_item {
     id = null;
     product_id = null;
@@ -18,6 +20,11 @@ class order_item {
         this.qty = qty;
         this.unit_price = unit_price;
         this.total_price = total_price;
+    }
+
+    getProductList = async () => {
+        const mProduct = new productAllModels();
+        return await mProduct.find(this.product_id);
     }
 }
 

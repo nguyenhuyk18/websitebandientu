@@ -96,3 +96,11 @@ table.table.table-bordered td button.btn {
   .ck-editor__editable_inline {
     min-height: 400px;
   }
+
+
+
+  .list-order {
+  max-height: 350px !important;   /* hoặc chiều cao bạn muốn */
+  overflow-y: auto !important;
+  /* display: block !important; */
+}

@@ -1,0 +1,61 @@
+  <%- include('../layout/header.ejs')  %>
+  <section class="container my-5">
+    <div class="mb-4 d-flex align-items-center gap-3">
+      <a href="/lich-su-don-hang.html" class="btn btn-outline-primary rounded-pill px-4 fw-semibold">
+        <i class="fa fa-arrow-left me-2"></i>Quay về lịch sử đơn hàng
+      </a>
+      <h4 class="fw-bold mb-0 border-bottom border-3 border-primary pb-1" style="display:inline-block;">ĐƠN HÀNG #<%= order.id %></h4>
+    </div>
+    <div class="row g-0 bg-white rounded-4 shadow-sm overflow-hidden">
+      <!-- Thông tin giao hàng -->
+      <div class="col-12 col-md-5 border-end p-4">
+        <h5 class="fw-bold mb-3 text-primary"><i class="fa fa-truck me-2"></i>Thông tin giao hàng</h5>
+        <div class="mb-2"><span class="fw-semibold">Họ và tên:</span> <%= order.shipping_fullname %></div>
+        <div class="mb-2"><span class="fw-semibold">Số điện thoại:</span> <%= order.shipping_mobile %></div>
+        <div class="mb-2"><span class="fw-semibold">Thành phố:</span> <%= shippingProvince.name %></div>
+        <div class="mb-2"><span class="fw-semibold">Huyện:</span> <%= shippingDistrict.name %></div>
+        <div class="mb-2"><span class="fw-semibold">Xã:</span> <%= shippingWard.name %></div>
+        <div class="mb-2"><span class="fw-semibold">Địa chỉ:</span> <%= order.shipping_housenumber_street %></div>
+        <div class="mb-2"><span class="fw-semibold">Phương thức thanh toán:</span> <%= order.payment_method == '1' ? 'COD' : 'BANK' %></div>
+        <!-- <div class="mt-4">
+          <span class="badge bg-success px-3 py-2 fs-6"><i class="fa fa-check-circle me-1"></i> Đã thanh toán</span>
+        </div> -->
+      </div>
+      <!-- Sản phẩm & tổng tiền -->
+      <div class="col-12 col-md-7 p-4">
+        <div class="order-products-list">
+          <!-- Sản phẩm 1 -->
+          <% let sum = 0; for (const item of listOrderItem) {  sum += item.total; %>
+          <div class="d-flex align-items-center justify-content-between py-3 border-bottom">
+            <div class="d-flex align-items-center gap-3">
+              <img src="/upload/product/<%= item.product.image %>" alt="Kem làm trắng da 5 trong 1 Beaumoer Secret Whitening Cream" class="rounded-3 border" style="width:56px;height:56px;object-fit:contain;">
+              <div>
+                <div class="fw-semibold"><%= item.product.product_name %></div>
+                <div class="small text-muted"><%= item.quantity %> x <%= helpers.formatMoney(item.price) %>₫ </div>
+              </div>
+            </div>
+            <div class="fw-bold text-end" style="min-width:110px;"><%= helpers.formatMoney(item.total) %>₫</div>
+          </div>
+          <% } %>
+        </div>
+        <!-- Tổng kết -->
+        <div class="pt-3">
+          <div class="d-flex justify-content-between py-1">
+            <span class="text-muted">Tạm tính</span>
+            <span class="fw-semibold"><%= helpers.formatMoney(sum) %>₫</span>
+          </div>
+          <div class="d-flex justify-content-between py-1">
+            <span class="text-muted">Phí vận chuyển</span>
+            <span class="fw-semibold"><%= helpers.formatMoney(order.shipping_fee) %>₫</span>
+          </div>
+          <hr>
+          <div class="d-flex justify-content-between align-items-center py-1">
+            <span class="fw-bold fs-5 text-primary">Tổng cộng</span>
+            <span class="fw-bold fs-5 text-danger"><%= helpers.formatMoney(sum + order.shipping_fee) %>₫</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <%- include('../layout/footer.ejs')  %>

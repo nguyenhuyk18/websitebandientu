@@ -4,30 +4,7 @@
     <div class="col-12 col-lg-10">
       <div class="row g-4">
         <!-- Sidebar -->
-        <div class="col-12 col-md-4">
-          <div class="customer-sidebar rounded-4 shadow-sm p-0 bg-white">
-            <div class="sidebar-title px-4 py-3 border-bottom fw-bold text-uppercase text-primary">
-              <i class="fa fa-user-circle me-2"></i> Tài khoản của bạn
-            </div>
-            <ul class="list-unstyled mb-0">
-              <li>
-                <a href="thong-tin-khach-hang.html" class="sidebar-link active">
-                  <i class="fa fa-user me-2"></i> Thông tin tài khoản
-                </a>
-              </li>
-              <li>
-                <a href="dia-chi-giao-hang-mac-dinh.html" class="sidebar-link">
-                  <i class="fa fa-map-marker-alt me-2"></i> Địa chỉ giao hàng
-                </a>
-              </li>
-              <li>
-                <a href="don-hang-cua-toi.html" class="sidebar-link">
-                  <i class="fa fa-box-open me-2"></i> Đơn hàng của tôi
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
+        <%- include('./sidebar.ejs') %>
         <!-- Main Content -->
         <div class="col-12 col-md-8">
           <div class="customer-info-form rounded-4 shadow-sm bg-white p-4 p-md-5">

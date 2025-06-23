@@ -1302,3 +1302,30 @@ label.error {
   font-weight: 400;
   white-space: nowrap;
 }
+
+
+.order-status.ordered {
+  background: #ffc107; /* vàng */
+  color: #222;
+}
+.order-status.confirmed {
+  background: #17a2b8; /* xanh dương nhạt */
+  color: #fff;
+}
+.order-status.packaged {
+  background: #6f42c1; /* tím */
+  color: #fff;
+}
+.order-status.shipping {
+  background: #007bff; /* xanh dương */
+  color: #fff;
+}
+.order-status.deliveried {
+  background: #28a745; /* xanh lá */
+  color: #fff;
+}
+.order-status.canceled {
+  background: #dc3545; /* đỏ */
+  color: #fff;
+}
+

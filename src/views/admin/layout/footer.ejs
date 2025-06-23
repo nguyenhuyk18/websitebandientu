@@ -57,8 +57,34 @@
     socket.emit('login-admin');
 
 
-    socket.on('order-notification', () => {
-      alert('Bạn có đơn hàng mới !');
+    socket.on('order-notification', (data) => {
+      const countAlert = Number($('.alerts-order .badge-counter').html()) + 1;
+      $('.alerts-order .badge-counter').html(countAlert);
+
+      const audio = $('audio#order-sound')[0];
+      audio.play();
+
+      $('.alerts-order a').click(function() {
+        $('.alerts-order .badge-counter').html(0);
+      })
+
+      $('table.new_order tbody').prepend(`
+      <tr>
+        <td>${data.id_order}</td>
+        <td>${data.name_customer}</td>
+        <td>${data.phone}</td>
+        <td>${data.payment_method}</td>
+                <td>${data.name_order_status}</td>
+        <td><a href="javascript:void(0)" class="btn btn-warning btn-sm">Xác Nhận</a></td>
+        <td><a href="javascript:void(0)" class="btn btn-danger btn-sm delete" data-toggle="modal" data-target="#areyousure">Hủy</a></td>
+        <td><a href="/admin/order/detail-${data.id_order}.html" class="btn btn-info btn-sm" title="Xem chi tiết">
+                      <i class="fas fa-eye"></i>
+                    </a></td>
+
+      </tr>
+      `);
+
+
     });
   </script>
 

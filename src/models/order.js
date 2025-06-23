@@ -1,3 +1,4 @@
+const orderItemModels = require('../services/OrderItemService');
 class order {
     id = null;
     created_date = null;
@@ -32,6 +33,12 @@ class order {
         this.name_staff = name_staff;
         this.name_order_status = name_order_status;
 
+    }
+
+
+    getOrderItem = async () => {
+        const mOrderItemModels = new orderItemModels();
+        return await mOrderItemModels.findByOrderID(this.id);
     }
 
 }
