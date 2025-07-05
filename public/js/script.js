@@ -1,3 +1,6 @@
+
+
+
 const toastsuccess = document.getElementsByClassName('toast-success');
 const toasterror = document.getElementsByClassName('toast-danger');
 
@@ -418,8 +421,19 @@ function addcartindisplay(id) {
         success: function () {
             // alert(response);
             updateCartModal();
+            showAddCartSuccess();
         }
     });
+}
+
+function showAddCartSuccess(message = "Đã thêm vào giỏ hàng thành công!") {
+    const box = document.querySelector('.add-cart-success');
+    box.innerHTML = `<span class="icon"><i class="fa fa-check-circle"></i></span> ${message}`;
+    box.classList.add('show');
+    clearTimeout(box._timeout);
+    box._timeout = setTimeout(() => {
+        box.classList.remove('show');
+    }, 1000);
 }
 
 function addcartindetail(id) {
@@ -798,3 +812,120 @@ $('select.choose_district').change(function () {
 
 
 
+// Thêm spinner vào div.loading
+document.querySelector('.loading').innerHTML = '<div class="loading-spinner"></div>';
+
+// Ẩn loading khi trang đã load xong
+window.addEventListener('load', function () {
+    document.querySelector('.loading').style.opacity = 0;
+    setTimeout(() => {
+        document.querySelector('.loading').style.display = 'none';
+    }, 400);
+});
+
+
+
+document.querySelector('.ontop').addEventListener('click', function () {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+// ================================== CHAT SOCKET ============================//
+// mở khung chat
+function toggleChatAdmin(id, username) {
+    const chatGUI = document.querySelector('.chatapp');
+    chatGUI.classList.remove('closechat');
+    chatGUI.classList.add('showchat');
+    socket.emit('connect-to-chat-client', id, username);
+    const containerChat = document.querySelector('.chatapp .content-chat');
+
+    $.ajax({
+        type: "GET",
+        url: `/get-all-message.html/${id}_${username}`,
+        success: function (data) {
+            let html = ``;
+            for (tmp of data) {
+                if (tmp.sender_type == 'admin') {
+                    html += `<div class="row-mess-get">
+                                <div class="userA">
+                                    <div class="name">
+                                    ADMIN
+                                    </div>
+                                    <div class="mess">
+                                    ${tmp.mess}
+                                    </div>
+                                </div>
+                            </div>`
+                }
+                else {
+                    html += `<div class="row-mess-send">
+                                <div class="userB">
+                                    <div class="name">
+                                    ${username}
+                                    </div>
+                                    <div class="mess">
+                                    ${tmp.mess}
+                                    </div>
+                                </div>
+                            </div>`
+                }
+            }
+
+            containerChat.innerHTML = html;
+            containerChat.scrollTop = containerChat.scrollHeight;
+        }
+    });
+}
+
+// bắt sự kiện gửi tin nhắn
+function sendMessageClientToAdmin(id, username) {
+    const giaTri = document.querySelector('input.mess-from-client-to-admin').value;
+    const chatContainer = document.querySelector('.chatapp .content-chat');
+
+    const html = `
+    <div class="row-mess-send">
+      <div class="userB">
+        <div class="name">
+          ${username}
+        </div>
+        <div class="mess">
+          ${giaTri}
+        </div>
+      </div>
+    </div>
+    `;
+
+    chatContainer.insertAdjacentHTML("beforeend", html);
+    socket.emit('clientsend', id, username, giaTri);
+    document.querySelector('input.mess-from-client-to-admin').value = '';
+    chatContainer.scrollTop = chatContainer.scrollHeight;
+}
+
+
+// lắng nghe sự kiện từ admin
+socket.on('adminsendprocess', (giaTri) => {
+    const containerChat = document.querySelector('.chatapp .content-chat');
+    const html = `
+    <div class="row-mess-get">
+      <div class="userA">
+        <div class="name">
+          ADMIN
+        </div>
+        <div class="mess">
+          ${giaTri}
+        </div>
+      </div>
+    </div>
+    `
+    containerChat.insertAdjacentHTML('beforeend', html);
+    containerChat.scrollTop = containerChat.scrollHeight;
+})
+
+
+
+
+
+function toggleCloseChat() {
+    const chatGUI = document.querySelector('.chatapp');
+    chatGUI.classList.remove('showchat');
+    chatGUI.classList.add('closechat');
+}

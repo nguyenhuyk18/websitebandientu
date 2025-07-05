@@ -24,6 +24,7 @@ const TransportController = require('../controllers/admin/TransportController');
 const RoleController = require('../controllers/admin/RoleController');
 const AuthController = require('../controllers/admin/AuthController');
 const StaffController = require('../controllers/admin/StaffController');
+const ChatController = require('../controllers/ChattingController');
 // const PromotionController = require('../controllers/admin/PromotionController');
 // // login
 router.get('/login.html', AuthController.index);
@@ -185,6 +186,12 @@ router.get('/return-role-id', AuthController.returnRoleID);
 
 // danh sách đơn hàng mới
 router.get('/order-new.html', OrderController.new_order);
+
+
+// Nhắn tin với khách hàng
+router.get('/chat.html', ChatController.getConversationHaveMessage);
+router.get('/get-all-message.html/:slug', ChatController.getGetMessageByIDConversation);
+router.put('/update-conversation.html/:slug', ChatController.updateConversation)
 
 // Xuất router
 module.exports = router;

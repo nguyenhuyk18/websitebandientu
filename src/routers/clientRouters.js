@@ -10,6 +10,7 @@ const DistrictController = require('../controllers/client/DistrictController');
 const WardController = require('../controllers/client/WardController');
 const PaymentController = require('../controllers/client/PaymentController');
 const OrderController = require('../controllers/client/OrderController');
+const ChatController = require('../controllers/ChattingController');
 
 router.get('/', HomeController.index);
 
@@ -100,6 +101,11 @@ router.get('/chi-tiet-don-hang/:id', OrderController.orderDetail);
 // lưu sản phẩm vào db
 router.post('/payment/checkout', PaymentController.storeOrder);
 
+
+
+
+// lấy lịch sử trò truyện
+router.get('/get-all-message.html/:slug', ChatController.getGetMessageByIDConversation);
 
 // xem đơn hàng mới
 // router.get('/')

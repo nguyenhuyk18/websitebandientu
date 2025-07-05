@@ -156,7 +156,7 @@ class OrderService {
         const cond = ` WHERE \`order\`.customer_id = ${id} ORDER BY \`order\`.created_date DESC`;
         const tmp = await this.getAll(cond);
         if (!tmp.length) {
-            return false;
+            return [];
         }
         return tmp;
     }

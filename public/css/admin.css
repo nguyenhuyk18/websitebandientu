@@ -104,3 +104,310 @@ table.table.table-bordered td button.btn {
   overflow-y: auto !important;
   /* display: block !important; */
 }
+
+/* Khung chat tổng thể */
+.chatapp-admin-wrapper {
+  display: flex;
+  width: 820px;
+  max-width: 98vw;
+  min-height: 440px;
+  max-height: 600px; /* Giới hạn chiều cao tổng thể */
+  margin: 40px auto 32px auto;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px #4f46e522, 0 2px 8px #6366f122;
+  overflow: hidden;
+  font-family: inherit;
+  height: 80vh; /* Đảm bảo luôn vừa màn hình */
+}
+
+/* Aside khách hàng */
+.chatapp-aside {
+  width: 220px;
+  background: linear-gradient(120deg, #f8fbff 60%, #e3f0ff 100%);
+  border-right: 1.5px solid #e0e7ff;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+
+.aside-title {
+  padding: 18px 16px 12px 16px;
+  font-weight: bold;
+  font-size: 1.1em;
+  color: #4f46e5;
+  border-bottom: 1px solid #e5e7eb;
+  background: #f5f7ff;
+  letter-spacing: 1px;
+}
+
+.aside-user-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+  max-height: 100%;
+}
+
+.aside-user {
+  padding: 14px 18px 10px 18px;
+  cursor: pointer;
+  border-bottom: 1px solid #f3f4f6;
+  transition: background 0.18s;
+  position: relative;
+  border-radius: 10px;
+  margin: 6px 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.aside-user.active,
+.aside-user:hover {
+  background: #e0e7ff;
+}
+.aside-user .name {
+  font-weight: 600;
+  color: #374151;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 140px;
+  display: block;
+}
+.aside-user .last-message {
+  font-size: 0.97em;
+  color: #6b7280;
+  margin-top: 2px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 140px;
+  display: block;
+}
+.aside-user .badge {
+  background: #f59e42;
+  color: #fff;
+  font-size: 0.9em;
+  border-radius: 12px;
+  padding: 2px 8px;
+  position: absolute;
+  right: 18px;
+  top: 14px;
+}
+
+/* Khung chat chính */
+.chatapp {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border-radius: 0 18px 18px 0;
+  overflow: hidden;
+  min-width: 0;
+  height: 100%;
+}
+
+.chatapp .title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 24px 14px 24px;
+  background: linear-gradient(90deg, #6366f1 60%, #a5b4fc 100%);
+  color: #fff;
+  border-bottom: 1.5px solid #e0e7ff;
+  font-size: 1.13em;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+.titlechat {
+  font-weight: 700;
+  font-size: 1.08em;
+}
+.xTicks {
+  color: #fff;
+  font-size: 1.25em;
+  cursor: pointer;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+.xTicks:hover {
+  opacity: 1;
+}
+
+/* Nội dung chat: cuộn dọc, không cuộn ngang, text luôn xuống dòng */
+.content-chat {
+  flex: 1;
+  padding: 22px 18px 12px 18px;
+  background: #f8fafc;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-height: 220px;
+  max-height: 100%;
+  min-width: 0;
+  word-break: break-word;
+}
+
+/* Tin nhắn nhận (bên trái) */
+.row-mess-get {
+  display: flex;
+  justify-content: flex-start;
+  animation: fadeInLeft 0.5s;
+}
+.row-mess-get .userA {
+  background: linear-gradient(120deg, #e0e7ff 60%, #c7d2fe 100%);
+  color: #374151;
+  border-radius: 22px 22px 22px 6px;
+  padding: 14px 22px;
+  max-width: 80%;
+  min-width: 80px;
+  box-shadow: 0 4px 24px #6366f122, 0 1.5px 8px #6366f133;
+  position: relative;
+  margin-bottom: 6px;
+  border: 1.5px solid #6366f1;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.row-mess-get .userA::before {
+  content: "";
+  position: absolute;
+  left: -12px;
+  bottom: 12px;
+  width: 16px;
+  height: 16px;
+  background: linear-gradient(135deg, #e0e7ff 60%, #c7d2fe 100%);
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-20deg);
+  box-shadow: -2px 2px 8px #6366f122;
+}
+.row-mess-get .userA:hover {
+  box-shadow: 0 8px 32px #6366f144;
+  transform: scale(1.03) translateY(-2px);
+}
+.row-mess-get .name {
+  font-weight: 700;
+  font-size: 1em;
+  margin-bottom: 4px;
+  color: #6366f1;
+  letter-spacing: 0.5px;
+  opacity: 0.9;
+}
+.row-mess-get .mess {
+  font-size: 1.07em;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  white-space: pre-line;
+}
+
+/* Tin nhắn gửi (bên phải) */
+.row-mess-send {
+  display: flex;
+  justify-content: flex-end;
+  animation: fadeInRight 0.5s;
+}
+.row-mess-send .userB {
+  background: linear-gradient(120deg, #6366f1 60%, #818cf8 100%);
+  color: #fff;
+  border-radius: 22px 22px 6px 22px;
+  padding: 14px 22px;
+  max-width: 80%;
+  min-width: 80px;
+  box-shadow: 0 4px 24px #6366f122, 0 1.5px 8px #6366f133;
+  text-align: right;
+  position: relative;
+  margin-bottom: 6px;
+  border: 1.5px solid #818cf8;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.row-mess-send .userB::after {
+  content: "";
+  position: absolute;
+  right: -12px;
+  bottom: 12px;
+  width: 16px;
+  height: 16px;
+  background: linear-gradient(135deg, #6366f1 60%, #818cf8 100%);
+  border-radius: 50% 50% 0 50%;
+  transform: rotate(20deg);
+  box-shadow: 2px 2px 8px #6366f122;
+}
+.row-mess-send .userB:hover {
+  box-shadow: 0 8px 32px #6366f144;
+  transform: scale(1.03) translateY(-2px);
+}
+.row-mess-send .name {
+  font-weight: 700;
+  font-size: 1em;
+  margin-bottom: 4px;
+  color: #fff;
+  opacity: 0.92;
+  letter-spacing: 0.5px;
+}
+.row-mess-send .mess {
+  font-size: 1.07em;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  white-space: pre-line;
+}
+
+/* Animation xuất hiện */
+@keyframes fadeInLeft {
+  from { opacity: 0; transform: translateX(-40px);}
+  to   { opacity: 1; transform: translateX(0);}
+}
+@keyframes fadeInRight {
+  from { opacity: 0; transform: translateX(40px);}
+  to   { opacity: 1; transform: translateX(0);}
+}
+
+/* Form gửi tin nhắn */
+.form {
+  display: flex;
+  padding: 12px 18px 18px 18px;
+  background: #fff;
+  border-top: 1.5px solid #e0e7ff;
+  gap: 8px;
+}
+.form input.mess {
+  flex: 1;
+  border: 1.5px solid #e0e7ff;
+  border-radius: 12px;
+  padding: 8px 12px;
+  font-size: 1em;
+  outline: none;
+  background: #f3f4f6;
+  transition: border 0.2s;
+}
+.form input.mess:focus {
+  border: 1.5px solid #6366f1;
+}
+.form button {
+  background: #6366f1;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 0 16px;
+  font-size: 1.1em;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.form button:hover {
+  background: #4f46e5;
+}
+
+/* Thanh cuộn đẹp cho aside và chat */
+.aside-user-list::-webkit-scrollbar,
+.content-chat::-webkit-scrollbar {
+  width: 8px;
+  background: #e0e7ff;
+  border-radius: 8px;
+}
+.aside-user-list::-webkit-scrollbar-thumb,
+.content-chat::-webkit-scrollbar-thumb {
+  background: #a5b4fc;
+  border-radius: 8px;
+}

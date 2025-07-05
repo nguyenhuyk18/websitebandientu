@@ -63,11 +63,6 @@ class OrderController {
     static detail = async (req, res) => {
         // lấy id
         const id = req.params.id;
-
-        // tìm kiếm order
-        // console.log('id', id);
-
-        // Khai báo
         const mDistrict = new district();
         const mWard = new ward();
         const mProvince = new province();
@@ -76,10 +71,7 @@ class OrderController {
         const mOrderItem = new order_item();
         const mProduct = new product();
         const mCustomer = new customer();
-
         const ord = await mOrder.find(id);
-
-
         if (ord == false) {
             req.session.message = {
                 mess: `Đơn Hàng Không Tồn Tại VUI LÒNG KHÔNG SỬA ĐƯỜNG LINK URL !!!`,
@@ -91,12 +83,7 @@ class OrderController {
             return;
         }
 
-
         const cus = await mCustomer.find(ord.customer_id);
-
-
-
-
         // tìm kiếm ward 
         const wa = await mWard.find(ord.shipping_ward_id);
 
@@ -488,6 +475,10 @@ class OrderController {
 
         // x.log(data);
         // res.redirect('/admin/order.html')
+    }
+
+    static updateOnStatus = async (req, res) => {
+
     }
 
     static delete = async (req, res) => {

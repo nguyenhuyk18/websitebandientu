@@ -89,8 +89,8 @@ class ProductController {
         const id = req.params.id;
         // console.log(id);
         const mProduct = new productModels();
-        const product = await mProduct.find(id);
-        // console.log(product);
+        const product = await mProduct.findByIDOnSale(id);
+        console.log(product);
 
 
 
@@ -149,7 +149,7 @@ class ProductController {
 
 
         await mComment.save(data);
-        const product = await mProduct.find(data.product_id);
+        const product = await mProduct.findByIDOnSale(data.product_id);
         const listComment = await product.getComments();
 
 

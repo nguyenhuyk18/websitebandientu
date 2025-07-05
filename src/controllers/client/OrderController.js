@@ -74,6 +74,7 @@ class OrderController {
             });
             return;
         }
+
         const id = req.session.user.id;
 
         // const mCustomer = new customerModels();
@@ -82,6 +83,7 @@ class OrderController {
 
         // Tìm thông tin đơn hàng
         const listOrder = await mOrder.findByCustomerID(id);
+        // console.log()
         let endResult = [];
         for (const order of listOrder) {
             // Tìm thông tin chi tiết đơn hàng
@@ -99,13 +101,6 @@ class OrderController {
                     product: product
                 };
             }));
-            console.log('listOrderItemNew', listOrderItemNew);
-            const listProduct = [];
-            // Lấy thông tin sản phẩm từ chi tiết đơn hàng
-            // for (const item of listOrderItem) {
-            //     const product = await item.getProductList();
-            //     listProduct.push(product);
-            // }
             let tmp = {
                 id: order.id,
                 created_date: order.created_date,
@@ -123,7 +118,6 @@ class OrderController {
                 name_staff: order.name_staff,
                 name_order_status: order.name_order_status,
                 listOrderItem: listOrderItemNew,
-                // listProduct: listProduct
             }
             endResult.push(tmp);
         }

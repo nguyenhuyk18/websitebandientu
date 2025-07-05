@@ -20,21 +20,7 @@ class PaymentController {
     }
 
     static index = async (req, res) => {
-        const data = req.cookies.cart;
-
-
-        if (!data || data.length === 0) {
-            req.session.message = {
-                mess: `Giỏ hàng của bạn đang trống !!!`,
-                type: 'danger'
-            };
-
-            req.session.save(() => {
-                res.redirect('/');
-            });
-            return;
-        }
-
+        // Chưa đăng nhập mà đã ấn thanh toán vào checkout
         if (!req.session.user) {
             req.session.message = {
                 mess: `Vui lòng đăng nhập trước khi thanh toán !!!`,
@@ -46,6 +32,39 @@ class PaymentController {
             });
             return;
         }
+
+
+        // Chưa tạo đơn hàng nào mà ấn đặt hàng
+        if (typeof req.cookies.cart == 'undefined') {
+            req.session.message = {
+                mess: `Giỏ hàng của bạn đang trống !!!`,
+                type: 'danger'
+            };
+
+            req.session.save(() => {
+                res.redirect('/');
+            });
+            return;
+        }
+
+
+        const data = JSON.parse(req.cookies.cart);
+        // console.log(data);
+        const productAmount = data.product?.length || 0
+        // đơn hàng đã tạo mà xóa hết sản phẩm rồi ấn đặt hàng 
+        if (productAmount === 0) {
+            req.session.message = {
+                mess: `Giỏ hàng của bạn đang trống !!!`,
+                type: 'danger'
+            };
+
+            req.session.save(() => {
+                res.redirect('/');
+            });
+            return;
+        }
+
+
 
         const mCustomer = new customerModels();
         const mWard = new wardModels();
@@ -63,7 +82,7 @@ class PaymentController {
         let district = null;
         let province = null;
         let shipping_fee = 0;
-        const dataParse = JSON.parse(data);
+        const dataParse = data;
         // console.log('dataParse', dataParse);
 
         const cus = await mCustomer.find(req.session.user.id);
@@ -186,6 +205,8 @@ class PaymentController {
             name_order_status: 'Đã đặt hàng',
             phone: cus.shipping_mobile
         }
+
+        console.log('dataSocket', dataSocket);
         // console.log('order_id', req.io);44
         req.io.to('nhanthongbaodathang').emit('order-notification', dataSocket);
 

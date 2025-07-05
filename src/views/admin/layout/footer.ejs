@@ -48,6 +48,7 @@
 
   <script src="/js/admin.js"></script>
   <script src="/socket.io/socket.io.js"></script>
+
   <script>
     const socket = io(); // Kết nối tới server socket
     socket.on('connect', () => {
@@ -73,8 +74,8 @@
         <td>${data.id_order}</td>
         <td>${data.name_customer}</td>
         <td>${data.phone}</td>
-        <td>${data.payment_method}</td>
-                <td>${data.name_order_status}</td>
+        <td>${data.payment}</td>
+        <td><span class='badge badge-secondary'>Đã đặt hàng</span></td>
         <td><a href="javascript:void(0)" class="btn btn-warning btn-sm">Xác Nhận</a></td>
         <td><a href="javascript:void(0)" class="btn btn-danger btn-sm delete" data-toggle="modal" data-target="#areyousure">Hủy</a></td>
         <td><a href="/admin/order/detail-${data.id_order}.html" class="btn btn-info btn-sm" title="Xem chi tiết">
@@ -86,6 +87,185 @@
 
 
     });
+
+    // =================================== CHAT SOCKET ================================================= //
+    let usernameGloble = null;
+    let iduserGloble = null;
+
+
+    // nhận tin nhắn mới
+    socket.on('clientsendprocess', (id, username, giaTri) => {
+      const audio = $('audio#order-sound')[0];
+      audio.play();
+      // console.log(id, username, giaTri)
+      const userListContainer = document.querySelector('.chatapp-admin-wrapper .aside-user-list');
+      const usersMess = document.querySelectorAll('.chatapp-admin-wrapper .aside-user-list li');
+      // console.log(usersMess)
+      if (id == iduserGloble && usernameGloble == username) {
+
+        const containerChat = document.querySelector('.chatapp-admin-wrapper .content-chat');
+        const html = `
+            <div class="row-mess-get">
+              <div class="userA">
+                <div class="name">${username}</div>
+                <div class="mess">${giaTri}</div>
+              </div>
+            </div>
+        `;
+
+        containerChat.insertAdjacentHTML('beforeend', html);
+        containerChat.scrollTop = containerChat.scrollHeight;
+      }
+
+
+
+      const html = `
+      <li class="aside-user" idclient="${id}" onclick="selectChatUser(this, ${id}, '${username}')">
+        <div class="name">${username}</div>
+        <div class="last-message">${giaTri}</div>
+        <span class="badge" style="color: #f59e42">.</span>
+      </li>
+      `;
+      let check = 0;
+      for (li of usersMess) {
+        //console.log(li.getAttribute('idclient'));
+
+        if (li.getAttribute('idclient') == id) {
+          li.querySelector('.last-message').innerHTML = giaTri;
+          check++;
+          const highlight = li.querySelector('span.badge');
+          console.log(li.querySelector('span.badge'))
+          if (highlight.getAttribute('style') == 'display: none;') {
+            highlight.setAttribute('style', 'color: #f59e42');
+          }
+
+          userListContainer.prepend(li);
+          break;
+        }
+      }
+
+      if (check == 0) {
+        userListContainer.insertAdjacentHTML('beforeend', html);
+      }
+    })
+
+
+    // lựa chọn user item
+    function selectChatUser(element, id, username) {
+      //alert(username)
+      iduserGloble = id;
+      usernameGloble = username;
+
+      $('.aside-user-list li').removeClass('active');
+      $(element).addClass('active');
+      //console.log(element)
+      //element.removeChild('span.badge');
+      const span = element.querySelector('span.badge');
+      span.setAttribute('style', 'display: none;');
+
+      // gọi ajax lấy message từ db đưa lên 
+      $.ajax({
+        type: "GET",
+        url: `/admin/get-all-message.html/${id}_${username}`,
+        success: function(response) {
+          let html = ``;
+          for (tmp of response) {
+            if (tmp.sender_type == 'client') {
+              html += `
+            <div class="row-mess-get">
+              <div class="userA">
+                <div class="name">${username}</div>
+                <div class="mess">${tmp.mess}</div>
+              </div>
+            </div>
+              `
+            } else {
+              html += `
+              <div class="row-mess-send">
+                <div class="userB">
+                  <div class="name">Bạn</div>
+                  <div class="mess">${tmp.mess}</div>
+                </div>
+              </div>
+              `
+            }
+          }
+
+          const containerChat = document.querySelector('.content-chat');
+
+          containerChat.innerHTML = html;
+          containerChat.scrollTop = containerChat.scrollHeight;
+
+        }
+      });
+
+
+      // gọi ajax để update cái is_read_admin về số 1 đánh dấu cho cái userlist mất dấu chấm
+      $.ajax({
+        type: "PUT",
+        url: `/admin/update-conversation.html/${id}_${username}`,
+        success: function(response) {
+          const userListContainer = document.querySelector('.chatapp-admin-wrapper .aside-user-list');
+          let html = ``;
+          for (tmp of response) {
+            if (tmp.is_read_admin == 2) {
+              html += `
+                  <li class="aside-user" idclient="${tmp.customer_id}" onclick="selectChatUser(this, ${tmp.customer_id}, '${username}')">
+                    <div class="name">${username}</div>
+                    <div class="last-message">${giaTri}</div>
+                    <span class="badge" style="color: #f59e42"></span>
+                  </li>`
+            } else {
+              html += `
+                  <li class="aside-user" idclient="${tmp.customer_id}" onclick="selectChatUser(this, ${tmp.customer_id}, '${username}')">
+                    <div class="name">${username}</div>
+                    <div class="last-message">${giaTri}</div>
+                  </li>`
+            }
+          }
+
+          const containerChat = document.querySelector('.content-chat');
+
+          containerChat.innerHTML = html;
+          containerChat.scrollTop = containerChat.scrollHeight;
+
+        }
+      });
+    }
+
+
+    // gửi tin nhắn đến cho client
+    function sendMessageToClient() {
+      const value = document.querySelector('input.mess').value;
+      const containerChat = document.querySelector('.chatapp-admin-wrapper .content-chat');
+      const usersMess = document.querySelectorAll('.chatapp-admin-wrapper .aside-user-list li');
+
+
+
+
+      if (iduserGloble && usernameGloble) {
+        for (tmp of usersMess) {
+          if (tmp.getAttribute('idclient') == iduserGloble) {
+            const highlight = tmp.querySelector('span.badge');
+            highlight.setAttribute('style', 'display: none;')
+          }
+        }
+
+
+        const html = `
+            <div class="row-mess-send">
+              <div class="userB">
+                <div class="name">Bạn</div>
+                <div class="mess">${value}</div>
+              </div>
+            </div>
+        `;
+        socket.emit('adminsend', iduserGloble, usernameGloble, value);
+        containerChat.insertAdjacentHTML('beforeend', html);
+        containerChat.scrollTop = containerChat.scrollHeight;
+        document.querySelector('input.mess').value = ''
+      }
+    }
   </script>
 
   <script>
@@ -124,3 +304,14 @@
       </div>
     </div>
   </div>
+
+
+
+
+
+  <!-- <div class="row-mess-send">
+              <div class="userB">
+                <div class="name">Bạn</div>
+                <div class="mess">Mình muốn hỏi về sản phẩm.</div>
+              </div>
+            </div> -->

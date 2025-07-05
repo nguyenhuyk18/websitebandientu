@@ -189,9 +189,22 @@ class ProductAllServices {
 
     find = async (id) => {
         const cond = ` \`id\` = ${id}`;
-        const tmp = await this.all(cond, null, null);
-        if (tmp.length == 0) return [];
-        return tmp[0];
+        let sql = `SELECT * FROM product WHERE ${cond}`;
+        const [result, fields] = await pool.execute(sql);
+        if (result.length === 0) {
+            return null;
+        }
+        return result[0];
+    }
+
+    findByIDOnSale = async (id) => {
+        const cond = ` \`id\` = ${id}`;
+        const result = await this.all(cond, null, null);
+        // console.log(result)
+        if (result.length === 0) {
+            return null;
+        }
+        return result[0];
     }
 }
 

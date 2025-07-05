@@ -1,3 +1,56 @@
+<!-- social -->
+<div class="ontop">
+  <i class="fa fa-arrow-up"></i>
+</div>
+<div class="zalo">
+  <a href="https://m.me/nguyen.huy.970992" target="_blank"><i class="fa-brands fa-facebook-messenger"></i></a>
+</div>
+<% if(user != null) {%>
+<div class="chatRightNow" onclick="toggleChatAdmin('<%= user.id %>','<%= user.username %>')">
+  <i class="fa fa-comments"></i>
+</div>
+<% } %>
+
+
+<!-- khung chatting -->
+<div class="chatapp">
+  <div class="title">
+    <span class="titlechat">Hỗ Trợ Viên</span>
+    <span class="xTicks" onclick="toggleCloseChat()"><i class="fa fa-times"></i></span>
+  </div>
+  <div class="content-chat">
+    <!-- <div class="row-mess-get">
+      <div class="userA">
+        <div class="name">
+          ADMIN
+        </div>
+        <div class="mess">
+          Anh Yêu Em
+        </div>
+      </div>
+    </div> -->
+    <!-- <div class="row-mess-send">
+      <div class="userB">
+        <div class="name">
+          ADMIN
+        </div>
+        <div class="mess">
+          dfsfdsdfsdf
+        </div>
+      </div>
+    </div> -->
+
+  </div>
+  <div class="form">
+    <input type="text" class="mess-from-client-to-admin">
+    <% if(user != null) { %>
+    <button onclick="sendMessageClientToAdmin( '<%= user.id %>' ,  '<%= user.username %>')">GỬI</button>
+    <% } %>
+  </div>
+
+</div>
+
+
 <!-- Footer -->
 <footer class="footer-main-new mt-5 pt-5 pb-3">
   <div class="container">
@@ -246,7 +299,9 @@
 <script src="/vendor/jquery/jquery.min.js"></script>
 <script src="/vendor/jquery-validation-1.19.3/dist/jquery.validate.min.js"></script>
 <script src="/vendor/bootstrap-5.2.3-dist/js/bootstrap.bundle.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
 <script src="/js/script.js"></script>
+
 </body>
 
 </html>
