@@ -1,4 +1,5 @@
 const order = require('../../services/OrderService');
+const mOrder = require('../../models/order');
 const order_item = require('../../services/OrderItemService');
 const product = require('../../services/ProductService');
 const district = require('../../services/DistrictService');
@@ -8,6 +9,7 @@ const transport = require('../../services/TransportService');
 const customer = require('../../services/CustomerService');
 const status = require('../../services/StatusService');
 const dayjs = require('dayjs');
+const StaffService = require('../../services/StaffService');
 
 class OrderController {
     // Liệt kê các đơn hàng
@@ -24,7 +26,185 @@ class OrderController {
         const mOrder = new order();
         const cond = ` WHERE order_status_id = 1 ORDER BY created_date DESC`
         const listOrder = await mOrder.getAll(cond);
-        return res.render('admin/order/new_order', { listOrder: listOrder });
+        // console.log(listOrder)
+        const message = req.session.message;
+        delete req.session.message;
+        return res.render('admin/order/new_order', { listOrder: listOrder, message: message });
+    }
+
+
+    static order_need_package = async (req, res) => {
+        const mOrder = new order();
+        const cond = ` WHERE order_status_id = 2 ORDER BY created_date DESC`
+        const listOrder = await mOrder.getAll(cond);
+        // console.log(listOrder)
+        const message = req.session.message;
+        delete req.session.message;
+        return res.render('admin/order/order_need_packaged', { listOrder: listOrder, message: message });
+    }
+
+    static order_choose_shipper = async (req, res) => {
+        const mOrder = new order();
+        const cond = ` WHERE order_status_id = 3 ORDER BY created_date DESC`
+        const listOrder = await mOrder.getAll(cond);
+        // console.log(listOrder)
+        const message = req.session.message;
+        delete req.session.message;
+        return res.render('admin/order/order_choose_shipper', { listOrder: listOrder, message: message });
+    }
+
+
+
+
+    static order_confirmed = async (req, res) => {
+        const username = req.session.login?.username;
+
+        const mStaff = new StaffService()
+        const sta = await mStaff.findByUsername(username);
+        // tìm đơn hàng theo username 
+        console.log(req.session.login.role_id)
+
+        if (req.session.login.role_id != 8) {
+            req.session.message = {
+                mess: `Chỉ có shipper mới được vào đây xem các đơn hàng cần giao của họ !!!`,
+                type: 'danger'
+            }
+            req.session.save(() => {
+                res.redirect('/admin/dashboard.html');
+            });
+            return;
+        }
+        const mOrder = new order();
+        const cond = ` WHERE order_status_id = 4  AND staff_id = ${sta.id} ORDER BY created_date DESC`
+        const listOrder = await mOrder.getAll(cond);
+        const message = req.session.message;
+        delete req.session.message;
+        return res.render('admin/order/order_confirmed', { listOrder: listOrder, message: message });
+    }
+
+    static updateOnStatusNewOrder = async (req, res) => {
+        const order_status_id = req.params.order_status_id;
+        const id = req.params.id;
+        const OrderServices = new order();
+
+        const tmp = await OrderServices.find(id);
+
+        // id = null, created_date = null, order_status_id = null, shipping_fullname = null, shipping_mobile = null, payment_method = null, shipping_ward_id = null, shipping_housenumber_street = null, shipping_fee = null, delivered_date = null, staff_id = null, customer_id = null, name_customer = null, name_staff = null, name_order_status = null
+        const new_ord = new mOrder(tmp.id, tmp.created_date, order_status_id, tmp.shipping_fullname, tmp.shipping_mobile, tmp.payment_method, tmp.shipping_ward_id, tmp.shipping_housenumber_street, tmp.shipping_fee, tmp.delivered_date, tmp.staff_id, tmp.customer_id, tmp.name_customer, tmp.name_staff, tmp.name_order_status);
+
+        new_ord.id_order = tmp.id;
+        // console.log(await OrderServices.update(new_ord));
+        if (await OrderServices.update(new_ord)) {
+            req.session.message = {
+                mess: `Cập nhật trạng thái đơn hàng thành công !!!`,
+                type: 'success'
+            }
+            req.session.save(() => {
+                res.redirect('/admin/order-new.html');
+            });
+            return;
+        }
+        else {
+            req.session.message = {
+                mess: `Cập nhật trạng thái đơn hàng thất bại !!!`,
+                type: 'danger'
+            }
+            req.session.save(() => {
+                res.redirect('/admin/order-new.html');
+            });
+        }
+    }
+
+    static updateOnStatusPackaged = async (req, res) => {
+        const order_status_id = req.params.order_status_id;
+        const id = req.params.id;
+        const OrderServices = new order();
+
+        const tmp = await OrderServices.find(id);
+
+        // id = null, created_date = null, order_status_id = null, shipping_fullname = null, shipping_mobile = null, payment_method = null, shipping_ward_id = null, shipping_housenumber_street = null, shipping_fee = null, delivered_date = null, staff_id = null, customer_id = null, name_customer = null, name_staff = null, name_order_status = null
+        const new_ord = new mOrder(tmp.id, tmp.created_date, order_status_id, tmp.shipping_fullname, tmp.shipping_mobile, tmp.payment_method, tmp.shipping_ward_id, tmp.shipping_housenumber_street, tmp.shipping_fee, tmp.delivered_date, tmp.staff_id, tmp.customer_id, tmp.name_customer, tmp.name_staff, tmp.name_order_status);
+
+        new_ord.id_order = tmp.id;
+        // console.log(await OrderServices.update(new_ord));
+        if (await OrderServices.update(new_ord)) {
+            req.session.message = {
+                mess: `Cập nhật trạng thái đơn hàng thành công !!!`,
+                type: 'success'
+            }
+            req.session.save(() => {
+                res.redirect('/admin/order-need-package');
+            });
+            return;
+        }
+        else {
+            req.session.message = {
+                mess: `Cập nhật trạng thái đơn hàng thất bại !!!`,
+                type: 'danger'
+            }
+            req.session.save(() => {
+                res.redirect('/admin/order-need-package');
+            });
+        }
+    }
+
+    static updateOnShipperView = async (req, res) => {
+        const order_status_id = req.params.order_status_id;
+        const id = req.params.id;
+
+        const OrderServices = new order();
+
+        const tmp = await OrderServices.find(id);
+        if (!tmp) {
+            req.session.message = {
+                mess: `Đơn hàng không tồn tại VUI LÒNG KHÔNG SỬA ĐƯỜNG LINK URL !!!`,
+                type: 'danger'
+            }
+            req.session.save(() => {
+                res.redirect('/admin/dashboard.html');
+            });
+            return;
+
+        }
+
+        const mStaff = new StaffService()
+        const listSta = await mStaff.getAll(` role_id = 8`);
+
+        return res.render('admin/order/choose_shipper', { order_status_id: order_status_id, id: id, listStaff: listSta });
+    }
+
+    static updateOnShipper = async (req, res) => {
+        const data = req.body;
+        // const order_status_id = req.params.order_status_id;
+        // const id = req.params.id;
+        const OrderServices = new order();
+
+        const tmp = await OrderServices.find(data.id);
+
+        // id = null, created_date = null, order_status_id = null, shipping_fullname = null, shipping_mobile = null, payment_method = null, shipping_ward_id = null, shipping_housenumber_street = null, shipping_fee = null, delivered_date = null, staff_id = null, customer_id = null, name_customer = null, name_staff = null, name_order_status = null
+        const new_ord = new mOrder(tmp.id, tmp.created_date, 4, tmp.shipping_fullname, tmp.shipping_mobile, tmp.payment_method, tmp.shipping_ward_id, tmp.shipping_housenumber_street, tmp.shipping_fee, tmp.delivered_date, data.staff_id, tmp.customer_id, tmp.name_customer, tmp.name_staff, tmp.name_order_status);
+
+        new_ord.id_order = tmp.id;
+        // console.log(await OrderServices.update(new_ord));
+        if (await OrderServices.update(new_ord)) {
+            req.session.message = {
+                mess: `Cập nhật trạng thái đơn hàng thành công !!!`,
+                type: 'success'
+            }
+            req.session.save(() => {
+                res.redirect('/admin/choose-shipper');
+            });
+            return;
+        }
+        else {
+            req.session.message = {
+                mess: `Cập nhật trạng thái đơn hàng thất bại !!!`,
+                type: 'danger'
+            }
+            req.session.save(() => {
+                res.redirect('/admin/choose-shipper');
+            });
+        }
     }
 
 
@@ -475,10 +655,6 @@ class OrderController {
 
         // x.log(data);
         // res.redirect('/admin/order.html')
-    }
-
-    static updateOnStatus = async (req, res) => {
-
     }
 
     static delete = async (req, res) => {

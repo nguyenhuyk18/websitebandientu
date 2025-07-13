@@ -59,6 +59,7 @@ class OrderService {
     }
 
     update = async (data) => {
+        // console.log(data)
         // console.log(data);
         const sql = `UPDATE \`order\` SET 
             order_status_id = ?, 
@@ -85,6 +86,7 @@ class OrderService {
             data.customer_id,
             data.id_order
         ];
+        // console.log(values)
 
         try {
             const [result] = await pool.execute(sql, values);

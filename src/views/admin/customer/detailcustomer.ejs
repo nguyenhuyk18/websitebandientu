@@ -49,7 +49,11 @@
           </li>
           <li class="list-group-item">
             <strong>Địa Chỉ:</strong>
+            <% if(customer.housenumber_street == null && ward == null) { %>
+            <span class="float-right">Khách Hàng Chưa Cập Nhật Địa Chỉ</span>
+            <% } else { %>
             <span class="float-right"><%= customer.housenumber_street %>, <%= ward %></span>
+            <% } %>
           </li>
           <li class="list-group-item">
             <strong>Trạng Thái:</strong>

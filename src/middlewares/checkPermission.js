@@ -5,6 +5,8 @@ checkPermisson = (requiredAction) => {
         const roleUser = req.session.login.name_role || null;
         const mStaff = new staff();
         // console.log('Checking permissions for user:', req.session.login);
+        console.log(requiredAction);
+        console.log(roleUser.includes(requiredAction));
 
         if (!roleUser) {
             req.session.message = {

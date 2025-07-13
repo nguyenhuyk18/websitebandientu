@@ -108,21 +108,32 @@ class CustomerController {
 
         // lấy ra tỉnh thành, quận, phường id của người dùng
         const id_ward = cus.ward_id;
-        const war = await mWard.find(id_ward);
-        const dis = await mDistrict.find(war.district_id);
-        const pro = await mProvince.find(dis.province_id);
+
+
+        let war = await mWard.find(id_ward);
+        let dis = await mDistrict.find(war.district_id);
+        let pro = await mProvince.find(dis.province_id);
 
 
 
         // lấy ra danh sách province
-        const listProvince = await mProvince.getAll();
+        let listProvince = await mProvince.getAll();
         // laays ra danh sach district
-        const listDistrict = await mDistrict.findByProvinceID(pro.id);
+        let listDistrict = await mDistrict.findByProvinceID(pro.id);
         // lay ra danh sach phuong
-        const listWard = await mWard.findByDistrictID(dis.id);
+        let listWard = await mWard.findByDistrictID(dis.id);
         // console.log(pro.id);
 
-        return res.render('admin/customer/edit', { customer: cus, listProvince: listProvince, listDistrict: listDistrict, listWard: listWard, id_ward: id_ward, id_district: war.district_id, id_province: pro.id });
+        if (id_ward == null) {
+            war = null;
+            dis = null;
+            pro = null;
+            listProvince = [];
+            listDistrict = [];
+            listWard = [];
+        }
+
+        return res.render('admin/customer/edit', { customer: cus, listProvince: listProvince, listDistrict: listDistrict, listWard: listWard, id_ward: id_ward, id_district: war?.district_id, id_province: pro?.id });
     }
 
     static update = async (req, res) => {

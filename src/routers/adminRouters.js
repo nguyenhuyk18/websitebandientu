@@ -109,7 +109,17 @@ router.get('/order/delete/:id', checkPermisson('delete_order'), OrderController.
 router.get('/order/edit/:id', checkPermisson('edit_order'), OrderController.edit);
 router.post('/order/update', checkPermisson('edit_order'), OrderController.update);
 router.get('/order/detail-:id.html', checkPermisson('view_order'), OrderController.detail);
-
+router.get('/order-new.html', checkPermisson('view_new_order'), OrderController.new_order);
+router.get('/order-need-package', checkPermisson('view_order_need_package'), OrderController.order_need_package);
+router.get('/choose-shipper', checkPermisson('view_order_choose_shipper'), OrderController.order_choose_shipper);
+// router.get('/')
+router.get('/order-need-delivery', OrderController.order_confirmed);
+// /choose-shipper-<%= order.id %>/4
+router.get('/new-order-:id/:order_status_id', OrderController.updateOnStatusNewOrder);
+router.get('/order-pagekage-done-:id/:order_status_id', OrderController.updateOnStatusPackaged);
+router.get('/choose-shipper-:id/:order_status_id', OrderController.updateOnShipperView);
+router.post('/order-shipper', OrderController.updateOnShipper);
+// router.get('/order/new-order.html', OrderController.new_order);
 
 
 // bình luận
@@ -171,6 +181,8 @@ router.post('/transport/update', checkPermisson('edit_shipping_fee'), TransportC
 // router.get('/brand-category/:id', BrandCategoryController.getCategory);
 
 
+
+
 // district 
 // xem district theo id province
 router.get('/district.html/:id_province', DistrictController.getAll);
@@ -185,13 +197,13 @@ router.get('/return-role-id', AuthController.returnRoleID);
 
 
 // danh sách đơn hàng mới
-router.get('/order-new.html', OrderController.new_order);
+
 
 
 // Nhắn tin với khách hàng
-router.get('/chat.html', ChatController.getConversationHaveMessage);
-router.get('/get-all-message.html/:slug', ChatController.getGetMessageByIDConversation);
-router.put('/update-conversation.html/:slug', ChatController.updateConversation)
+router.get('/chat.html', checkPermisson('view_chatting'), ChatController.getConversationHaveMessage);
+router.get('/get-all-message.html/:slug', checkPermisson('view_chatting'), ChatController.getGetMessageByIDConversation);
+router.put('/update-conversation.html/:slug', checkPermisson('view_chatting'), ChatController.updateConversation)
 
 // Xuất router
 module.exports = router;

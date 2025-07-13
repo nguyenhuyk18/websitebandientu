@@ -1,0 +1,62 @@
+<!-- Page Wrapper -->
+<%- include('../layout/header.ejs') %>
+
+<!-- Sidebar -->
+<%- include('../layout/sidebar.ejs') %>
+<!-- End of Sidebar -->
+
+<div id="content-wrapper" class="d-flex flex-column">
+
+  <!-- Main Content -->
+  <div id="content">
+
+    <!-- Topbar -->
+    <%- include('../layout/navbar.ejs') %>
+    <!-- End of Topbar -->
+
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+
+      <!-- Page Heading -->
+
+      <!-- <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.
+          For more information about DataTables, please visit the <a target="_blank" href="https://datatables.net">official DataTables documentation</a>.</p> -->
+      <form action="/admin/order-shipper" method="POST" class="create-category container">
+        <h3 class="text-center">Chọn Shipper</h3>
+        <input type="hidden" name="id" value="<%= id %>">
+        <input type="hidden" name="order_status_id" value="<%= order_status_id %>">
+        <div class="mb-3">
+
+          <select class="form-control" name="staff_id" id="">
+            <option value="">-- Chọn Shipper --</option>
+            <% for(const staff of listStaff) { %>
+            <option value="<%= staff.id %>"><%=  staff.name %></option>
+            <% } %>
+          </select>
+        </div>
+        <div>
+          <button type="submit" class="btn btn-warning">Lưu</button>
+          <button type="reset" class="btn btn-primary">Nhập Lại</button>
+        </div>
+      </form>
+
+    </div>
+    <!-- /.container-fluid -->
+
+  </div>
+  <!-- End of Main Content -->
+
+  <!-- Footer -->
+  <footer class="sticky-footer bg-white">
+    <div class="container my-auto">
+      <div class="copyright text-center my-auto">
+        <span>Copyright &copy; Nguyễn Đức Huy ADMIN 2020</span>
+      </div>
+    </div>
+  </footer>
+  <!-- End of Footer -->
+
+</div>
+
+
+<%- include('../layout/footer.ejs') %>

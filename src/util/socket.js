@@ -18,11 +18,19 @@ function initSocket(app, sessionMiddleware) {
         // console.log('A user connected');
 
         const id_role = session.login?.role_id ?? '';
+        const username = session.login?.username
 
         socket.on('login-admin', () => {
             if (id_role == 7) {
                 socket.join('nhanthongbaodathang');
-                console.log('yess sirrrr');
+            }
+
+            if (id_role == 9) {
+                socket.join('mange-product-order');
+            }
+
+            if (id_role == 8) {
+                socket.join(`shipper-${username}-8`);
             }
         });
 

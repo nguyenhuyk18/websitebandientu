@@ -12,7 +12,7 @@
       <div class="row">
         <% for ( const action of listAction) { %>
         <div class="col-md-6 mb-3">
-          <label><input type="checkbox" name="action_id" <%= id_action_of_role.includes(action.id) ? 'checked' : '' %> value="<%= action.id %>"> <%= action.name_action%> </label>
+          <label><input type="checkbox" name="action_id" <%= id_action_of_role.includes(action.id) ? 'checked' : '' %> value="<%= action.id %>"> <%= action.description%> </label>
         </div>
         <% } %>
       </div>

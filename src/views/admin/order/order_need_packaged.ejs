@@ -18,7 +18,7 @@
     <div class="container-fluid">
 
       <!-- Page Heading -->
-      <h1 class="h3 mb-2 text-gray-800">Danh Sách Đơn Hàng Mới</h1>
+      <h1 class="h3 mb-2 text-gray-800">Danh Sách Đơn Hàng Cần Đóng Gói</h1>
       <!-- <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.
           For more information about DataTables, please visit the <a target="_blank" href="https://datatables.net">official DataTables documentation</a>.</p> -->
 
@@ -37,7 +37,7 @@
                   <th>SĐT (người nhận)</th>
                   <th>Thanh Toán</th>
                   <th>Trạng Thái</th>
-                  <th></th>
+                  <!-- <th></th> -->
                   <th></th>
                   <th></th>
                 </tr>
@@ -49,7 +49,7 @@
                   <th>SĐT (người nhận)</th>
                   <th>Thanh Toán</th>
                   <th>Trạng Thái</th>
-                  <th></th>
+                  <!-- <th></th> -->
                   <th></th>
                   <th></th>
                 </tr>
@@ -77,8 +77,8 @@
 
                     <span class="badge <%= statusClass %>"><%= order.name_order_status %></span>
                   </td>
-                  <td><a href="/admin/new-order-<%= order.id %>/2" class="btn btn-warning btn-sm">Xác Nhận</a></td>
-                  <td><a data_href="/admin/order/delete/<%= order.id %>" href="javascript:void(0)" class="btn btn-danger btn-sm delete" data-toggle="modal" data-target="#areyousure">Hủy</a></td>
+                  <td><a href="/admin/order-pagekage-done-<%= order.id %>/3" class="btn btn-warning btn-sm">Xác Nhận</a></td>
+
                   <td> <a href="/admin/order/detail-<%= order.id %>.html" class="btn btn-info btn-sm" title="Xem chi tiết">
                       <i class="fas fa-eye"></i>
                     </a></td>

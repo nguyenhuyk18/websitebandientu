@@ -15,16 +15,15 @@
             </div>
             <% 
                 let statusClass = '';
-    switch(order.name_order_status) {
-      case 'Đã đặt hàng': statusClass = 'ordered'; break;
-      case 'Đã xác nhận đơn hàng': statusClass = 'confirmed'; break;
-      case 'Hoàn tất đóng gói': statusClass = 'packaged'; break;
-      case 'Đang giao hàng': statusClass = 'shipping'; break;
-      case 'Đã giao hàng': statusClass = 'delivered'; break;
-      case 'Đơn hàng bị hủy': statusClass = 'canceled'; break;
-      default: statusClass = 'unknown';
-    }
-            
+                switch(order.name_order_status) {
+                  case 'Đã đặt hàng': statusClass = 'ordered'; break;
+                  case 'Đã xác nhận đơn hàng': statusClass = 'confirmed'; break;
+                  case 'Hoàn tất đóng gói': statusClass = 'packaged'; break;
+                  case 'Đang giao hàng': statusClass = 'shipping'; break;
+                  case 'Đã giao hàng': statusClass = 'delivered'; break;
+                  case 'Đơn hàng bị hủy': statusClass = 'canceled'; break;
+                  default: statusClass = 'unknown';
+                }
             %>
             <span class="badge order-status <%= statusClass %>"><%= order.name_order_status %></span>
           </div>

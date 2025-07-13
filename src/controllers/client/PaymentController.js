@@ -33,8 +33,7 @@ class PaymentController {
             return;
         }
 
-
-        // Chưa tạo đơn hàng nào mà ấn đặt hàng
+        // kh có giỏ hàng mà vào đặt hàng như thật
         if (typeof req.cookies.cart == 'undefined') {
             req.session.message = {
                 mess: `Giỏ hàng của bạn đang trống !!!`,
@@ -46,7 +45,6 @@ class PaymentController {
             });
             return;
         }
-
 
         const data = JSON.parse(req.cookies.cart);
         // console.log(data);
@@ -64,16 +62,11 @@ class PaymentController {
             return;
         }
 
-
-
         const mCustomer = new customerModels();
         const mWard = new wardModels();
         const mDistrict = new districtModels();
         const mProvince = new provinceModels();
         const mTransport = new transportModels();
-
-
-        // console.log('data', data.product);
 
         const provinces = await mProvince.getAll();
         let districts = [];
@@ -83,8 +76,6 @@ class PaymentController {
         let province = null;
         let shipping_fee = 0;
         const dataParse = data;
-        // console.log('dataParse', dataParse);
-
         const cus = await mCustomer.find(req.session.user.id);
         if (cus.ward_id) {
             // lấy thông tin tỉnh, quận, phường của khách hàng
@@ -99,10 +90,6 @@ class PaymentController {
             //liệt kê phường mà quận đó có
             wards = await mWard.findByDistrictID(district.id);
         }
-
-
-
-
         return res.render('client/payment/index', {
             provinces: provinces,
             districts: districts,
@@ -160,7 +147,8 @@ class PaymentController {
             shipping_housenumber_street: data.shipping_housenumber_street,
             shipping_fee: shipping_fee,
             staff_id: null, // Assuming the staff is the logged-in user
-            customer_id: req.session.user.id // Assuming the customer is the logged-in user
+            customer_id: req.session.user.id, // Assuming the customer is the logged-in user
+            delivered_date: null
         };
         const cus = await mCustomer.find(req.session.user.id);
         const order_id = await mOrder.save(orderData);
