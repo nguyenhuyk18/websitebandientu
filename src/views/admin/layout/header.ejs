@@ -28,8 +28,10 @@
 </head>
 
 <body id="page-top">
-  <audio id="order-sound" src="/videosystem/812351__kvv_audio__kalimba_sample_note-g2_kvv-audio_free.wav" preload="auto"></audio>
-  <audio id="order-sound-1" src="/ahhahahaha.mp4" preload="auto"></audio>
+  <audio id="order-sound" src="/videosystem/812351__kvv_audio__kalimba_sample_note-g2_kvv-audio_free.wav" preload="auto" allow="autoplay"></audio>
+  <audio id="new-message" src="/videosystem/tin-nhan-moi.mp3" preload="auto" allow="autoplay"></audio>
+  <audio id="notification-sound" src="/videosystem/new-notification-022-370046.mp3" preload="auto" allow="autoplay"></audio>
+  <!-- <audio id="order-sound-1" src="/ahhahahaha.mp4" preload="auto"></audio> -->
   <% if(typeof message != 'undefined') { %>
   <div class=" toast-<%= message.type %> text-center">
     <%= message.mess %>

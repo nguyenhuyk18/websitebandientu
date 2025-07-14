@@ -10,8 +10,43 @@ const customer = require('../../services/CustomerService');
 const status = require('../../services/StatusService');
 const dayjs = require('dayjs');
 const StaffService = require('../../services/StaffService');
+// const StaffService = require('../../services/StaffService');
 
 class OrderController {
+    // tra don hang can tim kiem
+    static findOrder = async (id) => {
+        const mOrder = new order()
+        const OrderService = await mOrder.find(id);
+        return OrderService;
+    }
+
+
+    static returnOrderByStatus = async (req, res) => {
+        const order_status_id = req.params.id;
+        console.log(req.session.login.role_id);
+        if (req.session?.login?.role_id == 8) {
+            const mOrder = new order();
+            const mstaff = new StaffService();
+            const stf = await mstaff.findByUsername(req.session.login.username);
+            const listStatus = await mOrder.getAll(` WHERE order_status_id = ${order_status_id} AND staff_id = ${stf.id} ORDER BY created_date DESC`);
+            res.json(listStatus);
+            return;
+        }
+        const mOrder = new order();
+        const listStatus = await mOrder.getAll(` WHERE order_status_id = ${order_status_id} ORDER BY created_date DESC`);
+        res.json(listStatus);
+        return;
+    }
+
+    // static returnOrderByStatusByStaffID = async (req, res) => {
+    //     const order_status_id = req.params.id;
+    //     const staff_id = req.params.id;
+    //     const mOrder = new order();
+    //     const listStatus = await mOrder.getAll(` WHERE order_status_id = ${order_status_id} ORDER BY created_date DESC`);
+    //     res.json(listStatus);
+    //     return;
+    // }
+
     // Liệt kê các đơn hàng
     static index = async (req, res) => {
         const message = req.session.message;
@@ -26,6 +61,7 @@ class OrderController {
         const mOrder = new order();
         const cond = ` WHERE order_status_id = 1 ORDER BY created_date DESC`
         const listOrder = await mOrder.getAll(cond);
+        // console.log(listOrder)
         // console.log(listOrder)
         const message = req.session.message;
         delete req.session.message;
@@ -62,7 +98,7 @@ class OrderController {
         const mStaff = new StaffService()
         const sta = await mStaff.findByUsername(username);
         // tìm đơn hàng theo username 
-        console.log(req.session.login.role_id)
+        // console.log(req.session.login.role_id)
 
         if (req.session.login.role_id != 8) {
             req.session.message = {
@@ -82,37 +118,19 @@ class OrderController {
         return res.render('admin/order/order_confirmed', { listOrder: listOrder, message: message });
     }
 
-    static updateOnStatusNewOrder = async (req, res) => {
-        const order_status_id = req.params.order_status_id;
-        const id = req.params.id;
+    static updateOnStatusNewOrder = async (id, order_status_id) => {
+        // const order_status_id = req.params.order_status_id;
+        // console.log();
         const OrderServices = new order();
 
         const tmp = await OrderServices.find(id);
 
-        // id = null, created_date = null, order_status_id = null, shipping_fullname = null, shipping_mobile = null, payment_method = null, shipping_ward_id = null, shipping_housenumber_street = null, shipping_fee = null, delivered_date = null, staff_id = null, customer_id = null, name_customer = null, name_staff = null, name_order_status = null
+        // console.log(tmp);
         const new_ord = new mOrder(tmp.id, tmp.created_date, order_status_id, tmp.shipping_fullname, tmp.shipping_mobile, tmp.payment_method, tmp.shipping_ward_id, tmp.shipping_housenumber_street, tmp.shipping_fee, tmp.delivered_date, tmp.staff_id, tmp.customer_id, tmp.name_customer, tmp.name_staff, tmp.name_order_status);
 
         new_ord.id_order = tmp.id;
-        // console.log(await OrderServices.update(new_ord));
-        if (await OrderServices.update(new_ord)) {
-            req.session.message = {
-                mess: `Cập nhật trạng thái đơn hàng thành công !!!`,
-                type: 'success'
-            }
-            req.session.save(() => {
-                res.redirect('/admin/order-new.html');
-            });
-            return;
-        }
-        else {
-            req.session.message = {
-                mess: `Cập nhật trạng thái đơn hàng thất bại !!!`,
-                type: 'danger'
-            }
-            req.session.save(() => {
-                res.redirect('/admin/order-new.html');
-            });
-        }
+
+        return await OrderServices.update(new_ord);
     }
 
     static updateOnStatusPackaged = async (req, res) => {
@@ -181,6 +199,9 @@ class OrderController {
 
         const tmp = await OrderServices.find(data.id);
 
+        const mstaff = new StaffService();
+        const stf = await mstaff.find(data.staff_id);
+
         // id = null, created_date = null, order_status_id = null, shipping_fullname = null, shipping_mobile = null, payment_method = null, shipping_ward_id = null, shipping_housenumber_street = null, shipping_fee = null, delivered_date = null, staff_id = null, customer_id = null, name_customer = null, name_staff = null, name_order_status = null
         const new_ord = new mOrder(tmp.id, tmp.created_date, 4, tmp.shipping_fullname, tmp.shipping_mobile, tmp.payment_method, tmp.shipping_ward_id, tmp.shipping_housenumber_street, tmp.shipping_fee, tmp.delivered_date, data.staff_id, tmp.customer_id, tmp.name_customer, tmp.name_staff, tmp.name_order_status);
 
@@ -194,7 +215,7 @@ class OrderController {
             req.session.save(() => {
                 res.redirect('/admin/choose-shipper');
             });
-            return;
+            // return;
         }
         else {
             req.session.message = {
@@ -205,6 +226,7 @@ class OrderController {
                 res.redirect('/admin/choose-shipper');
             });
         }
+        req.io.to(`shipper-${stf.username}-8`).emit('oderdeliverynow');
     }
 
 
@@ -216,6 +238,7 @@ class OrderController {
         // console.log(id)
         const pro = await mProduct.findByID(id);
 
+        console.log('sssssss', pro)
         if (pro) {
             // console.log(pro)
             if (pro.is_delete == 0) {
@@ -241,6 +264,8 @@ class OrderController {
     }
 
     static detail = async (req, res) => {
+        const previousPath = req.query['previouspath'];
+
         // lấy id
         const id = req.params.id;
         const mDistrict = new district();
@@ -304,7 +329,7 @@ class OrderController {
         }
 
 
-        return res.render('admin/order/detailorder', { order: ord, listProvince: listProvince, listDistrict: listDistrict, listWard: listWard, wa: wa, dist: dist, prov: prov, listStatus: listStatus, listProduct: listProduct, cus: cus });
+        return res.render('admin/order/detailorder', { order: ord, listProvince: listProvince, listDistrict: listDistrict, listWard: listWard, wa: wa, dist: dist, prov: prov, listStatus: listStatus, listProduct: listProduct, cus: cus, previousPath: previousPath });
     }
 
     static chooseCustomer = async (req, res) => {

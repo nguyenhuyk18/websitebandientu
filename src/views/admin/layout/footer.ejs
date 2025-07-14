@@ -58,49 +58,28 @@
     socket.emit('login-admin');
 
 
-    socket.on('order-notification', (data) => {
-      const countAlert = Number($('.alerts-order .badge-counter').html()) + 1;
-      $('.alerts-order .badge-counter').html(countAlert);
 
-      const audio = $('audio#order-sound')[0];
-      audio.play();
-
-      $('.alerts-order a').click(function() {
-        $('.alerts-order .badge-counter').html(0);
-      })
-
-      $('table.new_order tbody').prepend(`
-      <tr>
-        <td>${data.id_order}</td>
-        <td>${data.name_customer}</td>
-        <td>${data.phone}</td>
-        <td>${data.payment}</td>
-        <td><span class='badge badge-secondary'>Đã đặt hàng</span></td>
-        <td><a href="javascript:void(0)" class="btn btn-warning btn-sm">Xác Nhận</a></td>
-        <td><a href="javascript:void(0)" class="btn btn-danger btn-sm delete" data-toggle="modal" data-target="#areyousure">Hủy</a></td>
-        <td><a href="/admin/order/detail-${data.id_order}.html" class="btn btn-info btn-sm" title="Xem chi tiết">
-                      <i class="fas fa-eye"></i>
-                    </a></td>
-
-      </tr>
-      `);
-
-
-    });
 
     // =================================== CHAT SOCKET ================================================= //
     let usernameGloble = null;
     let iduserGloble = null;
 
-
     // nhận tin nhắn mới
     socket.on('clientsendprocess', (id, username, giaTri) => {
-      const audio = $('audio#order-sound')[0];
-      audio.play();
-      // console.log(id, username, giaTri)
+
+      const idrole = '<%= id_role  %>';
+      if (idrole === '7') {
+        const audio = $('audio#new-message')[0];
+        audio.play();
+      }
+
+
+
       const userListContainer = document.querySelector('.chatapp-admin-wrapper .aside-user-list');
       const usersMess = document.querySelectorAll('.chatapp-admin-wrapper .aside-user-list li');
-      // console.log(usersMess)
+
+
+      // trường hợp người dung đang ở ngay tại bảng chat user đó
       if (id == iduserGloble && usernameGloble == username) {
 
         const containerChat = document.querySelector('.chatapp-admin-wrapper .content-chat');
@@ -118,7 +97,7 @@
       }
 
 
-
+      // trường hợp thêm thẻ li vào thanh bar để chọn user chat khi admin ch click vào ai để chat cả
       const html = `
       <li class="aside-user" idclient="${id}" onclick="selectChatUser(this, ${id}, '${username}')">
         <div class="name">${username}</div>
@@ -148,7 +127,6 @@
         userListContainer.insertAdjacentHTML('beforeend', html);
       }
     })
-
 
     // lựa chọn user item
     function selectChatUser(element, id, username) {
@@ -192,10 +170,8 @@
           }
 
           const containerChat = document.querySelector('.content-chat');
-
           containerChat.innerHTML = html;
           containerChat.scrollTop = containerChat.scrollHeight;
-
         }
       });
 
@@ -233,7 +209,6 @@
       });
     }
 
-
     // gửi tin nhắn đến cho client
     function sendMessageToClient() {
       const value = document.querySelector('input.mess').value;
@@ -266,6 +241,253 @@
         document.querySelector('input.mess').value = ''
       }
     }
+    // =================================== CHAT SOCKET ================================================= //
+
+
+
+    // user -> admin
+    // order-notification
+    socket.on('order-notification', (data) => {
+      const countAlert = Number($('.alerts-order .badge-counter').html()) + 1;
+      $('.alerts-order .badge-counter').html(countAlert);
+
+      const audio = $('audio#order-sound')[0];
+      audio.play();
+
+      $('.alerts-order a').click(function() {
+        $('.alerts-order .badge-counter').html(0);
+      })
+
+      $.ajax({
+        type: "GET",
+        url: `/admin/order-by-status/1`,
+        success: function(response) {
+          let html = '';
+          const table = $('table.new_order').DataTable();
+
+          const cc = response.map(row => {
+
+            return [
+              row.id,
+              row.name_customer,
+              row.shipping_mobile,
+              row.payment_method,
+              "<td><span class='badge badge-secondary'>Đã đặt hàng</span></td>",
+              `<a href="" id="acceptorder"  id_order="${row.id}" onclick="submitToManageProduct(this)" class="btn btn-warning btn-sm">Xác Nhận</a>`,
+              `<a href="javascript:void(0)" class="btn btn-danger btn-sm delete" data-toggle="modal" data-target="#areyousure">Hủy</a>`,
+              `<a href="/admin/order/detail-${row.id}.html?previouspath=order-new.html" class="btn btn-info btn-sm" title="Xem chi tiết">
+                                    <i class="fas fa-eye"></i>
+                                  </a>`
+
+            ];
+          })
+
+          table.clear();
+          table.rows.add(cc); // html là các thẻ <tr>
+          table.draw();
+
+        }
+      });
+
+    });
+
+    // admin -> manage
+    // thông báo giữa các order 1 -> 2
+    function submitToManageProduct(element) {
+      const id = element.getAttribute('id_order');
+      socket.emit('ordernewsend', id);
+    }
+
+
+    // lấy table needpagekaged
+    socket.on('ordernewsendprocess', () => {
+      const id_role = '<%= login.role_id %>';
+      if (id_role == 9) {
+        const audio = $('audio#notification-sound')[0];
+        audio.play();
+      }
+
+
+      // update o new_order
+      $.ajax({
+        type: "GET",
+        url: `/admin/order-by-status/1`,
+        success: function(response) {
+          let html = '';
+          const table = $('table.new_order').DataTable();
+          console.log('123');
+
+          const cc = response.map(row => {
+
+            return [
+              row.id,
+              row.name_customer,
+              row.shipping_mobile,
+              row.payment_method,
+              "<td><span class='badge badge-secondary'>Đã đặt hàng</span></td>",
+              `<a href="javascript:void(0)" id="acceptorder" id_order="${row.id}" onclick="submitToManageProduct(this)" class="btn btn-warning btn-sm">Xác Nhận</a>`,
+              `<a href="javascript:void(0)" class="btn btn-danger btn-sm delete" data-toggle="modal" data-target="#areyousure">Hủy</a>`,
+              `<a href="/admin/order/detail-${row.id}.html?previouspath=order-new.html" class="btn btn-info btn-sm" title="Xem chi tiết">
+                                    <i class="fas fa-eye"></i>
+                                  </a>`
+
+            ];
+          });
+
+          table.clear();
+          table.rows.add(cc); // html là các thẻ <tr>
+          table.draw();
+        }
+      });
+
+
+      $.ajax({
+        type: "GET",
+        url: `/admin/order-by-status/2`,
+        success: function(response) {
+          //console.log(order_new.id_order);
+          // console.log('lay api thanh cong')
+          let html = ''
+          const arr = response.map(row => {
+            return [
+              row.id,
+              row.name_customer,
+              row.shipping_mobile,
+              row.payment_method,
+              "<td><span class='badge badge-info'>Đã xác nhận đơn hàng</span></td>",
+              `<a href="javascript:void(0)" onclick="submitPagekageDone(this)" id_order='${row.id}'  class="btn btn-warning btn-sm">Xác Nhận</a>`,
+              `<a href="/admin/order/detail-${row.id}.html?previouspath=order-need-package" class="btn btn-info btn-sm" title="Xem chi tiết">
+                                    <i class="fas fa-eye"></i>
+                                  </a>`
+            ]
+          });
+
+          const table = $('table.need_packaged').DataTable();
+          table.clear();
+          table.rows.add(arr); // html là các thẻ <tr>
+          table.draw();
+        }
+      });
+    });
+
+
+
+
+    // manage -> admin
+    // gọi đến sự kiện update từ 2 -> 3
+    function submitPagekageDone(element) {
+      const id = element.getAttribute('id_order');
+      socket.emit('oderdonepagekage', id);
+    }
+
+    // Đơn hàng cần người phân công !!!
+    socket.on('oderdonepagekageprocess', () => {
+      const id_role = '<%= login.role_id %>';
+      if (id_role == 7) {
+        const audio = $('audio#notification-sound')[0];
+        audio.play();
+      }
+
+
+
+      $.ajax({
+        type: "GET",
+        url: `/admin/order-by-status/2`,
+        success: function(response) {
+          const arr = response.map(row => {
+            return [
+              row.id,
+              row.name_customer,
+              row.shipping_mobile,
+              row.payment_method,
+              "<td><span class='badge badge-info'>Đã xác nhận đơn hàng</span></td>",
+              `<a href="javascript:void(0)" onclick="submitPagekageDone(this)" id_order='${row.id}'  class="btn btn-warning btn-sm">Xác Nhận</a>`,
+              `<a href="/admin/order/detail-${row.id}.html?previouspath=order-need-package" class="btn btn-info btn-sm" title="Xem chi tiết">
+                                    <i class="fas fa-eye"></i>
+                                  </a>`
+            ]
+          });
+
+          const table = $('table.need_packaged').DataTable();
+
+          table.clear();
+          table.rows.add(arr); // html là các thẻ <tr>
+          table.draw();
+        }
+      });
+
+      $.ajax({
+        type: "GET",
+        url: `/admin/order-by-status/3`,
+        success: function(response) {
+          //console.log(order_new.id_order);
+          // console.log('lay api thanh cong')
+          let html = ''
+          const arr = response.map(row => {
+            return [
+              row.id,
+              row.name_customer,
+              row.shipping_mobile,
+              row.payment_method,
+              "<td><span class='badge badge-primary'>Hoàn tất đóng gói</span></td>",
+              `<td><a href="/admin/choose-shipper-${row.id}/4" id_order='${row.id}' class="btn btn-warning btn-sm">Phân Công</a></td>`,
+              `<a href="/admin/order/detail-${row.id}.html?previouspath=order-need-package" class="btn btn-info btn-sm" title="Xem chi tiết"> <i class="fas fa-eye"></i></a>`
+            ]
+          });
+
+          const table = $('table.choose_shipper').DataTable();
+          table.clear();
+          table.rows.add(arr); // html là các thẻ <tr>
+          table.draw();
+        }
+      });
+
+
+
+
+    })
+
+
+
+    // admin -> shipper 
+    socket.on('oderdeliverynow', () => {
+      console.log('hello');
+      // call api để cập nhật bảng order-need-delivery
+      const id_role = '<%= login.role_id %>';
+      if (id_role == 8) {
+        const audio = $('audio#notification-sound')[0];
+        audio.play();
+      }
+
+
+      $.ajax({
+        type: "GET",
+        url: `/admin/order-by-status/4`,
+        success: function(response) {
+          //console.log(order_new.id_order);
+          // console.log('lay api thanh cong')
+          let html = ''
+          const arr = response.map(row => {
+            return [
+              row.id,
+              row.name_customer,
+              row.shipping_mobile,
+              row.payment_method,
+              "<td><span class='badge badge-warning'>Đang giao hàng</span></td>",
+              `<td><a href="/admin/choose-shipper-${row.id}/4" id_order='${row.id}' class="btn btn-warning btn-sm">Xác Nhận Đơn Hàng</a></td>`,
+              `<a href="/admin/order/detail-${row.id}.html?previouspath=order-need-delivery" class="btn btn-info btn-sm" title="Xem chi tiết"> <i class="fas fa-eye"></i></a>`
+            ]
+          });
+
+          const table = $('table.choose_shipper').DataTable();
+          table.clear();
+          table.rows.add(arr); // html là các thẻ <tr>
+          table.draw();
+        }
+      });
+
+
+    })
   </script>
 
   <script>
@@ -315,3 +537,22 @@
                 <div class="mess">Mình muốn hỏi về sản phẩm.</div>
               </div>
             </div> -->
+
+
+
+  <!-- <tr>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td> 
+                  
+
+                    <span class="badge "></span>
+                  </td>
+                  <td><a href="/admin/new-order-/2" id="acceptorder" id_order="" class="btn btn-warning btn-sm">Xác Nhận</a></td>
+                  <td><a data_href="/admin/order/delete/" href="javascript:void(0)" class="btn btn-danger btn-sm delete" data-toggle="modal" data-target="#areyousure">Hủy</a></td>
+                  <td> <a href="/admin/order/detail-.html" class="btn btn-info btn-sm" title="Xem chi tiết">
+                      <i class="fas fa-eye"></i>
+                    </a></td>
+                </tr> -->

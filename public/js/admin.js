@@ -3,6 +3,9 @@
 const toastsuccess = document.getElementsByClassName('toast-success');
 const toasterror = document.getElementsByClassName('toast-danger');
 
+
+
+
 if (toastsuccess.length) {
     // Bật hiệu ứng hiện
     const tmp = toastsuccess[0]
@@ -1367,24 +1370,7 @@ $('select.choose_district').change(function () {
 
 
 // ================================ ORDER ===================================
-// sep up thêm order_item
-$('.addorderitem').click(function () {
-    const giaTri = $('input.product_id').val();
-    // console.log(giaTri);
-    $.ajax({
-        type: "GET",
-        url: `/admin/order/item/${giaTri}`,
-        success: function (response) {
-            if (response == false) {
-                alert(`mã sản phẩm ${giaTri} không tồn tại !!!`);
-            }
-            else {
-                updateTableProduct(response);
-            }
-        }
-    });
-    $('input.product_id').val("");
-})
+
 
 addProductOrder = (id_prodoct, unitprice) => {
     const id_product = document.querySelectorAll('table.table-item-order tbody tr td:first-child');
@@ -1457,6 +1443,30 @@ updateTableProduct = (data) => {
               </tr>`
     $('table.table-item-order tbody').append(html);
 }
+
+
+// sep up thêm order_item
+$('.addorderitem').click(function () {
+    // alert(1)
+    const giaTri = $('input.product_id').val();
+    // const allAction = '<%= login.name_role %>'
+    // console.log(giaTri);
+    $.ajax({
+        type: "GET",
+        url: `/admin/order/item/${giaTri}`,
+        success: function (response) {
+            // alert(response)
+            // console.log(response);
+            if (response == false) {
+                alert(`mã sản phẩm ${giaTri} không tồn tại !!!`);
+            }
+            else {
+                updateTableProduct(response);
+            }
+        }
+    });
+    $('input.product_id').val("");
+})
 // ================================ ORDER ===================================
 // Hiển thị tên file đã chọn
 $(document).on('change', '.custom-file-input', function (e) {

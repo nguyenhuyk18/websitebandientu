@@ -10,7 +10,7 @@ class ChattingController {
     }
 
 
-    // Liệt kê các conversation có message 
+    // Liệt kê các conversation có message phục vụ cho admin
     static getConversationHaveMessage = async (req, res) => {
         const mCustomer = new customerService();
         const conversation = await conversationService.all();
@@ -22,7 +22,6 @@ class ChattingController {
             if (messageList.length) {
                 lastMessage = await messageList[messageList.length - 1]
             }
-
             return {
                 ...row,
                 count_message: messageList.length,
@@ -40,7 +39,6 @@ class ChattingController {
 
         return res.render('admin/chat/index', { conversation: conversationEnd });
     }
-
 
 
     // Hàm này thêm conversation nếu customer có conversation rồi thì kh thêm nữa
@@ -85,6 +83,7 @@ class ChattingController {
         return res.json(allMessage);
     }
 
+    // cập nhật đã đọc
     static updateISread = async (id_room) => {
         const conversation = (await conversationService.all(`id_room = '${id_room}'`))[0];
         conversation.is_read_admin = 2

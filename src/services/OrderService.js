@@ -30,7 +30,7 @@ class OrderService {
         if (cond) {
             sql += cond;
         }
-
+        // console.log(sql)
         try {
             const [result, fields] = await pool.execute(sql);
             return result.map(row => {
@@ -149,7 +149,7 @@ class OrderService {
         const cond = ` WHERE \`order\`.id = ${id}`;
         const tmp = await this.getAll(cond);
         if (!tmp.length) {
-            return false;
+            return null;
         }
         return tmp[0];
     }

@@ -1,7 +1,12 @@
 // khởi tạo socket io 
 const http = require('http');
 const ChattingController = require('../controllers/ChattingController');
+const OrderController = require('../controllers/admin/OrderController');
+
+
+
 const dayjs = require('dayjs');
+
 let ioInstance = null;
 function initSocket(app, sessionMiddleware) {
     // console.log(app)
@@ -27,14 +32,17 @@ function initSocket(app, sessionMiddleware) {
 
             if (id_role == 9) {
                 socket.join('mange-product-order');
+                // console.log('hahahaha')
             }
 
             if (id_role == 8) {
                 socket.join(`shipper-${username}-8`);
+                console.log(`đã vô room shipper-${username}-8`)
             }
         });
 
 
+        // ===================  CHATTING SOCKET ============================ //
         socket.on('connect-to-chat-client', async (id, username) => {
             // console.log(id, '    ', username)
             await ChattingController.saveConversation(id, username);
@@ -69,21 +77,40 @@ function initSocket(app, sessionMiddleware) {
                 mess: giaTri,
                 is_delete: 0
             }
+
             await ChattingController.saveMessageSend(data);
             // await ChattingController.updateISread(`${id}_${username}`);
             io.to(`${id}_${username}`).emit('adminsendprocess', giaTri);
         })
-        // socket.on('new order', (data) => {
-        //     console.log('new order received', data);
-        //     // alert('new order');
-        //     socket.to('nhanthongbaodathang').emit('order-notification', {
-        //         message: 'Có đơn hàng mới',
-        //         order: data
-        //     });
-        //     // console.log('new order', data);
+        // ===================  CHATTING SOCKET ======================= //
+
+        // =================== SOCKET ORDERING ====================== //
+        // socket('')
+        socket.on('ordernewsend', async (id) => {
+            if (await OrderController.updateOnStatusNewOrder(id, 2)) {
+                io.to('mange-product-order').to('nhanthongbaodathang').emit('ordernewsendprocess');
+            }
+        })
 
 
-        // });
+        socket.on('oderdonepagekage', async (id) => {
+            // console.log('ccccccc');
+            if (await OrderController.updateOnStatusNewOrder(id, 3)) {
+                io.to('nhanthongbaodathang').to('mange-product-order').emit('oderdonepagekageprocess');
+            }
+        })
+
+
+
+
+
+
+
+
+        // =================== SOCKET ORDERING ====================== //
+
+
+
 
     });
 

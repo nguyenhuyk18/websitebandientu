@@ -29,17 +29,17 @@
         </div> -->
         <div class="card-body">
           <div class="table-responsive">
-            <table class="table table-bordered new_order" id="dataTable" width="100%" cellspacing="0">
+            <table class="table table-bordered need_packaged" id="dataTable" width="100%" cellspacing="0">
               <thead>
                 <tr>
-                  <th>ID</th>
-                  <th>Tên Khách Hàng</th>
-                  <th>SĐT (người nhận)</th>
-                  <th>Thanh Toán</th>
-                  <th>Trạng Thái</th>
-                  <!-- <th></th> -->
-                  <th></th>
-                  <th></th>
+                  <th style="width: 37.2px;">ID</th>
+                  <th style="width: 168.2px;">Tên Khách Hàng</th>
+                  <th style="width: 179.2px;">SĐT (người nhận)</th>
+                  <th style="width: 179.2px;">Thanh Toán</th>
+                  <th style="width: 114.2px;">Trạng Thái</th>
+                  <th style="width: 130.2px;"></th>
+                  <!-- <th style="width: 75.2px;"></th> -->
+                  <th style="width: 57.2px;"></th>
                 </tr>
               </thead>
               <tfoot>
@@ -77,9 +77,9 @@
 
                     <span class="badge <%= statusClass %>"><%= order.name_order_status %></span>
                   </td>
-                  <td><a href="/admin/order-pagekage-done-<%= order.id %>/3" class="btn btn-warning btn-sm">Xác Nhận</a></td>
+                  <td><a href="javascript:void(0)" onclick="submitPagekageDone(this)" id_order="<%= order.id %>" class="btn btn-warning btn-sm">Xác Nhận</a></td>
 
-                  <td> <a href="/admin/order/detail-<%= order.id %>.html" class="btn btn-info btn-sm" title="Xem chi tiết">
+                  <td> <a href="/admin/order/detail-<%= order.id %>.html?previouspath=order-need-package" class="btn btn-info btn-sm" title="Xem chi tiết">
                       <i class="fas fa-eye"></i>
                     </a></td>
                 </tr>

@@ -29,7 +29,7 @@
         </div> -->
         <div class="card-body">
           <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <table class="table table-bordered choose_shipper" id="dataTable" width="100%" cellspacing="0">
               <thead>
                 <tr>
                   <th>ID</th>
@@ -38,7 +38,7 @@
                   <th>Thanh Toán</th>
                   <th>Trạng Thái</th>
                   <th></th>
-                  <th></th>
+                  <!-- <th></th> -->
                   <th></th>
                 </tr>
               </thead>
@@ -50,13 +50,13 @@
                   <th>Thanh Toán</th>
                   <th>Trạng Thái</th>
                   <th></th>
-                  <th></th>
+                  <!-- <th></th> -->
                   <th></th>
                 </tr>
               </tfoot>
               <tbody>
                 <% for(const order of listOrder) { %>
-                <% if(order.order_status_id == 3) %>
+
                 <tr>
                   <td><%= order.id %></td>
                   <td><%= order.name_customer %></td>
@@ -75,8 +75,7 @@
     }
   %><span class="badge <%= statusClass %>"><%= order.name_order_status %></span></td>
                   <td><a href="javascript:void(0)" class="btn btn-warning btn-sm">Xác Nhận Đơn Hàng</a></td>
-                  <td><a data_href="/admin/order/delete/<%= order.id %>" href="javascript:void(0)" class="btn btn-danger btn-sm delete" data-toggle="modal" data-target="#areyousure">Xóa</a></td>
-                  <td> <a href="/admin/order/detail-<%= order.id %>.html" class="btn btn-info btn-sm" title="Xem chi tiết">
+                  <td> <a href="/admin/order/detail-<%= order.id %>.html?previouspath=order-need-delivery" class="btn btn-info btn-sm" title="Xem chi tiết">
                       <i class="fas fa-eye"></i>
                     </a></td>
                 </tr>

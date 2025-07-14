@@ -100,10 +100,12 @@ router.post('/customer/update', checkPermisson('edit_customer'), CustomerControl
 router.get('/customer/detail-:id.html', checkPermisson('view_customer'), CustomerController.detail);
 
 // order
+// call api
+router.get('/order-by-status/:id', OrderController.returnOrderByStatus)
 router.get('/order/create/view', checkPermisson('add_order'), OrderController.chooseCustomer)
 router.get('/order.html', checkPermisson('view_order'), OrderController.index);
 router.get('/order/create.html/:id', checkPermisson('add_order'), OrderController.create);
-router.get('/order/item/:id', checkPermisson('add_order'), OrderController.findProductByID);
+router.get('/order/item/:id', OrderController.findProductByID);
 router.post('/order/create', checkPermisson('add_order'), OrderController.store);
 router.get('/order/delete/:id', checkPermisson('delete_order'), OrderController.delete);
 router.get('/order/edit/:id', checkPermisson('edit_order'), OrderController.edit);
@@ -113,6 +115,7 @@ router.get('/order-new.html', checkPermisson('view_new_order'), OrderController.
 router.get('/order-need-package', checkPermisson('view_order_need_package'), OrderController.order_need_package);
 router.get('/choose-shipper', checkPermisson('view_order_choose_shipper'), OrderController.order_choose_shipper);
 // router.get('/')
+// router.get('/update-order-status.html/:id' , OrderController. )
 router.get('/order-need-delivery', OrderController.order_confirmed);
 // /choose-shipper-<%= order.id %>/4
 router.get('/new-order-:id/:order_status_id', OrderController.updateOnStatusNewOrder);
