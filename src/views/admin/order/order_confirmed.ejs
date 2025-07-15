@@ -18,7 +18,7 @@
     <div class="container-fluid">
 
       <!-- Page Heading -->
-      <h1 class="h3 mb-2 text-gray-800">Danh Sách Đơn Hàng</h1>
+      <h1 class="h3 mb-2 text-gray-800">Danh Sách Đơn Hàng Cần Giao Ngay</h1>
       <!-- <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.
           For more information about DataTables, please visit the <a target="_blank" href="https://datatables.net">official DataTables documentation</a>.</p> -->
 
@@ -74,7 +74,7 @@
       default: statusClass = 'badge-light';
     }
   %><span class="badge <%= statusClass %>"><%= order.name_order_status %></span></td>
-                  <td><a href="javascript:void(0)" class="btn btn-warning btn-sm">Xác Nhận Đơn Hàng</a></td>
+                  <td><a href="/admin/submit-order.html/<%= order.id %>" class="btn btn-warning btn-sm">Xác Nhận Đơn Hàng</a></td>
                   <td> <a href="/admin/order/detail-<%= order.id %>.html?previouspath=order-need-delivery" class="btn btn-info btn-sm" title="Xem chi tiết">
                       <i class="fas fa-eye"></i>
                     </a></td>

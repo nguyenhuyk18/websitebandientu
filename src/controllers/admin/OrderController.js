@@ -68,7 +68,7 @@ class OrderController {
         return res.render('admin/order/new_order', { listOrder: listOrder, message: message });
     }
 
-
+    // liệt kê đơn hàng ở trạng thái cần đóng gói
     static order_need_package = async (req, res) => {
         const mOrder = new order();
         const cond = ` WHERE order_status_id = 2 ORDER BY created_date DESC`
@@ -79,6 +79,7 @@ class OrderController {
         return res.render('admin/order/order_need_packaged', { listOrder: listOrder, message: message });
     }
 
+    // liệt kê đơn hàng ở trạng thái hoàn tất đóng gói
     static order_choose_shipper = async (req, res) => {
         const mOrder = new order();
         const cond = ` WHERE order_status_id = 3 ORDER BY created_date DESC`
@@ -90,8 +91,70 @@ class OrderController {
     }
 
 
+    static cancle_order = async (req, res) => {
+        const id = req.params.id;
+
+        const ord = new order();
+        const tmp = await ord.find(id);
+
+        tmp.order_status_id = 6;
+
+        const new_ord = new mOrder(tmp.id, tmp.created_date, tmp.order_status_id, tmp.shipping_fullname, tmp.shipping_mobile, tmp.payment_method, tmp.shipping_ward_id, tmp.shipping_housenumber_street, tmp.shipping_fee, tmp.delivered_date, tmp.staff_id, tmp.customer_id, tmp.name_customer, tmp.name_staff, tmp.name_order_status);
+        new_ord.id_order = tmp.id;
+
+        if (await ord.update(new_ord)) {
+            req.session.message = {
+                mess: 'Hủy đơn hàng thành công !!',
+                type: 'success'
+            }
+
+            req.session.save(() => res.redirect('/admin/order-new.html'));
+            return;
+        }
+        req.session.message = {
+            mess: 'Hủy đơn hàng thất bại !!',
+            type: 'danger'
+        }
+
+        req.session.save(() => res.redirect('/admin/order-new.html'));
+        return;
+
+    }
 
 
+    static confirm_order = async (req, res) => {
+        const id = req.params.id;
+
+        const ord = new order();
+        const tmp = await ord.find(id);
+
+        tmp.order_status_id = 5;
+
+        const new_ord = new mOrder(tmp.id, tmp.created_date, tmp.order_status_id, tmp.shipping_fullname, tmp.shipping_mobile, tmp.payment_method, tmp.shipping_ward_id, tmp.shipping_housenumber_street, tmp.shipping_fee, tmp.delivered_date, tmp.staff_id, tmp.customer_id, tmp.name_customer, tmp.name_staff, tmp.name_order_status);
+
+        new_ord.id_order = tmp.id;
+        new_ord.delivered_date = dayjs().format('YYYY-MM-DD HH:mm:ss');
+
+
+        if (await ord.update(new_ord)) {
+            req.session.message = {
+                mess: 'Đã xác nhận đơn hàng thành công !!',
+                type: 'success'
+            }
+
+            req.session.save(() => res.redirect('/admin/order-need-delivery'));
+            return;
+        }
+        req.session.message = {
+            mess: 'Đã xác nhận đơn hàng thất bại, vui lòng thử lại sau !!',
+            type: 'danger'
+        }
+
+        req.session.save(() => res.redirect('/admin/order-need-delivery'));
+
+    }
+
+    // liệt kê đơn hàng ở trạng thái đang giao hàng
     static order_confirmed = async (req, res) => {
         const username = req.session.login?.username;
 
@@ -238,7 +301,7 @@ class OrderController {
         // console.log(id)
         const pro = await mProduct.findByID(id);
 
-        console.log('sssssss', pro)
+        // console.log('sssssss', pro)
         if (pro) {
             // console.log(pro)
             if (pro.is_delete == 0) {

@@ -364,7 +364,7 @@ deleteProductFromCart = (id) => {
 updateQtyInCart = (input) => {
     // const tmp = document.querySelector(this);
 
-    console.log(input.value);
+    // console.log(input.value);
     const value = input.value;
     const id = input.getAttribute('product_id');
 
@@ -921,7 +921,25 @@ socket.on('adminsendprocess', (giaTri) => {
 })
 
 
+function seekOrderByStatus(element, e) {
+    const id_sta = element.getAttribute('id_sta');
+    const orderContainer = document.querySelector('.historyofordercustomer');
 
+    let url = '/lich-su-don-hang-api/html';
+    url += `?trangthai=${id_sta}`;
+
+    $.ajax({
+        type: "GET",
+        url: url,
+        success: function (data) {
+            if (data == 'false') {
+                window.location.href = '/';
+                return;
+            }
+            orderContainer.innerHTML = data;
+        }
+    });
+}
 
 
 function toggleCloseChat() {

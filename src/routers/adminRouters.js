@@ -114,6 +114,7 @@ router.get('/order/detail-:id.html', checkPermisson('view_order'), OrderControll
 router.get('/order-new.html', checkPermisson('view_new_order'), OrderController.new_order);
 router.get('/order-need-package', checkPermisson('view_order_need_package'), OrderController.order_need_package);
 router.get('/choose-shipper', checkPermisson('view_order_choose_shipper'), OrderController.order_choose_shipper);
+router.get('/cancle-order/:id', checkPermisson('view_new_order'), OrderController.cancle_order);
 // router.get('/')
 // router.get('/update-order-status.html/:id' , OrderController. )
 router.get('/order-need-delivery', OrderController.order_confirmed);
@@ -122,6 +123,8 @@ router.get('/new-order-:id/:order_status_id', OrderController.updateOnStatusNewO
 router.get('/order-pagekage-done-:id/:order_status_id', OrderController.updateOnStatusPackaged);
 router.get('/choose-shipper-:id/:order_status_id', OrderController.updateOnShipperView);
 router.post('/order-shipper', OrderController.updateOnShipper);
+router.get('/submit-order.html/:id', checkPermisson('submit_order_deliveried'), OrderController.confirm_order);
+// router.post('')
 // router.get('/order/new-order.html', OrderController.new_order);
 
 

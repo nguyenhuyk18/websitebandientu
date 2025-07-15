@@ -1,13 +1,14 @@
 const staff = require('../services/StaffService');
 
 checkPermisson = (requiredAction) => {
+
     return function (req, res, next) {
         const roleUser = req.session.login.name_role || null;
         const mStaff = new staff();
         // console.log('Checking permissions for user:', req.session.login);
-        console.log(requiredAction);
-        console.log(roleUser.includes(requiredAction));
 
+        // console.log(roleUser.includes(requiredAction));
+        console.log(requiredAction);
         if (!roleUser) {
             req.session.message = {
                 mess: `Bạn không có thẩm quyền để truy cập vào chức năng này !!!`,

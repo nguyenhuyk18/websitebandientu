@@ -194,7 +194,7 @@ class PaymentController {
             phone: cus.shipping_mobile
         }
 
-        console.log('dataSocket', dataSocket);
+        // console.log('dataSocket', dataSocket);
         // console.log('order_id', req.io);44
         req.io.to('nhanthongbaodathang').emit('order-notification', dataSocket);
 

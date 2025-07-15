@@ -102,7 +102,7 @@
           <li class="list-group-item"><strong>Họ tên:</strong> <span class="float-right"><%= cus.name %></span></li>
           <li class="list-group-item"><strong>Email:</strong> <span class="float-right"><%= cus.email %></span></li>
           <li class="list-group-item"><strong>Số điện thoại:</strong> <span class="float-right"><%= cus.phone %></span></li>
-          <li class="list-group-item"><strong>Địa chỉ nhận hàng:</strong> <span class="float-right"><%= order.shipping_housenumber_street %></span></li>
+          <li class="list-group-item"><strong>Địa chỉ nhận hàng:</strong> <span class="float-right"><%= order.shipping_housenumber_street %> , <%= wa.name %> , <%= dist.name %> , <%= prov.name %></span></li>
           <li class="list-group-item"><strong>Người nhận:</strong> <span class="float-right"><%= order.shipping_fullname %></span></li>
           <li class="list-group-item"><strong>SĐT người nhận:</strong> <span class="float-right"><%= order.shipping_mobile %></span></li>
         </ul>
@@ -126,7 +126,7 @@
             </thead>
             <tbody>
               <% let tongTien = 0; %>
-              <% listProduct.forEach((sp, idx) => { console.log(sp); %>
+              <% listProduct.forEach((sp, idx) => { %>
               <% tongTien += sp.total_price; %>
               <tr>
                 <td><%= idx + 1 %></td>

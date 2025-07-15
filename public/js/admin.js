@@ -31,9 +31,16 @@ if (toasterror.length) {
     }, 5000);
 }
 
+// $(selector).change(function (e) { 
+//     e.preventDefault();
+
+// });
+
 // set up xác nhận xóa dữ liệu
-$('a.delete').click(function () {
+$('a.delete').click(function (e) {
+    // e.preventDefault();
     const giaTri = $(this).attr('data_href');
+    // alert(giaTri)
     $('.modal-footer a').attr('href', giaTri);
 });
 

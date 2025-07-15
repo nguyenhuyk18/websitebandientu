@@ -90,7 +90,7 @@ class ProductController {
         // console.log(id);
         const mProduct = new productModels();
         const product = await mProduct.findByIDOnSale(id);
-        console.log(product);
+        // console.log(product);
 
 
 
@@ -129,13 +129,10 @@ class ProductController {
             }
         }
 
-        // console.log(informationTech);
-
-        // Lấy danh sách bình luận
         const listComment = await product.getComments();
-        // console.log(listComment);
 
         const listImageItem = await product.getImageItem();
+
         return res.render('client/product/detail', { product: product, listImageItem: listImageItem, informationTech: informationTech, listComment: listComment })
     }
 

@@ -70,7 +70,8 @@ class OrderService {
             shipping_housenumber_street = ?, 
             shipping_fee = ?,
             staff_id = ?,
-            customer_id = ?
+            customer_id = ?,
+            delivered_date = ?
             WHERE id = ?`;
 
         const values = [
@@ -81,9 +82,10 @@ class OrderService {
             data.shipping_ward_id,
             data.shipping_housenumber_street,
             data.shipping_fee,
-            // data.delivered_date,
+
             data.staff_id,
             data.customer_id,
+            data.delivered_date ?? null,
             data.id_order
         ];
         // console.log(values)

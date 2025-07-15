@@ -82,11 +82,12 @@ app.use((req, res, next) => {
     // console.log(req.session.message);
     const idrole = req.session.login?.role_id ?? null;
     app.locals.id_role = helpers.getIdRole(idrole);
+    app.locals.status_order = 0;
     // console.log(app.locals.id_role);
     // req.session.message = null; // reset message sau khi đã hiển thị
     next();
 });
-
+// console.log(app.locals.status_order)
 
 //khởi tạo socket
 const { initSocket } = require('./util/socket');
