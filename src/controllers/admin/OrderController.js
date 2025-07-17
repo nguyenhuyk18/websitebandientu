@@ -10,6 +10,7 @@ const customer = require('../../services/CustomerService');
 const status = require('../../services/StatusService');
 const dayjs = require('dayjs');
 const StaffService = require('../../services/StaffService');
+const CustomerController = require('./CustomerController');
 // const StaffService = require('../../services/StaffService');
 
 class OrderController {
@@ -23,7 +24,7 @@ class OrderController {
 
     static returnOrderByStatus = async (req, res) => {
         const order_status_id = req.params.id;
-        console.log(req.session.login.role_id);
+        // console.log(req.session.login.role_id);
         if (req.session?.login?.role_id == 8) {
             const mOrder = new order();
             const mstaff = new StaffService();
@@ -90,7 +91,7 @@ class OrderController {
         return res.render('admin/order/order_choose_shipper', { listOrder: listOrder, message: message });
     }
 
-
+    // 1 -> 6
     static cancle_order = async (req, res) => {
         const id = req.params.id;
 
@@ -102,13 +103,19 @@ class OrderController {
         const new_ord = new mOrder(tmp.id, tmp.created_date, tmp.order_status_id, tmp.shipping_fullname, tmp.shipping_mobile, tmp.payment_method, tmp.shipping_ward_id, tmp.shipping_housenumber_street, tmp.shipping_fee, tmp.delivered_date, tmp.staff_id, tmp.customer_id, tmp.name_customer, tmp.name_staff, tmp.name_order_status);
         new_ord.id_order = tmp.id;
 
+
+        const findOrder = await OrderController.findOrder(tmp.id);
+        const cus_id = findOrder.customer_id;
+        const customer = await CustomerController.findCustomer(cus_id);
+
         if (await ord.update(new_ord)) {
             req.session.message = {
                 mess: 'Hủy đơn hàng thành công !!',
                 type: 'success'
             }
-
+            req.io.to(`${customer.username}-following-order`).emit('update-order-status');
             req.session.save(() => res.redirect('/admin/order-new.html'));
+
             return;
         }
         req.session.message = {
@@ -121,7 +128,7 @@ class OrderController {
 
     }
 
-
+    //4 -> 5
     static confirm_order = async (req, res) => {
         const id = req.params.id;
 
@@ -136,13 +143,18 @@ class OrderController {
         new_ord.delivered_date = dayjs().format('YYYY-MM-DD HH:mm:ss');
 
 
+        const findOrder = await OrderController.findOrder(tmp.id);
+        const cus_id = findOrder.customer_id;
+        const customer = await CustomerController.findCustomer(cus_id);
+
         if (await ord.update(new_ord)) {
             req.session.message = {
                 mess: 'Đã xác nhận đơn hàng thành công !!',
                 type: 'success'
             }
-
+            req.io.to(`${customer.username}-following-order`).emit('update-order-status');
             req.session.save(() => res.redirect('/admin/order-need-delivery'));
+
             return;
         }
         req.session.message = {
@@ -151,6 +163,58 @@ class OrderController {
         }
 
         req.session.save(() => res.redirect('/admin/order-need-delivery'));
+
+    }
+
+    // 3 -> 4
+    static updateOnShipper = async (req, res) => {
+        const data = req.body;
+        // const order_status_id = req.params.order_status_id;
+        // const id = req.params.id;
+        const OrderServices = new order();
+
+        const tmp = await OrderServices.find(data.id);
+
+        const mstaff = new StaffService();
+        const stf = await mstaff.find(data.staff_id);
+
+        // id = null, created_date = null, order_status_id = null, shipping_fullname = null, shipping_mobile = null, payment_method = null, shipping_ward_id = null, shipping_housenumber_street = null, shipping_fee = null, delivered_date = null, staff_id = null, customer_id = null, name_customer = null, name_staff = null, name_order_status = null
+        const new_ord = new mOrder(tmp.id, tmp.created_date, 4, tmp.shipping_fullname, tmp.shipping_mobile, tmp.payment_method, tmp.shipping_ward_id, tmp.shipping_housenumber_street, tmp.shipping_fee, tmp.delivered_date, data.staff_id, tmp.customer_id, tmp.name_customer, tmp.name_staff, tmp.name_order_status);
+
+        new_ord.id_order = tmp.id;
+
+
+        const findOrder = await OrderController.findOrder(tmp.id);
+        const cus_id = findOrder.customer_id;
+        const customer = await CustomerController.findCustomer(cus_id);
+
+
+        console.log(customer);
+
+
+        // console.log(await OrderServices.update(new_ord));
+        if (await OrderServices.update(new_ord)) {
+            req.session.message = {
+                mess: `Cập nhật trạng thái đơn hàng thành công !!!`,
+                type: 'success'
+            }
+            req.session.save(() => {
+                res.redirect('/admin/choose-shipper');
+            });
+            // return;
+        }
+        else {
+            req.session.message = {
+                mess: `Cập nhật trạng thái đơn hàng thất bại !!!`,
+                type: 'danger'
+            }
+            req.session.save(() => {
+                res.redirect('/admin/choose-shipper');
+            });
+        }
+        req.io.to(`shipper-${stf.username}-8`).emit('oderdeliverynow');
+        req.io.to(`${customer.username}-following-order`).emit('update-order-status');
+        console.log(`${customer.username}-following-order`)
 
     }
 
@@ -254,43 +318,8 @@ class OrderController {
         return res.render('admin/order/choose_shipper', { order_status_id: order_status_id, id: id, listStaff: listSta });
     }
 
-    static updateOnShipper = async (req, res) => {
-        const data = req.body;
-        // const order_status_id = req.params.order_status_id;
-        // const id = req.params.id;
-        const OrderServices = new order();
 
-        const tmp = await OrderServices.find(data.id);
 
-        const mstaff = new StaffService();
-        const stf = await mstaff.find(data.staff_id);
-
-        // id = null, created_date = null, order_status_id = null, shipping_fullname = null, shipping_mobile = null, payment_method = null, shipping_ward_id = null, shipping_housenumber_street = null, shipping_fee = null, delivered_date = null, staff_id = null, customer_id = null, name_customer = null, name_staff = null, name_order_status = null
-        const new_ord = new mOrder(tmp.id, tmp.created_date, 4, tmp.shipping_fullname, tmp.shipping_mobile, tmp.payment_method, tmp.shipping_ward_id, tmp.shipping_housenumber_street, tmp.shipping_fee, tmp.delivered_date, data.staff_id, tmp.customer_id, tmp.name_customer, tmp.name_staff, tmp.name_order_status);
-
-        new_ord.id_order = tmp.id;
-        // console.log(await OrderServices.update(new_ord));
-        if (await OrderServices.update(new_ord)) {
-            req.session.message = {
-                mess: `Cập nhật trạng thái đơn hàng thành công !!!`,
-                type: 'success'
-            }
-            req.session.save(() => {
-                res.redirect('/admin/choose-shipper');
-            });
-            // return;
-        }
-        else {
-            req.session.message = {
-                mess: `Cập nhật trạng thái đơn hàng thất bại !!!`,
-                type: 'danger'
-            }
-            req.session.save(() => {
-                res.redirect('/admin/choose-shipper');
-            });
-        }
-        req.io.to(`shipper-${stf.username}-8`).emit('oderdeliverynow');
-    }
 
 
 

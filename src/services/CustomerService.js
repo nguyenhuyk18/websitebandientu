@@ -39,7 +39,7 @@ class CustomerService {
         const cond = ` WHERE id = ${id}`;
         const tmp = await this.getAll(cond);
         if (tmp.length == 0) {
-            return false;
+            return null;
         }
         const customerItem = tmp[0];
         return customerItem;

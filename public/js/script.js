@@ -921,6 +921,18 @@ socket.on('adminsendprocess', (giaTri) => {
 })
 
 
+
+
+
+function toggleCloseChat() {
+    const chatGUI = document.querySelector('.chatapp');
+    chatGUI.classList.remove('showchat');
+    chatGUI.classList.add('closechat');
+}
+
+
+
+// order
 function seekOrderByStatus(element, e) {
     const id_sta = element.getAttribute('id_sta');
     const orderContainer = document.querySelector('.historyofordercustomer');
@@ -942,8 +954,32 @@ function seekOrderByStatus(element, e) {
 }
 
 
-function toggleCloseChat() {
-    const chatGUI = document.querySelector('.chatapp');
-    chatGUI.classList.remove('showchat');
-    chatGUI.classList.add('closechat');
+function joinToRoomOrder(username) {
+
+    console.log('đã join');
 }
+
+socket.on('update-order-status', () => {
+    const btnStatusOrder = document.querySelector('#btn-status .btn-primary');
+    const id_status = btnStatusOrder.getAttribute('id_sta');
+
+    let url = '/lich-su-don-hang-socket.html';
+    url += `?trangthai=${id_status}`;
+    const orderContainer = document.querySelector('.all-order-list.order-history-list');
+    // if (id_status) {
+    $.ajax({
+        type: "GET",
+        url: url,
+        success: function (data) {
+            if (data == 'false') {
+                window.location.href = '/';
+                return;
+            }
+
+
+            orderContainer.innerHTML = data;
+        }
+    });
+    // }
+
+}) 

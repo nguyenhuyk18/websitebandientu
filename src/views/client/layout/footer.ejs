@@ -293,6 +293,13 @@
   socket.on('connect', () => {
     console.log('✅ Kết nối thành công:', socket.id);
   });
+
+
+  const username = '<%= user?.username ?? "" %>';
+  if (username) {
+    socket.emit('florder', username);
+    console.log('đã join')
+  }
 </script>
 
 <!-- <script src="/vendor/bootstrap-5.2.3-dist/js/bootstrap.min.js"></script> -->

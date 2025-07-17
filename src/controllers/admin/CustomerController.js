@@ -260,6 +260,12 @@ class CustomerController {
         return;
     }
 
+
+    static findCustomer = async (id_customer) => {
+        const mCustomer = new customer();
+        return await mCustomer.find(id_customer);
+    }
+
 }
 
 module.exports = CustomerController;

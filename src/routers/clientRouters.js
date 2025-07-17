@@ -94,6 +94,7 @@ router.get('/getShippingFee.html/:id_province', PaymentController.getShippingFee
 // lịch sử đơn hàng
 router.get('/lich-su-don-hang.html', OrderController.index);
 router.get('/lich-su-don-hang-api/html', OrderController.indexApi);
+router.get('/lich-su-don-hang-socket.html', OrderController.indexAPISocket);
 
 
 // Chi tiết đơn hàng
