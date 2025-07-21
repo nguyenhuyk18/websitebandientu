@@ -38,10 +38,15 @@ const uploadkeyboard = require('../middlewares/uploadkeyboard');
 const uploadimageitem = require('../middlewares/uploadimageitem');
 
 
+router.get('/analyst-by-product', DashboardController.resultAnalystByProduct);
+router.get('/analyst-by-veneu-product', DashboardController.resultAnalystByVenueProduct);
+router.get('/number-of-new-order', DashboardController.resultNumberOfNewOrder);
+router.get('/number-of-new-message', DashboardController.resultNewMessage);
+
 router.use(checkLoginAdminSite);
 
 // trang chủ
-router.get('/dashboard.html', DashboardController.index);
+router.get('/', DashboardController.index);
 
 // thương hiệu
 router.get('/brand.html', checkPermisson('view_brand'), BrandController.index);
@@ -210,6 +215,8 @@ router.get('/return-role-id', AuthController.returnRoleID);
 router.get('/chat.html', checkPermisson('view_chatting'), ChatController.getConversationHaveMessage);
 router.get('/get-all-message.html/:slug', checkPermisson('view_chatting'), ChatController.getGetMessageByIDConversation);
 router.put('/update-conversation.html/:slug', checkPermisson('view_chatting'), ChatController.updateConversation)
+
+
 
 // Xuất router
 module.exports = router;

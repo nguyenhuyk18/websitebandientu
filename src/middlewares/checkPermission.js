@@ -8,14 +8,14 @@ checkPermisson = (requiredAction) => {
         // console.log('Checking permissions for user:', req.session.login);
 
         // console.log(roleUser.includes(requiredAction));
-        console.log(requiredAction);
+        // console.log(requiredAction);
         if (!roleUser) {
             req.session.message = {
                 mess: `Bạn không có thẩm quyền để truy cập vào chức năng này !!!`,
                 type: 'danger'
             };
             req.session.save(() => {
-                res.redirect('/admin/dashboard.html');
+                res.redirect('/admin');
             });
             return;
         }
@@ -36,7 +36,7 @@ checkPermisson = (requiredAction) => {
                     type: 'danger'
                 };
                 req.session.save(() => {
-                    res.redirect('/admin/dashboard.html');
+                    res.redirect('/admin');
                 });
             }
         }).catch((err) => {

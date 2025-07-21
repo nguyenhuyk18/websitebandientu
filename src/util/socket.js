@@ -83,7 +83,7 @@ function initSocket(app, sessionMiddleware) {
         // ===================  CHATTING SOCKET ======================= //
 
         // =================== SOCKET ORDERING ====================== //
-        // socket('')
+
         // 1 -> 2
         socket.on('ordernewsend', async (id) => {
             if (await OrderController.updateOnStatusNewOrder(id, 2)) {
@@ -98,8 +98,6 @@ function initSocket(app, sessionMiddleware) {
 
         // 2 -> 3
         socket.on('oderdonepagekage', async (id) => {
-
-            // console.log('ccccccc');
             if (await OrderController.updateOnStatusNewOrder(id, 3)) {
                 const findOrder = await OrderController.findOrder(id);
                 const cus_id = findOrder.customer_id;
@@ -109,23 +107,11 @@ function initSocket(app, sessionMiddleware) {
             }
         })
 
-
         socket.on('florder', (username) => {
             socket.join(`${username}-following-order`);
-            console.log(`${username}-following-order`)
+            // console.log(`${username}-following-order`)
         })
-
-
-
-
-
-
-
         // =================== SOCKET ORDERING ====================== //
-
-
-
-
     });
 
     return { io, server }

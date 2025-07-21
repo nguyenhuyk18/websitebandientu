@@ -72,6 +72,8 @@ app.use((req, res, next) => {
     next();
 });
 
+
+// login bên admin
 app.use((req, res, next) => {
     // console.log(req.session.message);
     app.locals.login = helpers.getUserSession(req.session.login);

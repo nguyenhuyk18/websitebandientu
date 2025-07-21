@@ -1522,6 +1522,136 @@ function formatVND(amount) {
     amount = parseInt(amount); // Đảm bảo là số nguyên
     return amount.toLocaleString('vi-VN') + ' ₫';
 }
+// phân tích dữ liệu call api
+const barChart = document.querySelector('#barChartProduct');
+if (barChart) {
+    fetch('http://127.0.0.1:3256/admin/analyst-by-product')
+        .then(rs => rs.json())
+        .then(v => {
+            const xLabel = Object.keys(v);
+            const yLabel = Object.values(v);
+            const myBarChart = new Chart(barChart, {
+                type: 'bar',
+                data: {
+                    labels: xLabel,
+                    datasets: [{
+                        label: 'Số Lượng Sản Phẩm Bán Ra',
+                        data: yLabel,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.6)',
+                            'rgba(54, 162, 235, 0.6)',
+                            'rgba(255, 206, 86, 0.6)',
+                        ],
+                        borderColor: [
+                            'rgba(255,99,132,1)',
+                            'rgba(54,162,235,1)',
+                            'rgba(255,206,86,1)',
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    // aspectRatio: 1, // width/height ratio
+                    legend: {
+                        display: false
+                    }
+                }
+            });
+        })
+    // const dataApi = getApiAnal();
+}
+
+const mypiechart = document.querySelector('#mypiechart');
+
+if (mypiechart) {
+    fetch('http://127.0.0.1:3256/admin/analyst-by-veneu-product')
+        .then(tmp => tmp.json())
+        .then(v => {
+            const xLabel = Object.keys(v);
+            const yLabel = Object.values(v);
+            new Chart(mypiechart, {
+                type: 'pie',
+                data: {
+                    labels: xLabel,
+                    datasets: [{
+                        data: yLabel,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.6)',
+                            'rgba(54, 162, 235, 0.6)',
+                            'rgba(255, 206, 86, 0.6)',
+                        ],
+                        borderColor: [
+                            'rgba(255,99,132,1)',
+                            'rgba(54,162,235,1)',
+                            'rgba(255,206,86,1)',
+                        ],
+                        borderWidth: 1
+                        // ho
+                    }],
+                },
+                options: {
+                    onHover: function (event, activeElements) {
+                        if (activeElements.length > 0) {
+                            var index = activeElements[0]._index;
+                            var label = this.data.labels[index];
+                            var value = this.data.datasets[0].data[index];
+                            // console.log('Hovered on: ' + label + ' with value ' + value);
+                            // Cập nhật một phần tử HTML
+                            document.getElementById('hoverInfo').innerText = 'Sản phẩm: ' + label + ', Giá trị: ' + formatVND(value);
+                        } else {
+                            document.getElementById('hoverInfo').innerText = '';
+                        }
+                    },
+                    tooltips: {
+                        enabled: false // Tắt tooltip mặc định
+                    },
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    aspectRatio: 3, // width/height ratio
+                    legend: {
+                        display: false
+                    }
+                }
+            })
+        })
+}
+
+
+
+
+const oderCount = document.querySelector('.order-count');
+setInterval(() => {
+    if (oderCount) {
+
+        fetch('http://127.0.0.1:3256/admin/number-of-new-order')
+            .then(t => t.json())
+            .then(v => {
+                oderCount.innerHTML = v;
+                // alert(oderCount.innerHTML)
+            })
+    }
+}, '1s');
+
+const messageCount = document.querySelector('.message-count');
+setInterval(() => {
+    if (messageCount) {
+
+        fetch('http://127.0.0.1:3256/admin/number-of-new-message')
+            .then(t => t.json())
+            .then(v => {
+                messageCount.innerHTML = v;
+                // alert(oderCount.innerHTML)
+            })
+    }
+}, '1s');
+
+
+
+
+
+
 
 // promotion
 

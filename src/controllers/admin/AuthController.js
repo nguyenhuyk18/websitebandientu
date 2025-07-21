@@ -75,7 +75,7 @@ class AuthController {
             };
 
             req.session.save(() => {
-                res.redirect('/admin/dashboard.html');
+                res.redirect('/admin');
             });
             return;
         }

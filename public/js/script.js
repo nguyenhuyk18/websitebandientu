@@ -955,7 +955,6 @@ function seekOrderByStatus(element, e) {
 
 
 function joinToRoomOrder(username) {
-
     console.log('đã join');
 }
 
@@ -975,8 +974,6 @@ socket.on('update-order-status', () => {
                 window.location.href = '/';
                 return;
             }
-
-
             orderContainer.innerHTML = data;
         }
     });
