@@ -443,7 +443,9 @@ class PaymentController {
             mess: `Thanh Toán Thành Công`,
             type: 'success'
         };
+
         req.session.save(() => {
+            delete req.session.data_order;
             res.redirect('/');
         }
         );
