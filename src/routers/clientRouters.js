@@ -110,6 +110,11 @@ router.post('/payment/checkout', PaymentController.storeOrder);
 // lấy lịch sử trò truyện
 router.get('/get-all-message.html/:slug', ChatController.getGetMessageByIDConversation);
 
+
+// order vnpay
+router.post('/payment-vnpay-checkout', PaymentController.createURLVNpay);
+router.get('/store-order-vnpay', PaymentController.storeOrderVNPay);
+
 // xem đơn hàng mới
 // router.get('/')
 

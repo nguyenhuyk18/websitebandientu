@@ -76,10 +76,20 @@ document.addEventListener('DOMContentLoaded', function () {
 document.addEventListener('DOMContentLoaded', function () {
     const cod = document.getElementById('cod');
     const bank = document.getElementById('bank');
-    const bankInfo = document.querySelector('.bank-info');
-    if (cod && bank && bankInfo) {
-        cod.addEventListener('change', () => { if (cod.checked) bankInfo.style.display = 'none'; });
-        bank.addEventListener('change', () => { if (bank.checked) bankInfo.style.display = 'block'; });
+    // const bankInfo = document.querySelector('.bank-info');
+    if (cod && bank) {
+        cod.addEventListener('change', () => {
+            //  console.log('sdsdsd')
+            if (cod.checked) {
+                $('form.checkout-form').attr('action', '/payment/checkout')
+            }
+        });
+        bank.addEventListener('change', () => {
+
+            if (bank.checked) {
+                $('form.checkout-form').attr('action', '/payment-vnpay-checkout')
+            }
+        });
     }
 });
 

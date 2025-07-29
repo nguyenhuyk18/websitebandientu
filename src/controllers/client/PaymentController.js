@@ -4,9 +4,13 @@ const districtModels = require('../../services/DistrictService');
 const provinceModels = require('../../services/ProvinceService');
 const transportModels = require('../../services/TransportService');
 const orderModels = require('../../services/OrderService');
+const productModels = require('../../services/ProductAllServices');
 const orderItemModels = require('../../services/OrderItemService');
 const { ioInstance } = require('../../util/socket');
 const order = require('../../models/order');
+const { VNPay, ignoreLogger, ProductCode, VnpLocale, dateFormat } = require('vnpay')
+require('dotenv').config();
+const { v4: uuidv4 } = require('uuid');
 
 class PaymentController {
 
@@ -105,7 +109,7 @@ class PaymentController {
 
 
     static storeOrder = async (req, res) => {
-
+        const mprod = new productModels();
         const data = req.body;
 
         const mTransport = new transportModels();
@@ -125,18 +129,29 @@ class PaymentController {
             return;
         }
 
+        const cartData = JSON.parse(cart);
+        // kiểm tra các sản phẩm còn qty không
+        for (const item of cartData.product) {
+            const column = Object.keys(item);
+            const values = Object.values(item);
+            const prodFound = await mprod.find(column[0]);
+            if (prodFound.stock_quantity < values[0].qty) {
+                req.session.message = {
+                    mess: `${prodFound.product_name} số lượng chỉ còn lại ${prodFound.stock_quantity} sản phẩm`,
+                    type: 'danger'
+                };
+                req.session.save(() => {
+                    res.redirect('/');
+                });
+                return;
+            }
+        }
+
+        // lấy shipping_fee
         const tmp = await mTransport.findByProvince(data.province_id);
         let shipping_fee = tmp.price;
-        // created_date, 
-        // order_status_id, 
-        // shipping_fullname, 
-        // shipping_mobile, 
-        // payment_method, 
-        // shipping_ward_id, 
-        // shipping_housenumber_street, 
-        // shipping_fee,
-        // staff_id, 
-        // customer_id
+
+        // thêm dữ liệu vào order
         const orderData = {
             created_date: new Date(),
             order_status_id: 1, // Assuming 1 is the status for 'Pending'
@@ -163,7 +178,6 @@ class PaymentController {
         }
 
         // Lưu các sản phẩm trong giỏ hàng vào bảng order_item
-        const cartData = JSON.parse(cart);
         for (const item of cartData.product) {
             const column = Object.keys(item);
             const values = Object.values(item);
@@ -174,6 +188,21 @@ class PaymentController {
                 unit_price: values[0].price,
                 total_price: values[0].total
             };
+
+            const prodFound = await mprod.find(column[0]);
+            if (prodFound.stock_quantity < values[0].qty) {
+                req.session.message = {
+                    mess: `${prodFound.product_name} số lượng chỉ còn lại ${prodFound.stock_quantity} sản phẩm`,
+                    type: 'danger'
+                };
+                req.session.save(() => {
+                    res.redirect('/');
+                });
+                return;
+            }
+            prodFound.stock_quantity -= values[0].qty;
+            await mprod.updateQuantityProduct(prodFound);
+
             if (!(await mOrderItem.save(orderItemData))) {
                 req.session.message = {
                     mess: `Lưu sản phẩm trong giỏ hàng không thành công, vui lòng thử lại sau !!!`,
@@ -186,6 +215,7 @@ class PaymentController {
             }
         }
 
+
         const dataSocket = {
             id_order: order_id,
             name_customer: cus.username,
@@ -193,11 +223,7 @@ class PaymentController {
             name_order_status: 'Đã đặt hàng',
             phone: cus.shipping_mobile
         }
-
-        // console.log('dataSocket', dataSocket);
-        // console.log('order_id', req.io);44
         req.io.to('nhanthongbaodathang').emit('order-notification', dataSocket);
-
 
         // Xóa giỏ hàng sau khi đặt hàng thành công
         res.clearCookie('cart');
@@ -211,7 +237,218 @@ class PaymentController {
 
     }
 
+    static createURLVNpay = async (req, res) => {
+        // kiểm tra giỏ hàng coi có sản phẩm nào hết hàng chưa
+        const cart = req.cookies.cart;
+        const data = req.body;
+        const mTransport = new transportModels();
+        const mprod = new productModels();
 
+
+        if (!cart || cart.length === 0) {
+            req.session.message = {
+                mess: `Giỏ hàng của bạn đang trống !!!`,
+                type: 'danger'
+            };
+            req.session.save(() => {
+                res.redirect('/');
+            }
+            );
+            return;
+        }
+
+        const datacart = JSON.parse(cart);
+
+        for (const item of datacart.product) {
+            const column = Object.keys(item);
+            const values = Object.values(item);
+            const prodFound = await mprod.find(column[0]);
+            if (prodFound.stock_quantity < prodFound.qty) {
+                req.session.message = {
+                    mess: `${prodFound.product_name} chỉ còn lại ${prodFound.stock_quantity} sản phẩm !!!`,
+                    type: 'danger'
+                };
+                req.session.save(() => {
+                    res.redirect('/');
+                }
+                );
+                return;
+            }
+        }
+
+        const username = req.session.user.username;
+        const idod = username + uuidv4();
+
+        // lưu dữ liệu vào session để lác một hồi lấy ra dùng bên storeorder
+        req.session.data_order = {
+            data: data
+        }
+        req.session.save();
+
+        // lấy shipping_fee
+        const tmp = await mTransport.findByProvince(data.province_id);
+        let shipping_fee = datacart.total_price + tmp.price;
+
+        const vnpay = new VNPay({
+            // ⚡ Cấu hình bắt buộc
+            tmnCode: process.env.VNP_TMN_CODE,
+            secureSecret: process.env.VNP_HASH_SECRET,
+            vnpayHost: 'https://sandbox.vnpayment.vn',
+
+            // 🔧 Cấu hình tùy chọn
+            testMode: true,                     // Chế độ test
+            hashAlgorithm: 'SHA512',           // Thuật toán mã hóa
+            // enableLog: true,                   // Bật/tắt log
+            loggerFn: ignoreLogger,            // Custom logger
+        })
+
+        const vnpayResponse = await vnpay.buildPaymentUrl({
+            vnp_Amount: Number(datacart.total_price) + Number(shipping_fee),                    // 100,000 VND
+            vnp_IpAddr: '127.0.0.1',
+            vnp_ReturnUrl: `${process.env.DOMAIN}/store-order-vnpay`,
+            vnp_TxnRef: idod,
+            vnp_OrderInfo: 'Thanh Toán Đơn Hàng',
+            vnp_Locale: VnpLocale.VN,
+        });
+
+        // res.status(201).json(vnpayResponse);
+        // console.log(vnpayResponse);
+
+        res.redirect(vnpayResponse)
+    }
+
+    static storeOrderVNPay = async (req, res) => {
+        const cart = req.cookies.cart;
+
+        const mTransport = new transportModels();
+        const mprod = new productModels();
+        const mOrderItem = new orderItemModels();
+        const mCustomer = new customerModels();
+
+        if (!cart || cart.length === 0) {
+            req.session.message = {
+                mess: `Giỏ hàng của bạn đang trống !!!`,
+                type: 'danger'
+            };
+            req.session.save(() => {
+                res.redirect('/');
+            }
+            );
+            return;
+        }
+
+        const cus = await mCustomer.find(req.session.user.id);
+
+        let verify;
+        const vnpay = new VNPay({
+            // ⚡ Cấu hình bắt buộc
+            tmnCode: process.env.VNP_TMN_CODE,
+            secureSecret: process.env.VNP_HASH_SECRET,
+            vnpayHost: 'https://sandbox.vnpayment.vn',
+
+            testMode: true,                     // Chế độ test
+            hashAlgorithm: 'SHA512',           // Thuật toán mã hóa
+            loggerFn: ignoreLogger,            // Custom logger
+        })
+        try {
+            // Sử dụng try-catch để bắt lỗi nếu query không hợp lệ hoặc thiếu dữ liệu
+            verify = vnpay.verifyReturnUrl(req.query);
+            if (!verify.isVerified) {
+                req.session.message = {
+                    mess: `Thanh Toán Thất Bại`,
+                    type: 'danger'
+                };
+                req.session.save(() => {
+                    res.redirect('/');
+                }
+                );
+                return;
+            }
+            if (!verify.isSuccess) {
+                req.session.message = {
+                    mess: `Thanh Toán Thất Bại`,
+                    type: 'danger'
+                };
+                req.session.save(() => {
+                    res.redirect('/');
+                }
+                );
+                return;
+            }
+        } catch (error) {
+            console.log(error)
+            req.session.message = {
+                mess: `Thanh Toán Thất Bại`,
+                type: 'danger'
+            };
+            req.session.save(() => {
+                res.redirect('/');
+            }
+            );
+            return;
+        }
+
+        const data = req.session.data_order.data;
+        const tmp = await mTransport.findByProvince(data.province_id);
+        let shipping_fee = tmp.price;
+
+
+        const mOrder = new orderModels();
+        const orderData = {
+            created_date: new Date(),
+            order_status_id: 1, // Assuming 1 is the status for 'Pending'
+            shipping_fullname: data.shipping_fullname,
+            shipping_mobile: data.shipping_mobile,
+            payment_method: data.payment_method,
+            shipping_ward_id: data.shipping_ward_id,
+            shipping_housenumber_street: data.shipping_housenumber_street,
+            shipping_fee: shipping_fee,
+            staff_id: null, // Assuming the staff is the logged-in user
+            customer_id: req.session.user.id, // Assuming the customer is the logged-in user
+            delivered_date: null
+        };
+        const order_id = await mOrder.save(orderData);
+
+
+        // Lưu các sản phẩm trong giỏ hàng vào bảng order_item
+        const cartData = JSON.parse(cart);
+
+        for (const item of cartData.product) {
+            const column = Object.keys(item);
+            const values = Object.values(item);
+            const orderItemData = {
+                order_id: order_id,
+                product_id: column[0],
+                qty: values[0].qty,
+                unit_price: values[0].price,
+                total_price: values[0].total
+            };
+            const prodFound = await mprod.find(column[0]);
+            prodFound.stock_quantity -= values[0].qty;
+            await mprod.updateQuantityProduct(prodFound);
+            await mOrderItem.save(orderItemData)
+        }
+
+        const dataSocket = {
+            id_order: order_id,
+            name_customer: cus.username,
+            payment: data.payment_method,
+            name_order_status: 'Đã đặt hàng',
+            phone: cus.shipping_mobile
+        }
+        req.io.to('nhanthongbaodathang').emit('order-notification', dataSocket);
+
+        res.clearCookie('cart');
+        req.session.message = {
+            mess: `Thanh Toán Thành Công`,
+            type: 'success'
+        };
+        req.session.save(() => {
+            res.redirect('/');
+        }
+        );
+        return;
+    }
 }
 
 module.exports = PaymentController;

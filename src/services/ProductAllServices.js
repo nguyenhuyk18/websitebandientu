@@ -187,6 +187,18 @@ class ProductAllServices {
         return list.length;
     }
 
+
+    updateQuantityProduct = async (data) => {
+        const sql = 'UPDATE product SET stock_quantity = ? WHERE id = ?';
+        try {
+            const [result, fields] = await pool.execute(sql, [data.stock_quantity, data.id]);
+            return result.affectedRows > 0;
+        } catch (err) {
+            console.log(err);
+            return false;
+        }
+    }
+
     find = async (id) => {
         const cond = ` \`id\` = ${id}`;
         let sql = `SELECT * FROM product WHERE ${cond}`;
