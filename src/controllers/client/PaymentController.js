@@ -124,6 +124,7 @@ class PaymentController {
             };
             req.session.save(() => {
                 res.redirect('/');
+                return;
             }
             );
             return;
@@ -142,6 +143,7 @@ class PaymentController {
                 };
                 req.session.save(() => {
                     res.redirect('/');
+                    return;
                 });
                 return;
             }
@@ -174,7 +176,9 @@ class PaymentController {
             };
             req.session.save(() => {
                 res.redirect('/');
+                return;
             });
+            return;
         }
 
         // Lưu các sản phẩm trong giỏ hàng vào bảng order_item
@@ -197,6 +201,7 @@ class PaymentController {
                 };
                 req.session.save(() => {
                     res.redirect('/');
+                    return;
                 });
                 return;
             }
@@ -210,6 +215,7 @@ class PaymentController {
                 };
                 req.session.save(() => {
                     res.redirect('/');
+                    return;
                 });
                 return;
             }
@@ -227,14 +233,23 @@ class PaymentController {
 
         // Xóa giỏ hàng sau khi đặt hàng thành công
         res.clearCookie('cart');
+
+        // const user = req.session.user;
+        // delete req.session.user;
+        // req.session.user = user;
+
+        console.log('ahaha', req.session.user);
+
         req.session.message = {
             mess: `Đặt hàng thành công, vui lòng chờ xác nhận từ chúng tôi !!!`,
             type: 'success'
         };
         req.session.save(() => {
-            res.redirect('/');
+            setTimeout(() => {
+                res.redirect('/');
+            }, 100); // cho session-file-store có thời gian ghi xong
         });
-
+        return;
     }
 
     static createURLVNpay = async (req, res) => {
@@ -252,6 +267,7 @@ class PaymentController {
             };
             req.session.save(() => {
                 res.redirect('/');
+                return;
             }
             );
             return;
@@ -270,6 +286,7 @@ class PaymentController {
                 };
                 req.session.save(() => {
                     res.redirect('/');
+                    return;
                 }
                 );
                 return;
@@ -287,7 +304,7 @@ class PaymentController {
 
         // lấy shipping_fee
         const tmp = await mTransport.findByProvince(data.province_id);
-        let shipping_fee = datacart.total_price + tmp.price;
+        let shipping_fee = tmp.price;
 
         const vnpay = new VNPay({
             // ⚡ Cấu hình bắt buộc
@@ -445,8 +462,11 @@ class PaymentController {
         };
 
         req.session.save(() => {
-            delete req.session.data_order;
-            res.redirect('/');
+            setTimeout(() => {
+                delete req.session.data_order;
+                res.redirect('/');
+            }, 100)
+
         }
         );
         return;

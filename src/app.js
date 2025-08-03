@@ -19,7 +19,7 @@ app.use(session({
     store: new FileStore({}),
     secret: 'phattrienungdunghihi',
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
 }));
 
 
@@ -67,6 +67,7 @@ app.use((req, res, next) => {
 app.use((req, res, next) => {
 
     // console.log(req.session.user);
+    console.log('middleware ', req.session.user)
     app.locals.user = helpers.getUserSession(req.session.user);
 
     next();

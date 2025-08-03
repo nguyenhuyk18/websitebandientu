@@ -1622,30 +1622,30 @@ if (mypiechart) {
 
 
 const oderCount = document.querySelector('.order-count');
-setInterval(() => {
-    if (oderCount) {
 
-        fetch('http://127.0.0.1:3256/admin/number-of-new-order')
-            .then(t => t.json())
-            .then(v => {
-                oderCount.innerHTML = v;
-                // alert(oderCount.innerHTML)
-            })
-    }
-}, '1s');
+if (oderCount) {
+
+    fetch('http://127.0.0.1:3256/admin/number-of-new-order')
+        .then(t => t.json())
+        .then(v => {
+            oderCount.innerHTML = v;
+            // alert(oderCount.innerHTML)
+        })
+}
+
 
 const messageCount = document.querySelector('.message-count');
-setInterval(() => {
-    if (messageCount) {
 
-        fetch('http://127.0.0.1:3256/admin/number-of-new-message')
-            .then(t => t.json())
-            .then(v => {
-                messageCount.innerHTML = v;
-                // alert(oderCount.innerHTML)
-            })
-    }
-}, '1s');
+if (messageCount) {
+
+    fetch('http://127.0.0.1:3256/admin/number-of-new-message')
+        .then(t => t.json())
+        .then(v => {
+            messageCount.innerHTML = v;
+            // alert(oderCount.innerHTML)
+        })
+}
+
 
 
 

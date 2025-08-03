@@ -1,0 +1,53 @@
+# 📦 Electronics E-commerce Website
+
+This is a full-featured e-commerce web application for selling electronic products. It is built using Node.js, EJS, jQuery, and Bootstrap, and includes modern features such as real-time chat, order tracking, admin panel with authentication, and VNPay payment integration.
+
+
+## 🚀 Features
+
+🛍️ User-side
+- Product Listing with pagination
+- Shopping Cart functionality
+- Real-time Order Tracking
+- VNPay Payment Integration
+- Real-time Chat with admin support
+- Contact form with email sending feature
+- Product reviews and rating system
+
+🔐 Admin-side
+- 🧑‍💼 **Admin dashboard** with *role-based access control*  
+- 🔐 **Secure login** and *authentication system*  
+- 📦 **Order management**  
+- 👥 **User management**  
+- 🛍️ **Product management** 
+
+
+## 🛠️ Tech Stack
+- **Backend:** Node.js + Express.js  
+- **Templating:** EJS  
+- **Frontend:** jQuery, Bootstrap  
+- **Real-time Communication:** Socket.io  
+- **Authentication:** (JWT)  
+- **Payment Gateway:** VNPay  
+- **Database:** (e.g., MongoDB / MySQL — specify if needed)
+
+## 📦 Installation & Setup
+
+### 1.Clone repository
+git clone https://github.com/nguyenhuyk18/websitebandientu.git
+cd websitebandientu
+
+### 2.Install dependencies
+npm install
+
+### 3. Configuring Environment Variables
+All environment variable configurations can be found in the `.env.example` file.
+
+
+### 4. Run the app
+npm run dev
+
+### 5. Access the site
+- **Customer view:** [`http://localhost:<YOUR_PORT>`](http://localhost:<YOUR_PORT>/)
+- **Admin area:** [`http://localhost:<YOUR_PORT>/admin`](http://localhost:<YOUR_PORT>/admin)
+
