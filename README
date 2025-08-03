@@ -43,7 +43,6 @@ npm install
 ### 3. Configuring Environment Variables
 All environment variable configurations can be found in the `.env.example` file.
 
-
 ### 4. Run the app
 npm run dev
 
