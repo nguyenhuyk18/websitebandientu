@@ -27,7 +27,7 @@ This is a full-featured e-commerce web application for selling electronic produc
 - **Real-time Communication:** Socket.io
 - **Authentication:** JWT
 - **Payment Gateway:** VNPay
-- **Database:** (e.g., MongoDB / MySQL — specify if needed)
+- **Database:** MySQL
 
 ## ⚙️ Installation & Setup
 
