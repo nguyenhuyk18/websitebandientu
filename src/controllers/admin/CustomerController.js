@@ -172,7 +172,6 @@ class CustomerController {
                     return;
                 }
             }
-
         }
 
         if (await mCustomer.update(data)) {

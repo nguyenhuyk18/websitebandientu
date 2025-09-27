@@ -75,11 +75,6 @@ class CustomerController {
         }
 
         // console.log(province);
-
-
-
-
-
         return res.render('client/customer/shippingDefault', { customer: customer, message: message, provinces: provinces, districts: districts, wards: wards, ward: ward, district: district, province: province });
     }
 
