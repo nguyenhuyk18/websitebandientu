@@ -432,11 +432,13 @@ class AuthController {
                 req.session.save(() => {
                     res.redirect('/');
                 });
+
+
                 return;
             }
-
-            return res.render('client/customer/formChangePassByEmail', { user: user });
+            return res.render('client/customer/formChangePassByEmail', { token1: token, user1: user });
         } catch (err) {
+
             req.session.message = {
                 mess: `Token không hợp lệ hoặc đã hết hạn`,
                 type: 'danger'
@@ -451,33 +453,61 @@ class AuthController {
     }
 
     static changepassword = async (req, res) => {
-        const data = req.body;
+        const dataParser = req.body;
         const mCustomer = new customerModels();
-        const user = await mCustomer.find(data.id);
 
-        // băm mật khẩu
-        const salt = bcrypt.genSaltSync(saltRounds);
-        const hash = bcrypt.hashSync(data.new_password, salt);
 
-        // cập nhật thông tin khách hàng
-        const updatedData = {
-            name: user.name,
-            phone: user.phone,
-            email: user.email,
-            ward_id: user.ward_id,
-            housenumber_street: user.housenumber_street,
-            shipping_name: user.shipping_name,
-            shipping_mobile: user.shipping_mobile,
-            status: 1,
-            id: data.id,
-            password: hash, // sử dụng mật khẩu mới đã băm
-            username: user.username // giữ nguyên username cũ nếu không thay đổi
-        };
+        try {
+            // Xác thực khóa jwt
+            const data = jwt.verify(dataParser.token, process.env.KEY_JWT);
 
-        // thực hiện câp nhật thông tin khách hàng
-        if (!(await mCustomer.update(updatedData))) {
+            // tìm tài khoản cần update bằng email
+            const email = data.email;
+            const user = await mCustomer.findByEmail(email);
+
+            // Băm mật khẩu mới của người dùng
+            const salt = bcrypt.genSaltSync(saltRounds);
+            const hash = bcrypt.hashSync(dataParser.new_password, salt);
+
+            // Tiến hành setup data của người dùng
+            const updatedData = {
+                name: user.name,
+                phone: user.phone,
+                email: user.email,
+                ward_id: user.ward_id,
+                housenumber_street: user.housenumber_street,
+                shipping_name: user.shipping_name,
+                shipping_mobile: user.shipping_mobile,
+                status: 1,
+                id: user.id,
+                password: hash, // sử dụng mật khẩu mới đã băm
+                username: user.username // giữ nguyên username cũ nếu không thay đổi
+            };
+
+            if (!(await mCustomer.update(updatedData))) {
+                req.session.message = {
+                    mess: `Cập nhật thất bại , hãy thử lại sau !!!`,
+                    type: 'danger'
+                };
+                req.session.save(() => {
+                    res.redirect('/');
+                });
+                return;
+            }
+
             req.session.message = {
-                mess: `Cập nhật thất bại , hãy thử lại sau !!!`,
+                mess: `Đổi mật khẩu thành công, bạn có thể đăng nhập ngay bây giờ`,
+                type: 'success'
+            };
+            req.session.save(() => {
+                res.redirect('/');
+            });
+            return;
+
+        } catch (error) {
+            // console.log(error);
+            req.session.message = {
+                mess: `Token không hợp lệ hoặc đã hết hạn hãy thử lại sau !!!`,
                 type: 'danger'
             };
             req.session.save(() => {
@@ -485,15 +515,6 @@ class AuthController {
             });
             return;
         }
-        req.session.message = {
-            mess: `Đổi mật khẩu thành công, bạn có thể đăng nhập ngay bây giờ`,
-            type: 'success'
-        };
-        req.session.save(() => {
-            res.redirect('/');
-        });
-        return;
-
     }
 }
 module.exports = AuthController;

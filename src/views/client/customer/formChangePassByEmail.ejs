@@ -10,11 +10,7 @@
               Thông tin tài khoản
             </div>
             <form class="customer-changepass-form-mail" method="post" action="/doi-mat-khau">
-              <input type="hidden" name="id" value="<%= user.id %>">
-              <div class="mb-3">
-                <label class="form-label fw-semibold" for="username">Tên Đăng Nhập</label>
-                <input type="text" id="username" value="<%= user.username %>" class="form-control rounded-pill" readonly>
-              </div>
+              <input type="hidden" name="token" value="<%= token1 %>">
               <div class="mb-3">
                 <label class="form-label fw-semibold" for="new_password">Mật khẩu mới</label>
                 <input type="password" id="new_password" name="new_password" class="form-control rounded-pill" placeholder="Nhập mật khẩu mới">
