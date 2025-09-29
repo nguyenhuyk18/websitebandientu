@@ -97,7 +97,7 @@ class CustomerService {
             customerData.shipping_mobile,
             customerData.password,
             customerData.username]);
-            return true;
+            return result.insertId;;
         } catch (err) {
             console.error(err);
             return false;

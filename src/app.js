@@ -5,26 +5,56 @@ const bodyParser = require('body-parser');
 // session
 const session = require('express-session');
 // nơi lưu trữ session
-const FileStore = require('session-file-store')(session);
+// const FileStore = require('session-file-store')(session);
 // nơi điều hành chính
 const app = express();
 // .env
 require('dotenv').config();
 // cookie
 const cookieParser = require('cookie-parser');
+// passport
+const passport = require("passport");
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
 
+const redisStore = require('./database/connectRedisDB');
 
 // Set up session
 app.use(session({
-    store: new FileStore({}),
+    store: redisStore,
     secret: 'phattrienungdunghihi',
     resave: false,
     saveUninitialized: false,
+
 }));
 
 
+// Khởi tạo Passport
+app.use(passport.initialize());
+// app.use(passport.session());
 
 
+// Serialize & Deserialize user (tùy cách lưu user của bạn)
+// passport.serializeUser((user, done) => {
+//     done(null, user);
+// });
+
+// passport.deserializeUser((obj, done) => {
+//     done(null, obj);
+// });
+
+
+// Cấu hình Google Strategy
+passport.use(new GoogleStrategy({
+    clientID: process.env.CLIENT_ID,
+    clientSecret: process.env.CLIENT_SECRET,
+    callbackURL: "http://127.0.0.1:3256/auth/google/callback"
+},
+    (accessToken, refreshToken, profile, done) => {
+        // Xử lý user ở đây (lưu DB hoặc trả về profile)
+
+        return done(null, profile);
+    }
+));
 
 
 // nơi để import middleware
@@ -67,7 +97,7 @@ app.use((req, res, next) => {
 app.use((req, res, next) => {
 
     // console.log(req.session.user);
-    console.log('middleware ', req.session.user)
+    // console.log('middleware ', req.session.user)
     app.locals.user = helpers.getUserSession(req.session.user);
 
     next();
@@ -95,7 +125,7 @@ app.use((req, res, next) => {
 //khởi tạo socket
 const { initSocket } = require('./util/socket');
 const { io, server } = initSocket(app, session({
-    store: new FileStore({}),
+    store: redisStore,
     secret: 'phattrienungdunghihi',
     resave: false,
     saveUninitialized: true,

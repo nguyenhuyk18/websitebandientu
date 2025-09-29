@@ -1,4 +1,5 @@
 const express = require('express');
+const passport = require('passport');
 const router = express.Router();
 const HomeController = require('../controllers/client/HomeController');
 const ProductController = require('../controllers/client/ProductController');
@@ -11,6 +12,7 @@ const WardController = require('../controllers/client/WardController');
 const PaymentController = require('../controllers/client/PaymentController');
 const OrderController = require('../controllers/client/OrderController');
 const ChatController = require('../controllers/ChattingController');
+
 
 router.get('/', HomeController.index);
 
@@ -115,7 +117,56 @@ router.get('/get-all-message.html/:slug', ChatController.getGetMessageByIDConver
 router.post('/payment-vnpay-checkout', PaymentController.createURLVNpay);
 router.get('/store-order-vnpay', PaymentController.storeOrderVNPay);
 
-// xem đơn hàng mới
-// router.get('/')
+
+// Login with google
+router.get('/auth/google',
+    passport.authenticate('google', { scope: ['email', 'profile'] }));
+
+router.get('/auth/google/callback',
+    passport.authenticate('google', {
+        failureRedirect: '/auth/failer/login',
+        session: false
+    }),
+    async (req, res) => {
+        // req.session.user = req.user;
+        const { email, name } = req.user._json;
+
+        if (email) {
+            const rs = await AuthController.findEmailCustomer(email, name);
+            req.session.user = {
+                ...rs
+            }
+            req.session.save(() => {
+                res.redirect('/')
+            })
+        } else {
+            req.session.message = {
+                mess: `Email không hợp lệ thử lại sau !!!!`,
+                type: 'danger'
+            }
+            req.session.save(() => {
+                res.redirect('/')
+            })
+        }
+    }
+);
+
+// // xem đơn hàng mới
+// router.get('/auth/success/login', (req, res) => {
+//     // const data = req.user;
+//     // console.log('sdsdsdsdsdsdsdsdsdsdsdsdsdsd', 'success');
+
+//     res.redirect('/')
+// })
+
+router.get('/auth/failer/login', (req, res) => {
+    req.session.message = {
+        mess: `Đăng nhập với gmail thất bại, thử lại sau !!!`,
+        type: 'danger'
+    }
+    req.session.save(() => {
+        res.redirect('/')
+    })
+})
 
 module.exports = router;

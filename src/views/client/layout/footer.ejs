@@ -125,9 +125,15 @@
         <h5 class="modal-title fw-bold w-100 text-center" id="modalTitleId">
           Đăng Nhập Tài Khoản
         </h5>
+
         <button type="button" class="btn-close position-absolute end-0 top-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body pt-0">
+        <div class="text-center my-3  ">
+          <a class="btn btn-primary google-login" style="background-color: #ff3b3b !important; background-image: unset; color: #fff;" href="/auth/google"><i class="fab fa-google"></i></i> Đăng nhập bằng Google</a>
+          <!-- Facebook login -->
+          <!-- <a class="btn btn-primary facebook-login" href="#"><i class="fab fa-facebook-f"></i> Đăng nhập bằng Facebook</a> -->
+        </div>
         <form class="login-form" action="/dang-nhap" method="POST">
           <div class="mb-3">
             <label for="loginEmail" class="form-label fw-semibold">Tên Đăng Nhập</label>
@@ -137,11 +143,13 @@
             <label for="loginPassword" class="form-label fw-semibold">Mật khẩu</label>
             <input type="password" class="form-control rounded-pill" name="password" id="loginPassword" placeholder="Nhập mật khẩu" required>
           </div>
+
+          <!-- <input type="text" name="hiddenRecaptcha" style="opacity: 0; position: absolute; top: 0; left: 0; height: 1px; width: 1px;"> -->
           <div class="mb-3 d-flex justify-content-between align-items-center">
-            <div class="form-check">
+            <!-- <div class="form-check">
               <input class="form-check-input" type="checkbox" id="rememberMe">
               <label class="form-check-label small" for="rememberMe">Ghi nhớ đăng nhập</label>
-            </div>
+            </div> -->
             <a href="javascript:void(0)" class="small text-decoration-none text-primary" data-bs-toggle="modal" data-bs-target="#forgetpassword">Quên mật khẩu?</a>
           </div>
           <button type="submit" class="btn btn-primary w-100 rounded-pill fw-bold py-2 mb-2">Đăng Nhập</button>
@@ -164,6 +172,7 @@
         <h5 class="modal-title fw-bold w-100 text-center" id="modalTitleId">
           Đăng Ký Tài Khoản
         </h5>
+        <br>
         <button type="button" class="btn-close position-absolute end-0 top-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body pt-0">
@@ -191,6 +200,10 @@
           <div class="mb-3">
             <label for="registerRePassword" class="form-label fw-semibold">Nhập lại mật khẩu</label>
             <input type="password" class="form-control rounded-pill" id="registerRePassword" name="repassword" placeholder="Nhập lại mật khẩu" required>
+          </div>
+          <div class="mb-3">
+            <div class="g-recaptcha" data-sitekey="6Lett9crAAAAAMriufE3RrJCy63qkFVOI6OLJ1_9"></div>
+            <input type="text" name="hiddenRecaptcha" style="opacity: 0; position: absolute; top: 0; left: 0; height: 1px; width: 1px;">
           </div>
           <button type="submit" class="btn btn-info w-100 rounded-pill fw-bold py-2 mb-2">Đăng Ký</button>
           <div class="text-center small">
@@ -286,7 +299,7 @@
 </div>
 
 
-
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <script src="/socket.io/socket.io.js"></script>
 <script>
   const socket = io(); // Kết nối tới server socket

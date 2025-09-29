@@ -495,6 +495,17 @@ $(".form-register").validate({
         repassword: {
             required: true,
             equalTo: '#registerPassword'
+        },
+        hiddenRecaptcha: {
+            //true: lỗi
+            //false: passed
+            required: function () {
+                if (grecaptcha.getResponse() == '') {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
         }
     },
 
@@ -524,6 +535,9 @@ $(".form-register").validate({
         phone: {
             required: 'Vui lòng nhập số điện thoại',
             regex: 'Vui lòng nhập đúng định dạng số điện thoại. vd: 0385548843'
+        },
+        hiddenRecaptcha: {
+            required: 'Bạn chưa xác thực recaptcha'
         }
     },
 });
@@ -543,6 +557,9 @@ $(".login-form").validate({
             required: true,
         },
 
+
+
+
     },
 
     messages: {
@@ -555,6 +572,8 @@ $(".login-form").validate({
         password: {
             required: 'Vui lòng nhập mật khẩu',
         },
+
+
     },
 });
 
@@ -734,7 +753,7 @@ $('.checkout-form').validate({
 
 
 const changeProvince = document.querySelector('.checkout-form .choose_province');
-console.log(changeProvince);
+// console.log(changeProvince);
 if (changeProvince) {
     changeProvince.onchange = () => {
         const id_province = changeProvince.value;

@@ -221,7 +221,33 @@ class AuthController {
     //     const html = ``;
 
     // }
+    static findEmailCustomer = async (email, name) => {
+        const mCustomer = new customerModels();
+        const rs = await mCustomer.findByEmail(email)
+        if (!rs) {
+            const data = {
+                name: name,//
+                phone: '',//
+                email: email,//
+                ward_id: null,
+                created_date: new Date(),//
+                status: 1,//
+                housenumber_street: '',
+                shipping_name: '',
+                shipping_mobile: '',
+                password: '',//
+                username: null//
+            }
+            const newCus = await mCustomer.save(data);
+            return {
+                name: name,
+                email: email,
+                id: newCus
+            }
+        }
+        return rs;
 
+    }
 
     static changInformationOfCustomer = async (req, res) => {
         const data = req.body;
